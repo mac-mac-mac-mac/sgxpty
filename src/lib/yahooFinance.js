@@ -1,4 +1,4 @@
-const BATCH_URL = '/.netlify/functions/quotes-batch';
+const BATCH_URL = '/api/quotes-batch';
 
 export async function fetchQuotes(tickers) {
   const res = await fetch(BATCH_URL, {
