@@ -1,11 +1,13 @@
 import { BarChart2, RefreshCw, Wifi, WifiOff } from 'lucide-react';
 
 export default function Header({ activeTab, onTabChange, liveStatus, onRefresh, isRefreshing }) {
-  const tabs = [
-    { id: 'dashboard', label: 'Dashboard' },
-    { id: 'compare', label: 'Compare' },
-    { id: 'intelligence', label: 'Market Intelligence' },
-  ];
+ const tabs = [
+  { id: 'filters', label: 'Five Filters' },
+  { id: 'dashboard', label: 'Dashboard' },
+  { id: 'compare', label: 'Compare' },
+  { id: 'intelligence', label: 'Charts' },
+];
+
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-bg-secondary/95 backdrop-blur-sm">
