@@ -211,10 +211,10 @@ export default function App() {
           </div>
         )}
 
-        {activeTab === 'intelligence' && (
+        {activeTab === 'filters' && (
           <div className="flex flex-col gap-4">
             <div>
-              <h1 className="text-xl font-bold text-text-accent">Market Intelligence</h1>
+              <h1 className="text-xl font-bold text-text-accent">Five Filters</h1>
               <p className="text-xs text-text-muted mt-0.5">
                 SGX S-REIT Due Diligence Framework — Five-Filter Methodology
               </p>
@@ -222,6 +222,18 @@ export default function App() {
             <IntelligencePanel reits={reitsData} />
           </div>
         )}
+        {activeTab === 'intelligence' && (
+          <div className="flex flex-col gap-4">
+            <div>
+              <h1 className="text-xl font-bold text-text-accent">Charts</h1>
+              <p className="text-xs text-text-muted mt-0.5">
+                Sector distribution, yield analysis and allocation breakdowns
+              </p>
+            </div>
+            <ChartsPanel reits={reitsData} etfs={etfsData} />
+          </div>
+        )}
+
       </main>
 
       <Footer />
