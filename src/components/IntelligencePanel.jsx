@@ -1,0 +1,301 @@
+import { ShieldCheck, AlertTriangle, TrendingUp, Star } from 'lucide-react';
+
+const FILTERS = [
+  {
+    id: 'asset',
+    label: 'Asset Quality',
+    weight: '30%',
+    icon: TrendingUp,
+    color: 'text-accent-green',
+    bgColor: 'bg-accent-green/10',
+    borderColor: 'border-accent-green/20',
+    questions: [
+      'Is occupancy consistently high?',
+      'Is WALE (Weighted Average Lease Expiry) healthy?',
+      'Are rental reversions positive?',
+      'Is tenant concentration diversified?',
+      'Are assets strategically located and difficult to replace?',
+    ],
+  },
+  {
+    id: 'debt',
+    label: 'Debt Quality',
+    weight: '25%',
+    icon: ShieldCheck,
+    color: 'text-accent-blue',
+    bgColor: 'bg-accent-blue/10',
+    borderColor: 'border-accent-blue/20',
+    questions: [
+      'Is gearing reasonable (below 40%)?',
+      'Is interest coverage safe (above 3x)?',
+      'Are debt maturities spread out?',
+      'Is the majority of debt fixed-rate?',
+      'Can the REIT survive elevated interest rates?',
+    ],
+  },
+  {
+    id: 'dpu',
+    label: 'DPU Quality',
+    weight: '25%',
+    icon: Star,
+    color: 'text-accent-gold',
+    bgColor: 'bg-accent-gold/10',
+    borderColor: 'border-accent-gold/20',
+    questions: [
+      'Is DPU stable or growing?',
+      'Is growth organic or acquisition-fueled?',
+      'Is equity issuance diluting unitholders?',
+      'Are distributions backed by recurring operational cashflow?',
+      'Is yield sustainable relative to peers?',
+    ],
+  },
+  {
+    id: 'manager',
+    label: 'Manager & Sponsor Quality',
+    weight: '10%',
+    icon: ShieldCheck,
+    color: 'text-pink-400',
+    bgColor: 'bg-pink-500/10',
+    borderColor: 'border-pink-500/20',
+    questions: [
+      'Is there a strong sponsor with deep pockets?',
+      'Does management allocate capital well?',
+      'Are acquisitions accretive to unitholders?',
+      'Are fees aligned with unitholders?',
+      'Is there a visible development / acquisition pipeline?',
+    ],
+  },
+  {
+    id: 'valuation',
+    label: 'Valuation & Margin of Safety',
+    weight: '10%',
+    icon: TrendingUp,
+    color: 'text-amber-400',
+    bgColor: 'bg-amber-500/10',
+    borderColor: 'border-amber-500/20',
+    questions: [
+      'Is yield attractive relative to Singapore government bonds?',
+      'Is price-to-book reasonable (below 1.0x)?',
+      'Is the market pricing in permanent damage or temporary fear?',
+      'Is the REIT high-quality enough to deserve a premium valuation?',
+    ],
+  },
+];
+
+const GREEN_FLAGS = [
+  'Positive rental reversions',
+  'Long WALE (> 4 years)',
+  'Occupancy above sector average',
+  'Conservative gearing (< 38%)',
+  'Fixed-rate debt majority',
+  'Sponsor alignment',
+  'Accretive acquisitions',
+  'Organic DPU growth',
+  'Trading below intrinsic value',
+];
+
+const RED_FLAGS = [
+  'Yield above peers for no obvious reason',
+  'Frequent equity fundraising / rights issues',
+  'Falling occupancy trend',
+  'Weak interest coverage (< 2.5x)',
+  'Near-term refinancing wall',
+  'Sponsor conflicts of interest',
+  'High single-tenant concentration',
+  'Aggressive overseas expansion',
+  'DPU supported by financial engineering',
+];
+
+const SECTOR_PRIORITIES = [
+  { sector: 'Retail', focus: 'Tenant sales + footfall + reversions' },
+  { sector: 'Office', focus: 'Occupancy + WALE length' },
+  { sector: 'Logistics', focus: 'Rental reversions + supply pipeline' },
+  { sector: 'Healthcare', focus: 'Lease structure + inflation protection' },
+  { sector: 'Hospitality', focus: 'RevPAR cycles + tourism recovery' },
+  { sector: 'Data Centres', focus: 'Tenant concentration + power availability' },
+  { sector: 'Overseas REITs', focus: 'FX risk + refinancing access' },
+];
+
+const SHORTLISTS = [
+  {
+    title: 'Core Defensive',
+    description: 'High-quality, locally anchored, conservative balance sheet',
+    color: 'border-accent-green/30',
+    labelColor: 'bg-accent-green/15 text-accent-green border-accent-green/30',
+    tickers: ['C38U', 'A17U', 'RW0U', 'KDCREIT', 'J69U'],
+  },
+  {
+    title: 'Value Recovery',
+    description: 'Quality assets temporarily depressed, trading at wide P/B discount',
+    color: 'border-amber-500/30',
+    labelColor: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
+    tickers: ['K71U', 'N2IU', 'M44U', 'BUOU', 'CY6U'],
+  },
+  {
+    title: 'High Risk / High Yield',
+    description: 'Elevated yield, structural challenges, careful sizing required',
+    color: 'border-accent-red/30',
+    labelColor: 'bg-accent-red/15 text-accent-red border-accent-red/30',
+    tickers: ['AJBU', 'BTOU', 'T8B', 'LIPPO', 'AU8U'],
+  },
+];
+
+function FilterCard({ filter }) {
+  const Icon = filter.icon;
+  return (
+    <div className={`bg-bg-card border ${filter.borderColor} rounded-lg p-5`}>
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className={`p-1.5 rounded ${filter.bgColor}`}>
+            <Icon className={`w-4 h-4 ${filter.color}`} />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-text-primary">{filter.label}</h3>
+            <span className="text-[10px] text-text-muted">Weight: {filter.weight}</span>
+          </div>
+        </div>
+      </div>
+      <ul className="space-y-1.5">
+        {filter.questions.map((q, i) => (
+          <li key={i} className="flex items-start gap-2 text-xs text-text-secondary">
+            <span className={`mt-0.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${filter.bgColor}`} />
+            {q}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default function IntelligencePanel({ reits }) {
+  return (
+    <div className="flex flex-col gap-8">
+      {/* Intro */}
+      <div className="bg-bg-card border border-border rounded-lg p-6">
+        <h2 className="text-base font-semibold text-text-primary mb-2">SGX S-REIT Due Diligence Framework</h2>
+        <p className="text-sm text-text-secondary leading-relaxed mb-3">
+          A systematic five-filter framework for evaluating S-REITs for long-term income investing.
+          Rather than chasing headline dividend yield, the goal is to identify <strong className="text-text-primary">durable cashflow</strong>,
+          {' '}<strong className="text-text-primary">survivable balance sheets</strong>, and <strong className="text-text-primary">aligned management</strong>.
+        </p>
+        <div className="flex items-center gap-2 p-3 bg-accent-gold/5 border border-accent-gold/20 rounded text-xs text-text-secondary">
+          <Star className="w-4 h-4 text-accent-gold flex-shrink-0" />
+          <span>
+            A sustainable 5–6% yield with long-term DPU growth is usually superior to an unstable 8–10% yield.
+            The best S-REITs are not necessarily the highest yielding.
+          </span>
+        </div>
+      </div>
+
+      {/* Five Filters */}
+      <section>
+        <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3">The Five Filters</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {FILTERS.map((f) => <FilterCard key={f.id} filter={f} />)}
+        </div>
+      </section>
+
+      {/* Sector Priorities */}
+      <section>
+        <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3">Sector-Specific Focus Areas</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          {SECTOR_PRIORITIES.map((s) => (
+            <div key={s.sector} className="bg-bg-card border border-border rounded-lg px-4 py-3">
+              <p className="text-xs font-semibold text-text-primary mb-1">{s.sector}</p>
+              <p className="text-xs text-text-muted">{s.focus}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Green / Red Flags */}
+      <section>
+        <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3">Signal Reference</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-bg-card border border-accent-green/20 rounded-lg p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <ShieldCheck className="w-4 h-4 text-accent-green" />
+              <h4 className="text-sm font-semibold text-accent-green">Green Flags</h4>
+            </div>
+            <ul className="space-y-2">
+              {GREEN_FLAGS.map((f) => (
+                <li key={f} className="flex items-start gap-2 text-xs text-text-secondary">
+                  <span className="mt-1 w-1.5 h-1.5 rounded-full bg-accent-green flex-shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="bg-bg-card border border-accent-red/20 rounded-lg p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle className="w-4 h-4 text-accent-red" />
+              <h4 className="text-sm font-semibold text-accent-red">Red Flags</h4>
+            </div>
+            <ul className="space-y-2">
+              {RED_FLAGS.map((f) => (
+                <li key={f} className="flex items-start gap-2 text-xs text-text-secondary">
+                  <span className="mt-1 w-1.5 h-1.5 rounded-full bg-accent-red flex-shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Shortlists */}
+      <section>
+        <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3">Investor Shortlists</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {SHORTLISTS.map((sl) => (
+            <div key={sl.title} className={`bg-bg-card border ${sl.color} rounded-lg p-5`}>
+              <h4 className="text-sm font-semibold text-text-primary mb-1">{sl.title}</h4>
+              <p className="text-xs text-text-muted mb-3">{sl.description}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {sl.tickers.map((t) => (
+                  <span
+                    key={t}
+                    className={`px-2 py-0.5 rounded border text-[10px] font-mono font-semibold ${sl.labelColor}`}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Scoring Framework */}
+      <section>
+        <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3">Scoring Framework</h3>
+        <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="bg-bg-elevated border-b border-border">
+                <th className="px-4 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide">Category</th>
+                <th className="px-4 py-2.5 text-right text-text-secondary font-semibold uppercase tracking-wide">Weight</th>
+                <th className="px-4 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide hidden sm:table-cell">Key Metric</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { cat: 'Asset Quality', wt: '30%', metric: 'Occupancy, WALE, Rental Reversions' },
+                { cat: 'Debt Quality', wt: '25%', metric: 'Gearing, ICR, Fixed-Rate %, Maturity Profile' },
+                { cat: 'DPU Quality', wt: '25%', metric: 'DPU Growth, Payout Ratio, Equity Dilution' },
+                { cat: 'Manager Quality', wt: '10%', metric: 'Sponsor Strength, Acquisition Track Record' },
+                { cat: 'Valuation', wt: '10%', metric: 'Yield Spread, Price-to-Book, NAV Discount' },
+              ].map((row, i) => (
+                <tr key={row.cat} className={`border-b border-border/50 ${i % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'}`}>
+                  <td className="px-4 py-2.5 text-text-primary font-medium">{row.cat}</td>
+                  <td className="px-4 py-2.5 text-right font-mono font-semibold text-accent-gold">{row.wt}</td>
+                  <td className="px-4 py-2.5 text-text-muted hidden sm:table-cell">{row.metric}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  );
+}
