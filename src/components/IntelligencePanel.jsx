@@ -296,6 +296,136 @@ export default function IntelligencePanel({ reits }) {
           </table>
         </div>
       </section>
+
+      {/* Five Filters Scorecard */}
+      <section>
+        <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
+          <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide">
+            Five Filters Scorecard — All 39 REITs
+          </h3>
+          <div className="flex items-center gap-3 text-[10px] text-text-muted">
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-accent-green inline-block" />
+              4.0 – 5.0 Strong
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
+              3.0 – 3.9 Acceptable
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-accent-red inline-block" />
+              0 – 2.9 Weak
+            </span>
+          </div>
+        </div>
+
+        <div className="bg-bg-card border border-border rounded-lg overflow-hidden overflow-x-auto">
+          <table className="w-full text-xs min-w-[640px]">
+            <thead>
+              <tr className="bg-bg-elevated border-b border-border">
+                <th className="px-3 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide w-6">#</th>
+                <th className="px-3 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide">Ticker</th>
+                <th className="px-3 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide">Name</th>
+                <th className="px-3 py-2.5 text-center text-text-secondary font-semibold uppercase tracking-wide">Asset</th>
+                <th className="px-3 py-2.5 text-center text-text-secondary font-semibold uppercase tracking-wide">Debt</th>
+                <th className="px-3 py-2.5 text-center text-text-secondary font-semibold uppercase tracking-wide">DPU</th>
+                <th className="px-3 py-2.5 text-center text-text-secondary font-semibold uppercase tracking-wide">Mgr</th>
+                <th className="px-3 py-2.5 text-center text-text-secondary font-semibold uppercase tracking-wide">Val</th>
+                <th className="px-3 py-2.5 text-center text-text-secondary font-semibold uppercase tracking-wide">Score</th>
+                <th className="px-3 py-2.5 text-right text-text-secondary font-semibold uppercase tracking-wide">Yield</th>
+                <th className="px-3 py-2.5 text-right text-text-secondary font-semibold uppercase tracking-wide">Gear</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...reits]
+                .sort((a, b) => b.composite - a.composite)
+                .map((reit, i) => {
+                  const scoreColor = (v) =>
+                    v >= 4 ? 'text-accent-green' :
+                    v >= 3 ? 'text-amber-400' :
+                    'text-accent-red'
+
+                  const scoreBg = (v) =>
+                    v >= 4 ? 'bg-accent-green/15 border-accent-green/30 text-accent-green' :
+                    v >= 3 ? 'bg-amber-500/15 border-amber-500/30 text-amber-400' :
+                    'bg-accent-red/15 border-accent-red/30 text-accent-red'
+
+                  return (
+                    <tr
+                      key={reit.ticker}
+                      className={`border-b border-border/50 transition-colors hover:bg-bg-hover ${
+                        i % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'
+                      }`}
+                    >
+                      <td className="px-3 py-2 text-text-muted">{i + 1}</td>
+                      <td className="px-3 py-2">
+                        <span className="font-mono font-bold text-accent-gold">{reit.ticker}</span>
+                      </td>
+                      <td className="px-3 py-2 text-text-secondary max-w-[160px] truncate" title={reit.name}>
+                        {reit.shortName || reit.name}
+                      </td>
+                      {['asset', 'debt', 'dpu', 'manager', 'valuation'].map((key) => (
+                        <td key={key} className="px-3 py-2 text-center">
+                          <span className={`inline-flex items-center justify-center w-6 h-6 rounded border text-[10px] font-bold ${scoreBg(reit[key])}`}>
+                            {reit[key]}
+                          </span>
+                        </td>
+                      ))}
+                      <td className="px-3 py-2 text-center">
+                        <span className={`inline-flex items-center justify-center min-w-[2.25rem] h-6 px-1.5 rounded border font-bold text-[11px] ${scoreBg(reit.composite)}`}>
+                          {reit.composite?.toFixed(1)}
+                        </span>
+                      </td>
+                      <td className={`px-3 py-2 text-right font-mono font-semibold ${scoreColor(reit.yield >= 7 ? 4 : reit.yield >= 5 ? 3 : 2)}`}>
+                        {reit.yield != null ? reit.yield.toFixed(2) + '%' : '—'}
+                      </td>
+                      <td className={`px-3 py-2 text-right font-mono ${
+                        reit.gearing <= 35 ? 'text-accent-green' :
+                        reit.gearing <= 42 ? 'text-amber-400' :
+                        'text-accent-red'
+                      }`}>
+                        {reit.gearing != null ? reit.gearing.toFixed(1) + '%' : '—'}
+                      </td>
+                    </tr>
+                  )
+                })}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-[10px] text-text-muted mt-2">
+          Scores are based on static fundamental data. Ratings 1–5 per filter, weighted composite.
+          Not financial advice — conduct your own due diligence.
+        </p>
+      </section>
+
+        <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3">Scoring Framework</h3>
+        <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="bg-bg-elevated border-b border-border">
+                <th className="px-4 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide">Category</th>
+                <th className="px-4 py-2.5 text-right text-text-secondary font-semibold uppercase tracking-wide">Weight</th>
+                <th className="px-4 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide hidden sm:table-cell">Key Metric</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { cat: 'Asset Quality', wt: '30%', metric: 'Occupancy, WALE, Rental Reversions' },
+                { cat: 'Debt Quality', wt: '25%', metric: 'Gearing, ICR, Fixed-Rate %, Maturity Profile' },
+                { cat: 'DPU Quality', wt: '25%', metric: 'DPU Growth, Payout Ratio, Equity Dilution' },
+                { cat: 'Manager Quality', wt: '10%', metric: 'Sponsor Strength, Acquisition Track Record' },
+                { cat: 'Valuation', wt: '10%', metric: 'Yield Spread, Price-to-Book, NAV Discount' },
+              ].map((row, i) => (
+                <tr key={row.cat} className={`border-b border-border/50 ${i % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'}`}>
+                  <td className="px-4 py-2.5 text-text-primary font-medium">{row.cat}</td>
+                  <td className="px-4 py-2.5 text-right font-mono font-semibold text-accent-gold">{row.wt}</td>
+                  <td className="px-4 py-2.5 text-text-muted hidden sm:table-cell">{row.metric}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }
