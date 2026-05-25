@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Header from './components/Header';
 import DashboardTable from './components/DashboardTable';
 import ComparePanel from './components/ComparePanel';
@@ -7,7 +7,7 @@ import IntelligencePanel from './components/IntelligencePanel';
 import Footer from './components/Footer';
 import { REITS, SECTORS } from './data/reits';
 import { ETFS, ETF_CATEGORIES } from './data/etfs';
-import { fetchQuotes, applyLiveData } from './lib/yahooFinance';
+import { fetchSingleQuote, applyLiveData } from './lib/yahooFinance';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -23,25 +23,63 @@ export default function App() {
   const [etfCategory, setEtfCategory] = useState('All');
 
   const [compareList, setCompareList] = useState([]);
+  const [liveCount, setLiveCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const abortRef = useRef(null);
+  const liveMapRef = useRef({});
 
   const loadLiveData = useCallback(async () => {
+    // Cancel any previous in-progress fetch
+    if (abortRef.current) abortRef.current.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    // Reset
+    liveMapRef.current = {};
+    setLiveCount(0);
     setIsRefreshing(true);
-    try {
-      const allTickers = [...REITS.map((r) => r.ticker), ...ETFS.map((e) => e.ticker)];
-      const liveMap = await fetchQuotes(allTickers);
-      if (Object.keys(liveMap).length > 0) {
-        setReitsData(applyLiveData(REITS, liveMap));
-        setEtfsData(applyLiveData(ETFS, liveMap));
-        setLiveStatus('live');
-      } else {
-        setLiveStatus('fallback');
+    setLiveStatus('loading');
+
+    const allTickers = [
+      ...REITS.map((r) => r.ticker),
+      ...ETFS.map((e) => e.ticker),
+    ];
+    setTotalCount(allTickers.length);
+
+    let loaded = 0;
+
+    for (let i = 0; i < allTickers.length; i++) {
+      if (controller.signal.aborted) break;
+
+      const ticker = allTickers[i];
+      try {
+        const data = await fetchSingleQuote(ticker);
+        liveMapRef.current[ticker] = data;
+        loaded++;
+        setLiveCount(loaded);
+
+        // Update UI immediately after each successful fetch
+        setReitsData(applyLiveData(REITS, { ...liveMapRef.current }));
+        setEtfsData(applyLiveData(ETFS, { ...liveMapRef.current }));
+
+        // Show "live" as soon as the first quote arrives
+        if (loaded === 1) setLiveStatus('live');
+      } catch (err) {
+        console.warn(`[SGXPTY] ${ticker}:`, err.message);
       }
-    } catch {
-      setLiveStatus('fallback');
-    } finally {
+
+      // 1.5s gap between requests — stays under Yahoo's rate limit
+      if (i < allTickers.length - 1 && !controller.signal.aborted) {
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+    }
+
+    if (!controller.signal.aborted) {
       setIsRefreshing(false);
+      if (loaded === 0) setLiveStatus('fallback');
     }
   }, []);
+
 
   useEffect(() => {
     loadLiveData();
@@ -129,12 +167,25 @@ export default function App() {
                 Live data loaded from Yahoo Finance
               </div>
             )}
+            {liveStatus === 'loading' && totalCount > 0 && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                Loading live data in background — {liveCount} / {totalCount} tickers
+                <div className="flex-1 max-w-48 h-1 bg-blue-500/20 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-400 rounded-full transition-all duration-300"
+                    style={{ width: totalCount > 0 ? `${(liveCount / totalCount) * 100}%` : '0%' }}
+                  />
+                </div>
+              </div>
+            )}
             {liveStatus === 'fallback' && (
               <div className="flex items-center gap-2 px-4 py-2 bg-amber-500/5 border border-amber-500/20 rounded text-xs text-amber-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                Using static dataset — Yahoo Finance unavailable (Netlify Functions required for live data)
+                Using static dataset — live data unavailable
               </div>
             )}
+
 
             {compareList.length > 0 && (
               <div className="flex items-center gap-2 px-4 py-2.5 bg-accent-gold/5 border border-accent-gold/20 rounded text-xs">
