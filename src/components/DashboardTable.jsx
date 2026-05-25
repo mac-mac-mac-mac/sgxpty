@@ -131,6 +131,84 @@ function SectorBadge({ sector }) {
     </span>
   );
 }
+function MobileCard({ row, isInCompare, canAdd, onCompareToggle, mode }) {
+  const change = row.change
+  const changeColor = change > 0
+    ? 'text-accent-green'
+    : change < 0
+    ? 'text-accent-red'
+    : 'text-text-muted'
+
+  return (
+    <div className="bg-bg-card border border-border rounded-lg p-3 flex flex-col gap-2">
+      {/* Row 1 — ticker, name, compare button */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-col gap-0.5">
+          <span className="font-mono text-sm font-bold text-accent-gold">{row.ticker}</span>
+          <span className="text-xs text-text-secondary truncate max-w-[200px]">{row.name}</span>
+        </div>
+        <button
+          onClick={() => onCompareToggle(row)}
+          disabled={!canAdd && !isInCompare}
+          className={`flex-shrink-0 w-6 h-6 rounded border flex items-center justify-center transition-all ${
+            isInCompare
+              ? 'bg-accent-gold/20 border-accent-gold/50 text-accent-gold'
+              : canAdd
+              ? 'border-border hover:border-accent-gold/50 text-text-muted'
+              : 'border-border/30 opacity-30 cursor-not-allowed'
+          }`}
+        >
+          {isInCompare ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+        </button>
+      </div>
+
+      {/* Row 2 — price, change, yield, gearing */}
+      <div className="grid grid-cols-4 gap-1 text-center">
+        <div className="bg-bg-elevated rounded p-1.5">
+          <div className="text-[10px] text-text-muted mb-0.5">Price</div>
+          <div className="font-mono text-xs font-semibold">
+            {row.price != null ? row.price.toFixed(row.price < 1 ? 3 : 2) : '—'}
+          </div>
+        </div>
+        <div className="bg-bg-elevated rounded p-1.5">
+          <div className="text-[10px] text-text-muted mb-0.5">Chg%</div>
+          <div className={`font-mono text-xs font-semibold ${changeColor}`}>
+            {change != null ? (change > 0 ? '+' : '') + change.toFixed(2) + '%' : '—'}
+          </div>
+        </div>
+        <div className="bg-bg-elevated rounded p-1.5">
+          <div className="text-[10px] text-text-muted mb-0.5">Yield</div>
+          <div className="font-mono text-xs font-semibold text-accent-gold">
+            {row.yield != null ? row.yield.toFixed(2) + '%' : '—'}
+          </div>
+        </div>
+        <div className="bg-bg-elevated rounded p-1.5">
+          <div className="text-[10px] text-text-muted mb-0.5">
+            {mode === 'reits' ? 'Gear' : 'TER'}
+          </div>
+          <div className="font-mono text-xs font-semibold">
+            {mode === 'reits'
+              ? (row.gearing != null ? row.gearing.toFixed(1) + '%' : '—')
+              : (row.expenseRatio != null ? row.expenseRatio.toFixed(2) + '%' : '—')}
+          </div>
+        </div>
+      </div>
+
+      {/* Row 3 — sector, composite score, occupancy */}
+      <div className="flex items-center justify-between gap-2">
+        <SectorBadge sector={row.sector || row.category} />
+        <div className="flex items-center gap-2 text-xs text-text-muted">
+          {mode === 'reits' && row.occupancy != null && (
+            <span>Occ {row.occupancy.toFixed(1)}%</span>
+          )}
+          {mode === 'reits' && row.composite != null && (
+            <CompositeBadge value={row.composite} />
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function DashboardTable({
   data,
@@ -209,7 +287,29 @@ export default function DashboardTable({
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border border-border">
+      {/* Mobile card list */}
+      <div className="flex flex-col gap-2 md:hidden">
+        {filtered.map((row) => {
+          const isInCompare = compareList && compareList.some((c) => c.ticker === row.ticker)
+          const canAdd = compareList && compareList.length < 2 && !isInCompare
+          return (
+            <MobileCard
+              key={row.ticker}
+              row={row}
+              isInCompare={isInCompare}
+              canAdd={canAdd}
+              onCompareToggle={onCompareToggle}
+              mode={mode}
+            />
+          )
+        })}
+        {filtered.length === 0 && (
+          <div className="text-center py-8 text-text-muted text-sm">No results found</div>
+        )}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden md:block overflow-x-auto rounded-lg border border-border">
         <table className="w-full text-sm min-w-[900px]">
           <thead>
             {mode === 'reits' && (
@@ -317,8 +417,6 @@ export default function DashboardTable({
             )}
           </tbody>
         </table>
-      </div>
-      <p className="text-xs text-text-muted">{filtered.length} results</p>
     </div>
   );
 }
