@@ -8,14 +8,21 @@ import Footer from './components/Footer';
 import { REITS, SECTORS } from './data/reits';
 import { ETFS, ETF_CATEGORIES } from './data/etfs';
 import { fetchSingleQuote, applyLiveData } from './lib/yahooFinance';
+import DAILY_PRICES from './data/prices.json'
 
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [mode, setMode] = useState('reits'); // 'reits' | 'etfs'
-  const [reitsData, setReitsData] = useState(REITS);
-  const [etfsData, setEtfsData] = useState(ETFS);
-  const [liveStatus, setLiveStatus] = useState('loading');
+  const hasDailyPrices = Object.keys(DAILY_PRICES).length > 0;
+  const [reitsData, setReitsData] = useState(() =>
+    hasDailyPrices ? applyLiveData(REITS, DAILY_PRICES) : REITS
+  );
+  const [etfsData, setEtfsData] = useState(() =>
+    hasDailyPrices ? applyLiveData(ETFS, DAILY_PRICES) : ETFS
+  );
+  const [liveStatus, setLiveStatus] = useState(hasDailyPrices ? 'daily' : 'loading');
+
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [reitSearch, setReitSearch] = useState('');
@@ -168,6 +175,21 @@ export default function App() {
                 Live data loaded from Yahoo Finance
               </div>
             )}
+            {liveStatus === 'daily' && (
+              <div className="flex items-center justify-between px-4 py-2 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                  Showing last close prices — updated daily at 5:30pm SGT
+                </div>
+                <button
+                  onClick={loadLiveData}
+                  className="underline hover:text-blue-300 transition-colors"
+                >
+                  Refresh for live prices →
+                </button>
+              </div>
+            )}
+
             {liveStatus === 'loading' && totalCount > 0 && (
               <div className="flex items-center gap-2 px-4 py-2 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
