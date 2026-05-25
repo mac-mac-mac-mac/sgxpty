@@ -9,6 +9,7 @@ import { REITS, SECTORS } from './data/reits';
 import { ETFS, ETF_CATEGORIES } from './data/etfs';
 import { fetchSingleQuote, applyLiveData } from './lib/yahooFinance';
 
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [mode, setMode] = useState('reits'); // 'reits' | 'etfs'
