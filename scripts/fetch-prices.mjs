@@ -13,7 +13,8 @@ const TICKERS = [
   'M1GU','RW0U','CMOU','CJLU','UD1U','OU8U','AU8U','SV3U','J91U','BTOU',
   'T8B','OXMU','CWBU','AW9U','DHLU','LREIT','SYTU','ZACAU','EDIU','TS0U',
   'CY6U','ACV','BWCU','BARE','LIPPO','VC2','CLND','AJBU','SPHREIT',
-
+  // ETFs
+  'ES3','G3B','A35','CFA','SRT','HST','MBH','CLR',
 ]
 
 async function fetchWithRetry(ticker, attempts = 3) {
