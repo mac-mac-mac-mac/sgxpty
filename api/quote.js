@@ -1,7 +1,5 @@
 import yahooFinance from 'yahoo-finance2'
 
-yahooFinance.suppressNotices(['yahooSurvey'])
-
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 async function fetchWithRetry(symbol, attempts = 3) {
