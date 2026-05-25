@@ -418,5 +418,7 @@ export default function DashboardTable({
           </tbody>
         </table>
     </div>
-  );
+</div>
+
+      );
 }
