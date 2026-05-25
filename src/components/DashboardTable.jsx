@@ -60,7 +60,18 @@ function formatCell(value, format, currency) {
       );
     }
     case 'number':
-      return <span className="font-mono text-xs">{typeof value === 'number' ? value.toLocaleString() : value}</span>;
+      return (
+        <span className="font-mono text-xs">
+          {typeof value === 'number'
+            ? value >= 1_000_000_000
+              ? (value / 1_000_000_000).toFixed(2) + 'B'
+              : value >= 1_000_000
+              ? (value / 1_000_000).toFixed(0) + 'M'
+              : value.toLocaleString()
+            : value}
+        </span>
+      );
+
     case 'pct':
       return <span className="font-mono text-xs">{typeof value === 'number' ? value.toFixed(2) : value}</span>;
     case 'decimal':
