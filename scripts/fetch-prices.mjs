@@ -9,11 +9,11 @@ const OUTPUT = path.join(__dirname, '../src/data/prices.json')
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const TICKERS = [
-  'C38U','A17U','N2IU','ME8U','M44U','AJBU','T82U','J69U','BUOU','K71U',
-  'C2PU','HMN','J85','SK6U','P40U','TS0U','Q5T','ACV','JYEU','J91U',
-  'O5RU','M1GU','DCRU','DHLU','CWBU','UD1U','CMOU','OXMU','BTOU',
-  'ODBU','BWCU','CRPU','AW9U','AU8U','CY6U',
-  'ES3','G3B','A35','CFA','SRT','HST','MBH','CLR',
+  'C38U','A17U','ME8U','N2IU','M44U','J69U','K71U','T82U','BUOU','SK6U',
+  'M1GU','RW0U','CMOU','CJLU','UD1U','OU8U','AU8U','SV3U','J91U','BTOU',
+  'T8B','OXMU','CWBU','AW9U','DHLU','LREIT','SYTU','ZACAU','EDIU','TS0U',
+  'CY6U','ACV','BWCU','BARE','LIPPO','VC2','CLND','AJBU','SPHREIT',
+
 ]
 
 async function fetchWithRetry(ticker, attempts = 3) {
