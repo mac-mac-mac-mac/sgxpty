@@ -13,6 +13,7 @@ import DAILY_PRICES from './data/prices.json'
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  // tab IDs: 'filters' | 'dashboard' | 'compare' | 'charts'
   const [mode, setMode] = useState('reits'); // 'reits' | 'etfs'
   const hasDailyPrices = Object.keys(DAILY_PRICES).length > 0;
   const [reitsData, setReitsData] = useState(() =>
@@ -193,7 +194,7 @@ export default function App() {
             {liveStatus === 'loading' && totalCount > 0 && (
               <div className="flex items-center gap-2 px-4 py-2 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                Loading live data in background — {liveCount} / {totalCount} tickers
+                Fetching live prices — {liveCount} / {totalCount} tickers (~60s due to SGX rate limits)
                 <div className="flex-1 max-w-48 h-1 bg-blue-500/20 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-blue-400 rounded-full transition-all duration-300"
@@ -296,7 +297,7 @@ export default function App() {
             <IntelligencePanel reits={reitsData} />
           </div>
         )}
-        {activeTab === 'intelligence' && (
+        {activeTab === 'charts' && (
           <div className="flex flex-col gap-4">
             <div>
               <h1 className="text-xl font-bold text-text-accent">Charts</h1>
