@@ -14,7 +14,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "recharts": "^2.12.7",
-    "yahoo-finance2": "^2.13.4"
+    "yahoo-finance2": "^3.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
