@@ -139,6 +139,33 @@ const SHORTLISTS = [
     tickers: ['AJBU', 'BTOU', 'T8B', 'LIPPO', 'AU8U'],
   },
 ];
+function exportToCSV(reits) {
+  const headers = ['Rank','Ticker','Name','Sector','Asset','Debt','DPU','Manager','Valuation','Composite','Yield%','Gearing%']
+  const rows = [...reits]
+    .sort((a, b) => b.composite - a.composite)
+    .map((r, i) => [
+      i + 1,
+      r.ticker,
+      `"${r.name}"`,
+      r.sector || '',
+      r.asset ?? '',
+      r.debt ?? '',
+      r.dpu ?? '',
+      r.manager ?? '',
+      r.valuation ?? '',
+      r.composite?.toFixed(1) ?? '',
+      r.yield != null ? r.yield.toFixed(2) : '',
+      r.gearing != null ? r.gearing.toFixed(1) : '',
+    ])
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n')
+  const blob = new Blob([csv], { type: 'text/csv' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `sgxpty-scorecard-${new Date().toISOString().slice(0,10)}.csv`
+  a.click()
+  URL.revokeObjectURL(url)
+}
 
 function FilterCard({ filter }) {
   const Icon = filter.icon;
@@ -300,9 +327,17 @@ export default function IntelligencePanel({ reits }) {
       {/* Five Filters Scorecard */}
       <section>
         <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
-          <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide">
-            Five Filters Scorecard — All 39 REITs
-          </h3>
+          <div className="flex items-center gap-3">
+            <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide">
+              Five Filters Scorecard — All 39 REITs
+            </h3>
+            <button
+              onClick={() => exportToCSV(reits)}
+              className="flex items-center gap-1.5 px-3 py-1 rounded border border-border hover:border-accent-gold/40 hover:text-accent-gold text-text-muted text-[11px] font-medium transition-all"
+            >
+              ↓ Export CSV
+            </button>
+          </div>
           <div className="flex items-center gap-3 text-[10px] text-text-muted">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-accent-green inline-block" />
