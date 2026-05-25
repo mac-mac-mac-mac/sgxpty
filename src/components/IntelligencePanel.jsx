@@ -318,12 +318,11 @@ export default function IntelligencePanel({ reits }) {
             </span>
           </div>
         </div>
-
         <div className="bg-bg-card border border-border rounded-lg overflow-hidden overflow-x-auto">
           <table className="w-full text-xs min-w-[640px]">
             <thead>
               <tr className="bg-bg-elevated border-b border-border">
-                <th className="px-3 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide w-6">#</th>
+                <th className="px-3 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide">#</th>
                 <th className="px-3 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide">Ticker</th>
                 <th className="px-3 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide">Name</th>
                 <th className="px-3 py-2.5 text-center text-text-secondary font-semibold uppercase tracking-wide">Asset</th>
@@ -340,16 +339,10 @@ export default function IntelligencePanel({ reits }) {
               {[...reits]
                 .sort((a, b) => b.composite - a.composite)
                 .map((reit, i) => {
-                  const scoreColor = (v) =>
-                    v >= 4 ? 'text-accent-green' :
-                    v >= 3 ? 'text-amber-400' :
-                    'text-accent-red'
-
                   const scoreBg = (v) =>
                     v >= 4 ? 'bg-accent-green/15 border-accent-green/30 text-accent-green' :
                     v >= 3 ? 'bg-amber-500/15 border-amber-500/30 text-amber-400' :
                     'bg-accent-red/15 border-accent-red/30 text-accent-red'
-
                   return (
                     <tr
                       key={reit.ticker}
@@ -376,7 +369,11 @@ export default function IntelligencePanel({ reits }) {
                           {reit.composite?.toFixed(1)}
                         </span>
                       </td>
-                      <td className={`px-3 py-2 text-right font-mono font-semibold ${scoreColor(reit.yield >= 7 ? 4 : reit.yield >= 5 ? 3 : 2)}`}>
+                      <td className={`px-3 py-2 text-right font-mono font-semibold ${
+                        reit.yield >= 7 ? 'text-accent-green' :
+                        reit.yield >= 5 ? 'text-amber-400' :
+                        'text-text-muted'
+                      }`}>
                         {reit.yield != null ? reit.yield.toFixed(2) + '%' : '—'}
                       </td>
                       <td className={`px-3 py-2 text-right font-mono ${
@@ -393,38 +390,8 @@ export default function IntelligencePanel({ reits }) {
           </table>
         </div>
         <p className="text-[10px] text-text-muted mt-2">
-          Scores are based on static fundamental data. Ratings 1–5 per filter, weighted composite.
-          Not financial advice — conduct your own due diligence.
+          Scores are based on static fundamental data. Ratings 1–5 per filter, weighted composite. Not financial advice.
         </p>
-      </section>
-
-        <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3">Scoring Framework</h3>
-        <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="bg-bg-elevated border-b border-border">
-                <th className="px-4 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide">Category</th>
-                <th className="px-4 py-2.5 text-right text-text-secondary font-semibold uppercase tracking-wide">Weight</th>
-                <th className="px-4 py-2.5 text-left text-text-secondary font-semibold uppercase tracking-wide hidden sm:table-cell">Key Metric</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                { cat: 'Asset Quality', wt: '30%', metric: 'Occupancy, WALE, Rental Reversions' },
-                { cat: 'Debt Quality', wt: '25%', metric: 'Gearing, ICR, Fixed-Rate %, Maturity Profile' },
-                { cat: 'DPU Quality', wt: '25%', metric: 'DPU Growth, Payout Ratio, Equity Dilution' },
-                { cat: 'Manager Quality', wt: '10%', metric: 'Sponsor Strength, Acquisition Track Record' },
-                { cat: 'Valuation', wt: '10%', metric: 'Yield Spread, Price-to-Book, NAV Discount' },
-              ].map((row, i) => (
-                <tr key={row.cat} className={`border-b border-border/50 ${i % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'}`}>
-                  <td className="px-4 py-2.5 text-text-primary font-medium">{row.cat}</td>
-                  <td className="px-4 py-2.5 text-right font-mono font-semibold text-accent-gold">{row.wt}</td>
-                  <td className="px-4 py-2.5 text-text-muted hidden sm:table-cell">{row.metric}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       </section>
     </div>
   );
