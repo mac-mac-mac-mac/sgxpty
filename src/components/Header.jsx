@@ -5,7 +5,7 @@ export default function Header({ activeTab, onTabChange, liveStatus, onRefresh, 
   { id: 'filters', label: 'Five Filters' },
   { id: 'dashboard', label: 'Dashboard' },
   { id: 'compare', label: 'Compare' },
-  { id: 'intelligence', label: 'Charts' },
+  { id: 'charts', label: 'Charts' },
 ];
 
 
