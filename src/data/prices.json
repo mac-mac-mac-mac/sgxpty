@@ -7,11 +7,11 @@
     "marketCap": 18044622848,
     "dividendYield": 5.0655022,
     "currency": "SGD",
-    "fiftyTwoWeekLow": 2.05,
+    "fiftyTwoWeekLow": 2.06,
     "fiftyTwoWeekHigh": 2.57,
     "volume": 32924900,
     "shortName": "CapLand IntCom T",
-    "fetchedAt": "2026-05-26T18:36:56.069Z"
+    "fetchedAt": "2026-05-27T18:32:36.323Z"
   },
   "A17U": {
     "price": 2.52,
@@ -25,7 +25,7 @@
     "fiftyTwoWeekHigh": 2.92,
     "volume": 15121900,
     "shortName": "CapLand Ascendas REIT",
-    "fetchedAt": "2026-05-26T18:36:58.186Z"
+    "fetchedAt": "2026-05-27T18:32:38.366Z"
   },
   "ME8U": {
     "price": 1.95,
@@ -39,7 +39,7 @@
     "fiftyTwoWeekHigh": 2.23,
     "volume": 4874900,
     "shortName": "Mapletree Ind Tr",
-    "fetchedAt": "2026-05-26T18:37:00.234Z"
+    "fetchedAt": "2026-05-27T18:32:40.409Z"
   },
   "N2IU": {
     "price": 1.28,
@@ -53,7 +53,7 @@
     "fiftyTwoWeekHigh": 1.5,
     "volume": 17284200,
     "shortName": "Mapletree PanAsia Com Tr",
-    "fetchedAt": "2026-05-26T18:37:02.282Z"
+    "fetchedAt": "2026-05-27T18:32:42.449Z"
   },
   "M44U": {
     "price": 1.19,
@@ -67,7 +67,7 @@
     "fiftyTwoWeekHigh": 1.37,
     "volume": 14328200,
     "shortName": "Mapletree Log Tr",
-    "fetchedAt": "2026-05-26T18:37:04.329Z"
+    "fetchedAt": "2026-05-27T18:32:44.491Z"
   },
   "J69U": {
     "price": 2.26,
@@ -81,7 +81,7 @@
     "fiftyTwoWeekHigh": 2.47,
     "volume": 2580900,
     "shortName": "Frasers Cpt Tr",
-    "fetchedAt": "2026-05-26T18:37:06.379Z"
+    "fetchedAt": "2026-05-27T18:32:46.530Z"
   },
   "K71U": {
     "price": 0.885,
@@ -95,7 +95,7 @@
     "fiftyTwoWeekHigh": 1.08,
     "volume": 15496300,
     "shortName": "Keppel Reit",
-    "fetchedAt": "2026-05-26T18:37:08.429Z"
+    "fetchedAt": "2026-05-27T18:32:48.619Z"
   },
   "T82U": {
     "price": 1.47,
@@ -109,7 +109,7 @@
     "fiftyTwoWeekHigh": 1.55,
     "volume": 9410900,
     "shortName": "Suntec Reit",
-    "fetchedAt": "2026-05-26T18:37:10.474Z"
+    "fetchedAt": "2026-05-27T18:32:50.709Z"
   },
   "BUOU": {
     "price": 0.985,
@@ -121,9 +121,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.78,
     "fiftyTwoWeekHigh": 1.05,
-    "volume": 11169300,
+    "volume": 11284200,
     "shortName": "Frasers L&C Tr",
-    "fetchedAt": "2026-05-26T18:37:12.518Z"
+    "fetchedAt": "2026-05-27T18:32:52.748Z"
   },
   "M1GU": {
     "price": 0.485,
@@ -137,7 +137,7 @@
     "fiftyTwoWeekHigh": 0.495,
     "volume": 44400,
     "shortName": "Alpha Integrated REIT",
-    "fetchedAt": "2026-05-26T18:37:16.610Z"
+    "fetchedAt": "2026-05-27T18:32:56.874Z"
   },
   "CMOU": {
     "price": 0.194,
@@ -151,7 +151,7 @@
     "fiftyTwoWeekHigh": 0.265,
     "volume": 4726400,
     "shortName": "KOREReitUSD",
-    "fetchedAt": "2026-05-26T18:37:20.739Z"
+    "fetchedAt": "2026-05-27T18:33:00.950Z"
   },
   "CJLU": {
     "price": 0.985,
@@ -165,7 +165,7 @@
     "fiftyTwoWeekHigh": 1.03,
     "volume": 5902500,
     "shortName": "NetLink NBN Tr",
-    "fetchedAt": "2026-05-26T18:37:22.783Z"
+    "fetchedAt": "2026-05-27T18:33:02.989Z"
   },
   "UD1U": {
     "price": 0.235,
@@ -179,7 +179,7 @@
     "fiftyTwoWeekHigh": 0.32,
     "volume": 65100,
     "shortName": "IREIT Global SGD",
-    "fetchedAt": "2026-05-26T18:37:24.830Z"
+    "fetchedAt": "2026-05-27T18:33:05.031Z"
   },
   "AU8U": {
     "price": 0.66,
@@ -193,7 +193,7 @@
     "fiftyTwoWeekHigh": 0.825,
     "volume": 1589300,
     "shortName": "CapLand China T",
-    "fetchedAt": "2026-05-26T18:37:28.923Z"
+    "fetchedAt": "2026-05-27T18:33:09.114Z"
   },
   "BTOU": {
     "price": 0.056,
@@ -207,7 +207,7 @@
     "fiftyTwoWeekHigh": 0.089,
     "volume": 629500,
     "shortName": "ManulifeReit USD",
-    "fetchedAt": "2026-05-26T18:37:35.095Z"
+    "fetchedAt": "2026-05-27T18:33:15.233Z"
   },
   "T8B": {
     "price": null,
@@ -221,7 +221,7 @@
     "fiftyTwoWeekHigh": null,
     "volume": null,
     "shortName": "Viva Industrial Trust Stapled Securities",
-    "fetchedAt": "2026-05-26T18:37:37.139Z"
+    "fetchedAt": "2026-05-27T18:33:17.271Z"
   },
   "OXMU": {
     "price": 0.169,
@@ -231,11 +231,11 @@
     "marketCap": 242930432,
     "dividendYield": 3.5714287,
     "currency": "USD",
-    "fiftyTwoWeekLow": 0.132,
+    "fiftyTwoWeekLow": 0.133,
     "fiftyTwoWeekHigh": 0.245,
     "volume": 597500,
     "shortName": "Prime US ReitUSD",
-    "fetchedAt": "2026-05-26T18:37:39.191Z"
+    "fetchedAt": "2026-05-27T18:33:19.310Z"
   },
   "AW9U": {
     "price": 0.23,
@@ -249,7 +249,7 @@
     "fiftyTwoWeekHigh": 0.29,
     "volume": 429600,
     "shortName": "First Reit",
-    "fetchedAt": "2026-05-26T18:37:43.315Z"
+    "fetchedAt": "2026-05-27T18:33:23.389Z"
   },
   "DHLU": {
     "price": 0.49,
@@ -263,7 +263,7 @@
     "fiftyTwoWeekHigh": 0.59,
     "volume": 709700,
     "shortName": "Daiwa Hse Log Tr",
-    "fetchedAt": "2026-05-26T18:37:45.381Z"
+    "fetchedAt": "2026-05-27T18:33:25.428Z"
   },
   "TS0U": {
     "price": 0.35,
@@ -275,9 +275,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.275,
     "fiftyTwoWeekHigh": 0.38,
-    "volume": 1201800,
+    "volume": 1451500,
     "shortName": "OUEREIT",
-    "fetchedAt": "2026-05-26T18:37:55.640Z"
+    "fetchedAt": "2026-05-27T18:33:35.670Z"
   },
   "CY6U": {
     "price": 1.03,
@@ -287,11 +287,11 @@
     "marketCap": 1531523968,
     "dividendYield": 13.398059000000002,
     "currency": "SGD",
-    "fiftyTwoWeekLow": 0.955,
+    "fiftyTwoWeekLow": 0.96,
     "fiftyTwoWeekHigh": 1.32,
     "volume": 2493310,
     "shortName": "CapLand India T",
-    "fetchedAt": "2026-05-26T18:37:57.685Z"
+    "fetchedAt": "2026-05-27T18:33:37.710Z"
   },
   "BWCU": {
     "price": 0.28,
@@ -305,7 +305,7 @@
     "fiftyTwoWeekHigh": 0.295,
     "volume": 1148200,
     "shortName": "BWCU.SI,0P00018G0P,0",
-    "fetchedAt": "2026-05-26T18:38:01.777Z"
+    "fetchedAt": "2026-05-27T18:33:41.789Z"
   },
   "VC2": {
     "price": 1.19,
@@ -319,7 +319,7 @@
     "fiftyTwoWeekHigh": 1.28,
     "volume": 4212800,
     "shortName": "Olam Group",
-    "fetchedAt": "2026-05-26T18:38:07.977Z"
+    "fetchedAt": "2026-05-27T18:33:47.955Z"
   },
   "AJBU": {
     "price": 2.28,
@@ -331,9 +331,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 2.14,
     "fiftyTwoWeekHigh": 2.44,
-    "volume": 9779200,
+    "volume": 10088600,
     "shortName": "Keppel DC Reit",
-    "fetchedAt": "2026-05-26T18:38:12.072Z"
+    "fetchedAt": "2026-05-27T18:33:52.078Z"
   },
   "ES3": {
     "price": 5.125,
@@ -347,7 +347,7 @@
     "fiftyTwoWeekHigh": 5.2,
     "volume": 973412,
     "shortName": "SS SPDR STI ETF",
-    "fetchedAt": "2026-05-26T18:38:16.178Z"
+    "fetchedAt": "2026-05-27T18:33:56.153Z"
   },
   "G3B": {
     "price": 5.224,
@@ -361,7 +361,7 @@
     "fiftyTwoWeekHigh": 5.338,
     "volume": 344879,
     "shortName": "Amova STI ETF S$D",
-    "fetchedAt": "2026-05-26T18:38:18.260Z"
+    "fetchedAt": "2026-05-27T18:33:58.192Z"
   },
   "A35": {
     "price": 1.148,
@@ -371,11 +371,11 @@
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
-    "fiftyTwoWeekLow": 1.103,
+    "fiftyTwoWeekLow": 1.107,
     "fiftyTwoWeekHigh": 1.169,
     "volume": 606468,
     "shortName": "ABF SG BOND ETF",
-    "fetchedAt": "2026-05-26T18:38:20.303Z"
+    "fetchedAt": "2026-05-27T18:34:00.232Z"
   },
   "CFA": {
     "price": 0.798,
@@ -385,11 +385,11 @@
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
-    "fiftyTwoWeekLow": 0.756,
+    "fiftyTwoWeekLow": 0.757,
     "fiftyTwoWeekHigh": 0.854,
     "volume": 929234,
     "shortName": "Amova-STC Asia REIT",
-    "fetchedAt": "2026-05-26T18:38:22.346Z"
+    "fetchedAt": "2026-05-27T18:34:02.271Z"
   },
   "SRT": {
     "price": 0.743,
@@ -403,7 +403,7 @@
     "fiftyTwoWeekHigh": 0.81,
     "volume": 616430,
     "shortName": "CSOP iEdge SREIT ETF S$",
-    "fetchedAt": "2026-05-26T18:38:24.392Z"
+    "fetchedAt": "2026-05-27T18:34:04.309Z"
   },
   "HST": {
     "price": 0.788,
@@ -415,9 +415,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.744,
     "fiftyTwoWeekHigh": 1.084,
-    "volume": 3458896,
+    "volume": 3459355,
     "shortName": "Lion-OCBC Sec HSTECH S$",
-    "fetchedAt": "2026-05-26T18:38:26.453Z"
+    "fetchedAt": "2026-05-27T18:34:06.349Z"
   },
   "MBH": {
     "price": 1.012,
@@ -431,7 +431,7 @@
     "fiftyTwoWeekHigh": 1.034,
     "volume": 1123351,
     "shortName": "Amova SGD IGBond ETF",
-    "fetchedAt": "2026-05-26T18:38:28.506Z"
+    "fetchedAt": "2026-05-27T18:34:08.386Z"
   },
   "CLR": {
     "price": 0.824,
@@ -445,6 +445,6 @@
     "fiftyTwoWeekHigh": 0.895,
     "volume": 2793629,
     "shortName": "LION-PHILLIP S-REIT",
-    "fetchedAt": "2026-05-26T18:38:30.548Z"
+    "fetchedAt": "2026-05-27T18:34:10.425Z"
   }
 }
