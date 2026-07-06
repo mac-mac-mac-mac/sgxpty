@@ -211,9 +211,10 @@ export default function IntelligencePanel({ reits }) {
             A sustainable 5–6% yield with long-term DPU growth is usually superior to an unstable 8–10% yield.
             The best S-REITs are not necessarily the highest yielding.
           </span>
+        </div>
+      </div>
 
-
-        {/* Enhanced 3-Check Screener - Cards + Rich Table */}
+      {/* Enhanced 3-Check Screener - Cards + Rich Table */}
       <section className="bg-bg-card border border-accent-gold/30 rounded-2xl p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -505,10 +506,7 @@ export default function IntelligencePanel({ reits }) {
         <p className="text-[10px] text-text-muted mt-2">
           Scores are based on static fundamental data. Ratings 1–5 per filter, weighted composite. Not financial advice.
         </p>
-            </section>
-
-    
+      </section>
     </div>
   );
 }
-
