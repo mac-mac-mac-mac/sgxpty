@@ -211,63 +211,37 @@ export default function IntelligencePanel({ reits }) {
             A sustainable 5–6% yield with long-term DPU growth is usually superior to an unstable 8–10% yield.
             The best S-REITs are not necessarily the highest yielding.
           </span>
-        </div>
-      </div>      {/* === 3-Check Passive Income Screener (Improved) === */}
-      <section className="bg-bg-card border border-accent-gold/30 rounded-lg p-6">
-        <div className="flex items-center justify-between mb-5">
+        </div>      {/* Enhanced 3-Check Screener - Cards + Rich Table */}
+      <section className="bg-bg-card border border-accent-gold/30 rounded-2xl p-6">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
-              3-Check Passive Income Screener
-            </h3>
-            <p className="text-sm text-text-secondary">DPU Growth + Gearing &lt;45% + Yield vs Risk-Free</p>
+            <h3 className="text-xl font-semibold text-text-primary">3-Check Passive Income Screener</h3>
+            <p className="text-sm text-text-secondary mt-1">REITs passing DPU Growth • Gearing &lt;45% • Attractive Yield Spread</p>
           </div>
           <a href="https://growbeansprout.com/singapore-reits-screening-framework" 
              target="_blank" 
-             className="text-xs text-accent-gold hover:underline flex items-center gap-1">
-            Source →
+             className="text-xs px-4 py-1.5 bg-accent-gold/10 text-accent-gold rounded-full hover:bg-accent-gold/20 transition-colors">
+            Beansprout Framework →
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Visual Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
           {reits
             .filter(r => evaluateThreeChecks(r).passesAll)
-            .slice(0, 9)   // Increased to 9 cards
+            .slice(0, 6)
             .map(reit => {
               const checks = evaluateThreeChecks(reit);
               return (
-                <div key={reit.ticker} 
-                     className="border border-accent-green/30 bg-bg-elevated rounded-xl p-5 hover:border-accent-green/60 transition-all group">
-                  
-                  {/* Ticker + Name */}
-                  <div className="flex justify-between items-start mb-3">
+                <div key={reit.ticker} className="border border-accent-green/30 bg-bg-elevated rounded-2xl p-6 hover:border-accent-green/50 transition-all">
+                  <div className="flex justify-between items-start">
                     <div>
-                      <div className="font-mono text-2xl font-bold text-text-primary">{reit.ticker}</div>
-                      <div className="text-sm text-text-secondary">{reit.shortName}</div>
+                      <div className="font-mono text-3xl font-bold tracking-tight">{reit.ticker}</div>
+                      <div className="text-base text-text-secondary">{reit.shortName}</div>
                     </div>
-                    {/* BIG Dividend Yield */}
                     <div className="text-right">
-                      <div className="text-3xl font-bold text-accent-gold tracking-tighter">
-                        {reit.yield}%
-                      </div>
-                      <div className="text-[10px] text-text-muted -mt-1">YIELD</div>
-                    </div>
-                  </div>
-
-                  {/* Checks */}
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="text-green-400">✅</span>
-                      <span>{checks.dpuStatus}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={checks.gearingStatus.includes('Strong') ? 'text-green-400' : 'text-amber-400'}>
-                        {checks.gearingStatus.includes('Strong') ? '✅' : '⚠️'}
-                      </span>
-                      <span>{checks.gearingStatus} ({reit.gearing}%)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-green-400">✅</span>
-                      <span>Yield Spread: +{checks.yieldSpread}% → {checks.yieldStatus}</span>
+                      <div className="text-5xl font-bold text-accent-gold leading-none">{Number(reit.yield).toFixed(2)}%</div>
+                      <div className="text-xs text-text-muted">YIELD</div>
                     </div>
                   </div>
                 </div>
@@ -275,9 +249,45 @@ export default function IntelligencePanel({ reits }) {
             })}
         </div>
 
-        {reits.filter(r => evaluateThreeChecks(r).passesAll).length === 0 && (
-          <p className="text-amber-400 text-sm mt-4">No REITs currently pass all 3 checks.</p>
-        )}
+        {/* Rich Data Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border text-text-muted">
+                <th className="text-left py-3 px-4 font-medium">REIT</th>
+                <th className="text-right py-3 px-4 font-medium">Yield</th>
+                <th className="text-right py-3 px-4 font-medium">P/B</th>
+                <th className="text-right py-3 px-4 font-medium">Gearing</th>
+                <th className="text-right py-3 px-4 font-medium">Yield Spread</th>
+                <th className="text-left py-3 px-4 font-medium">Sector</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/50">
+              {reits
+                .filter(r => evaluateThreeChecks(r).passesAll)
+                .slice(0, 15)
+                .map(reit => {
+                  const checks = evaluateThreeChecks(reit);
+                  return (
+                    <tr key={reit.ticker} className="hover:bg-bg-elevated/70 transition-colors">
+                      <td className="py-4 px-4 font-medium">
+                        {reit.ticker} <span className="text-text-muted text-xs">({reit.shortName})</span>
+                      </td>
+                      <td className="py-4 px-4 text-right font-bold text-accent-gold">{Number(reit.yield).toFixed(2)}%</td>
+                      <td className="py-4 px-4 text-right">{reit.pb ? reit.pb.toFixed(2) : '—'}</td>
+                      <td className="py-4 px-4 text-right">{reit.gearing}%</td>
+                      <td className="py-4 px-4 text-right font-medium text-green-400">+{checks.yieldSpread}%</td>
+                      <td className="py-4 px-4 text-text-muted">{reit.sector}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-center text-xs text-text-muted mt-8">
+          Showing REITs that pass all 3 checks • Data is for screening purposes only
+        </p>
       </section>
       
       {/* Five Filters */}
