@@ -212,10 +212,9 @@ export default function IntelligencePanel({ reits }) {
             The best S-REITs are not necessarily the highest yielding.
           </span>
         </div>
-      </div>
-      {/* === NEW: Beansprout 3-Check Screener === */}
+      </div>      {/* === 3-Check Passive Income Screener (Improved) === */}
       <section className="bg-bg-card border border-accent-gold/30 rounded-lg p-6">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-5">
           <div>
             <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
               3-Check Passive Income Screener
@@ -224,26 +223,52 @@ export default function IntelligencePanel({ reits }) {
           </div>
           <a href="https://growbeansprout.com/singapore-reits-screening-framework" 
              target="_blank" 
-             className="text-xs text-accent-gold hover:underline">
+             className="text-xs text-accent-gold hover:underline flex items-center gap-1">
             Source →
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {reits
             .filter(r => evaluateThreeChecks(r).passesAll)
-            .slice(0, 6)
+            .slice(0, 9)   // Increased to 9 cards
             .map(reit => {
               const checks = evaluateThreeChecks(reit);
               return (
-                <div key={reit.ticker} className="border border-accent-green/30 bg-bg-elevated rounded-lg p-4 hover:border-accent-green/50 transition-colors">
-                  <div className="font-mono font-bold text-lg">{reit.ticker}</div>
-                  <div className="text-sm text-text-primary">{reit.shortName}</div>
+                <div key={reit.ticker} 
+                     className="border border-accent-green/30 bg-bg-elevated rounded-xl p-5 hover:border-accent-green/60 transition-all group">
                   
-                  <div className="mt-3 space-y-1.5 text-xs">
-                    <div>{checks.dpuStatus}</div>
-                    <div>{checks.gearingStatus} ({reit.gearing}%)</div>
-                    <div>Yield Spread: +{checks.yieldSpread}% → {checks.yieldStatus}</div>
+                  {/* Ticker + Name */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <div className="font-mono text-2xl font-bold text-text-primary">{reit.ticker}</div>
+                      <div className="text-sm text-text-secondary">{reit.shortName}</div>
+                    </div>
+                    {/* BIG Dividend Yield */}
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-accent-gold tracking-tighter">
+                        {reit.yield}%
+                      </div>
+                      <div className="text-[10px] text-text-muted -mt-1">YIELD</div>
+                    </div>
+                  </div>
+
+                  {/* Checks */}
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-green-400">✅</span>
+                      <span>{checks.dpuStatus}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className={checks.gearingStatus.includes('Strong') ? 'text-green-400' : 'text-amber-400'}>
+                        {checks.gearingStatus.includes('Strong') ? '✅' : '⚠️'}
+                      </span>
+                      <span>{checks.gearingStatus} ({reit.gearing}%)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-green-400">✅</span>
+                      <span>Yield Spread: +{checks.yieldSpread}% → {checks.yieldStatus}</span>
+                    </div>
                   </div>
                 </div>
               );
@@ -251,7 +276,7 @@ export default function IntelligencePanel({ reits }) {
         </div>
 
         {reits.filter(r => evaluateThreeChecks(r).passesAll).length === 0 && (
-          <p className="text-amber-400 text-sm">No REITs currently pass all 3 checks — market conditions may be challenging.</p>
+          <p className="text-amber-400 text-sm mt-4">No REITs currently pass all 3 checks.</p>
         )}
       </section>
       
