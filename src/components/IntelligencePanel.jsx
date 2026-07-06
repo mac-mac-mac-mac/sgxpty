@@ -213,7 +213,48 @@ export default function IntelligencePanel({ reits }) {
           </span>
         </div>
       </div>
+      {/* === NEW: Beansprout 3-Check Screener === */}
+      <section className="bg-bg-card border border-accent-gold/30 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
+              3-Check Passive Income Screener
+            </h3>
+            <p className="text-sm text-text-secondary">DPU Growth + Gearing &lt;45% + Yield vs Risk-Free</p>
+          </div>
+          <a href="https://growbeansprout.com/singapore-reits-screening-framework" 
+             target="_blank" 
+             className="text-xs text-accent-gold hover:underline">
+            Source →
+          </a>
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {reits
+            .filter(r => evaluateThreeChecks(r).passesAll)
+            .slice(0, 6)
+            .map(reit => {
+              const checks = evaluateThreeChecks(reit);
+              return (
+                <div key={reit.ticker} className="border border-accent-green/30 bg-bg-elevated rounded-lg p-4 hover:border-accent-green/50 transition-colors">
+                  <div className="font-mono font-bold text-lg">{reit.ticker}</div>
+                  <div className="text-sm text-text-primary">{reit.shortName}</div>
+                  
+                  <div className="mt-3 space-y-1.5 text-xs">
+                    <div>{checks.dpuStatus}</div>
+                    <div>{checks.gearingStatus} ({reit.gearing}%)</div>
+                    <div>Yield Spread: +{checks.yieldSpread}% → {checks.yieldStatus}</div>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+
+        {reits.filter(r => evaluateThreeChecks(r).passesAll).length === 0 && (
+          <p className="text-amber-400 text-sm">No REITs currently pass all 3 checks — market conditions may be challenging.</p>
+        )}
+      </section>
+      
       {/* Five Filters */}
       <section>
         <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3">The Five Filters</h3>
