@@ -12,7 +12,22 @@ function calcComposite(r) {
     r.valuation * 0.10
   ).toFixed(1);
 }
+// === Beansprout 3-Check Screening Framework (added) ===
+function evaluateThreeChecks(reit) {
+  const dpuGrowth = reit.dpuGrowth !== undefined ? reit.dpuGrowth : 0; // % change, update data as needed
+  const gearing = reit.gearing || 0;
+  const yieldPct = reit.yield || 0;
+  
+  const dpuStatus = dpuGrowth >= 0 ? '✅ Growing/Stable' : '⚠️ Declining';
+  const gearingStatus = gearing < 40 ? '✅ Strong' : gearing < 45 ? '⚠️ Acceptable' : '❌ High';
+  const riskFree = 2.1; // SSB approx
+  const yieldSpread = (yieldPct - riskFree).toFixed(1);
+  const yieldStatus = parseFloat(yieldSpread) > 3 ? '✅ Attractive' : parseFloat(yieldSpread) > 1.5 ? '⚠️ Fair' : '❌ Low';
 
+  const passesAll = dpuGrowth >= 0 && gearing < 45 && parseFloat(yieldSpread) > 1.5;
+
+  return { dpuStatus, gearingStatus, yieldStatus, yieldSpread, passesAll };
+}
 function withRatings(base, ratings) {
   const composite = calcComposite(ratings);
   return { ...base, ...ratings, composite };
