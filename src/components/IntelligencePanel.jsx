@@ -1,5 +1,5 @@
 import { ShieldCheck, AlertTriangle, TrendingUp, Star } from 'lucide-react';
-
+import { evaluateThreeChecks } from '../data/reits';
 const FILTERS = [
   {
     id: 'asset',
