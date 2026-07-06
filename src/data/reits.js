@@ -901,6 +901,8 @@ export const REITS = raw.map((item) => {
   return { ...rest, ...ratings, composite };
 });
 
+export { evaluateThreeChecks };
+
 export const SECTORS = [
   'All',
   'Diversified',
