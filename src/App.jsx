@@ -130,6 +130,7 @@ export default function App() {
         liveStatus={liveStatus}
         onRefresh={loadLiveData}
         isRefreshing={isRefreshing}
+        tabs={['dashboard', 'compare', 'filters', 'charts', 'legacy']}   // ← Add this line
       />
 
       <main className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-6">
@@ -308,17 +309,17 @@ export default function App() {
             <ChartsPanel reits={reitsData} etfs={etfsData} />
           </div>
         )}
-{activeTab === 'legacy' && (
-  <div className="flex flex-col gap-6">
-    <div>
-      <h1 className="text-xl font-bold text-text-accent">Legacy Dividend Payers</h1>
-      <p className="text-xs text-text-muted mt-0.5">
-        20-Year Champions + Long-term Reliable Payers on SGX
-      </p>
-    </div>
-    <IntelligencePanel reits={reitsData} showLegacy={true} />
-  </div>
-)}
+        {activeTab === 'legacy' && (
+          <div className="flex flex-col gap-6">
+            <div>
+              <h1 className="text-xl font-bold text-text-accent">Legacy Dividend Payers</h1>
+              <p className="text-xs text-text-muted mt-0.5">
+                20-Year Champions + Reliable Long-term Payers
+              </p>
+            </div>
+            <IntelligencePanel reits={reitsData} showLegacy={true} />
+          </div>
+        )}
       </main>
 
       <Footer />
