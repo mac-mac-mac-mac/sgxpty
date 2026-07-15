@@ -130,7 +130,13 @@ export default function App() {
         liveStatus={liveStatus}
         onRefresh={loadLiveData}
         isRefreshing={isRefreshing}
-        tabs={['dashboard', 'compare', 'filters', 'charts', 'legacy']}   // ← Add this line
+        tabs={[
+          { id: 'dashboard', label: 'Dashboard' },
+          { id: 'compare', label: 'Compare' },
+          { id: 'filters', label: 'Five Filters' },
+          { id: 'charts', label: 'Charts' },
+          { id: 'legacy', label: 'Legacy' },
+        ]}
       />
 
       <main className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-6">
@@ -225,7 +231,7 @@ export default function App() {
                     onClick={() => setActiveTab('compare')}
                     className="ml-2 text-text-secondary hover:text-text-primary underline"
                   >
-                    View comparison &rarr;
+                    View comparison →
                   </button>
                 )}
               </div>
