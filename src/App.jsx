@@ -308,7 +308,17 @@ export default function App() {
             <ChartsPanel reits={reitsData} etfs={etfsData} />
           </div>
         )}
-
+{activeTab === 'legacy' && (
+  <div className="flex flex-col gap-6">
+    <div>
+      <h1 className="text-xl font-bold text-text-accent">Legacy Dividend Payers</h1>
+      <p className="text-xs text-text-muted mt-0.5">
+        20-Year Champions + Long-term Reliable Payers on SGX
+      </p>
+    </div>
+    <IntelligencePanel reits={reitsData} showLegacy={true} />
+  </div>
+)}
       </main>
 
       <Footer />
