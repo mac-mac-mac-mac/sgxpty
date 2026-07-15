@@ -1,5 +1,6 @@
 import { ShieldCheck, AlertTriangle, TrendingUp, Star } from 'lucide-react';
 import { evaluateThreeChecks } from '../data/reits';
+export default function IntelligencePanel({ reits, showLegacy = false }) {
 const FILTERS = [
   {
     id: 'asset',
@@ -139,6 +140,69 @@ const SHORTLISTS = [
     tickers: ['AJBU', 'BTOU', 'T8B', 'LIPPO', 'AU8U'],
   },
 ];
+
+        {showLegacy && (
+        <div className="flex flex-col gap-8">
+          {/* Header */}
+          <div className="bg-bg-card border border-accent-gold/30 rounded-2xl p-8 text-center">
+            <h2 className="text-3xl font-bold text-text-primary mb-2">Legacy Dividend Payers</h2>
+            <p className="text-lg text-text-secondary">
+              20-Year Unbroken Champions + Reliable Long-term Payers
+            </p>
+          </div>
+
+          {/* Champions Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-accent-gold">20-Year Champions</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { ticker: 'C38U', name: 'CICT', yield: 5.0, sector: 'Diversified' },
+                { ticker: 'A17U', name: 'CLAR', yield: 6.0, sector: 'Industrial' },
+                { ticker: 'O39', name: 'OCBC', yield: 4.0, sector: 'Banking' },
+                { ticker: 'H02', name: 'Haw Par', yield: 2.5, sector: 'Consumer' },
+                { ticker: 'S63', name: 'STE', yield: 2.2, sector: 'Industrials' },
+                { ticker: 'S68', name: 'SGX', yield: 1.6, sector: 'Financials' },
+              ].map(item => (
+                <div key={item.ticker} className="bg-bg-elevated border border-accent-gold/30 rounded-2xl p-6">
+                  <div className="font-mono text-2xl font-bold">{item.ticker}</div>
+                  <div className="text-lg mb-4">{item.name}</div>
+                  <div className="text-4xl font-bold text-accent-gold">{item.yield}%</div>
+                  <div className="text-xs text-text-muted">YIELD • 20+ YRS UNBROKEN</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* All Long-term Payers from your data */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Other Reliable Payers</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-3 px-4">REIT / Stock</th>
+                    <th className="text-right py-3 px-4">Yield</th>
+                    <th className="text-right py-3 px-4">Sector</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reits
+                    .filter(r => r.yield > 4) // example filter for high yield
+                    .sort((a, b) => b.yield - a.yield)
+                    .slice(0, 12)
+                    .map(reit => (
+                      <tr key={reit.ticker} className="border-b border-border/50 hover:bg-bg-elevated">
+                        <td className="py-4 px-4 font-medium">{reit.ticker} ({reit.shortName})</td>
+                        <td className="py-4 px-4 text-right font-bold text-accent-gold">{reit.yield}%</td>
+                        <td className="py-4 px-4 text-text-muted">{reit.sector}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
 function exportToCSV(reits) {
   const headers = ['Rank','Ticker','Name','Sector','Asset','Debt','DPU','Manager','Valuation','Composite','Yield%','Gearing%']
   const rows = [...reits]
