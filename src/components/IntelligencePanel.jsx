@@ -1,5 +1,8 @@
+import React, { useState, useMemo } from 'react';
 import { ShieldCheck, AlertTriangle, TrendingUp, Star } from 'lucide-react';
 import { evaluateThreeChecks } from '../data/reits';
+import { formatNumber, formatPercent, formatSignedPercent } from '../utils/formatNumber';
+import { normalizeTicker } from '../utils/normalizeTicker';
 
 const FILTERS = [
   {
@@ -142,12 +145,12 @@ const SHORTLISTS = [
 ];
 
 function exportToCSV(reits) {
-  const headers = ['Rank','Ticker','Name','Sector','Asset','Debt','DPU','Manager','Valuation','Composite','Yield%','Gearing%']
+  const headers = ['Rank','Ticker','Name','Sector','Asset','Debt','DPU','Manager','Valuation','Composite','Yield%','Gearing%'];
   const rows = [...reits]
     .sort((a, b) => b.composite - a.composite)
     .map((r, i) => [
       i + 1,
-      r.ticker,
+      normalizeTicker(r.ticker),
       `"${r.name}"`,
       r.sector || '',
       r.asset ?? '',
@@ -155,18 +158,18 @@ function exportToCSV(reits) {
       r.dpu ?? '',
       r.manager ?? '',
       r.valuation ?? '',
-      r.composite?.toFixed(1) ?? '',
-      r.yield != null ? r.yield.toFixed(2) : '',
-      r.gearing != null ? r.gearing.toFixed(1) : '',
-    ])
-  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n')
-  const blob = new Blob([csv], { type: 'text/csv' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `sgxpty-scorecard-${new Date().toISOString().slice(0,10)}.csv`
-  a.click()
-  URL.revokeObjectURL(url)
+      r.composite != null ? formatNumber(r.composite) : '',
+      r.yield != null ? formatPercent(r.yield) : '',
+      r.gearing != null ? formatPercent(r.gearing) : '',
+    ]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `sgxpty-scorecard-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function FilterCard({ filter }) {
@@ -197,6 +200,28 @@ function FilterCard({ filter }) {
 }
 
 export default function IntelligencePanel({ reits, showLegacy = false }) {
+  // Legacy filters
+  const [legacyQuery, setLegacyQuery] = useState('');
+  const [legacyMinYield, setLegacyMinYield] = useState('');
+
+  const legacyFiltered = useMemo(() => {
+    if (!Array.isArray(reits)) return [];
+    const q = legacyQuery.trim().toLowerCase();
+    const minY = legacyMinYield !== '' ? Number(legacyMinYield) : null;
+    return reits
+      .filter(r => {
+        if (minY != null && (r.yield == null || Number(r.yield) < minY)) return false;
+        if (!q) return true;
+        return (
+          (r.ticker && normalizeTicker(r.ticker).toLowerCase().includes(q)) ||
+          (r.shortName && r.shortName.toLowerCase().includes(q)) ||
+          (r.name && r.name.toLowerCase().includes(q)) ||
+          (r.sector && r.sector.toLowerCase().includes(q))
+        );
+      })
+      .sort((a, b) => (b.yield || 0) - (a.yield || 0));
+  }, [reits, legacyQuery, legacyMinYield]);
+
   return (
     <div className="flex flex-col gap-8">
       {showLegacy && (
@@ -222,18 +247,41 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                 { ticker: 'S68', name: 'SGX', yield: 1.6, sector: 'Financials' },
               ].map((item) => (
                 <div key={item.ticker} className="bg-bg-elevated border border-accent-gold/30 rounded-2xl p-6">
-                  <div className="font-mono text-3xl font-bold">{item.ticker}</div>
+                  <div className="font-mono text-3xl font-bold">{normalizeTicker(item.ticker)}</div>
                   <div className="text-xl mb-4">{item.name}</div>
-                  <div className="text-5xl font-bold text-accent-gold mb-1">{item.yield}%</div>
+                  <div className="text-5xl font-bold text-accent-gold mb-1">{formatPercent(item.yield)}</div>
                   <div className="text-xs text-text-muted">YIELD • 20+ YEARS UNBROKEN</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Other Reliable Payers */}
+          {/* Other Reliable Payers with filtering */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Other Reliable High-Yield Payers</h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold">Other Reliable High-Yield Payers</h3>
+              <div className="flex items-center gap-2">
+                <input
+                  className="px-3 py-1 rounded border border-border bg-bg-primary text-sm"
+                  placeholder="Search ticker, name, sector"
+                  value={legacyQuery}
+                  onChange={(e) => setLegacyQuery(e.target.value)}
+                />
+                <input
+                  className="w-20 px-2 py-1 rounded border border-border bg-bg-primary text-sm"
+                  placeholder="Min %"
+                  value={legacyMinYield}
+                  onChange={(e) => setLegacyMinYield(e.target.value)}
+                />
+                <button
+                  onClick={() => { setLegacyQuery(''); setLegacyMinYield(''); }}
+                  className="px-3 py-1 rounded border border-border text-xs"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -244,14 +292,12 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {reits
-                    .filter(r => r.yield > 4)
-                    .sort((a, b) => b.yield - a.yield)
-                    .slice(0, 15)
+                  {legacyFiltered
+                    .slice(0, 50)
                     .map(reit => (
                       <tr key={reit.ticker} className="border-b border-border/50 hover:bg-bg-elevated">
-                        <td className="py-4 px-4 font-medium">{reit.ticker} ({reit.shortName})</td>
-                        <td className="py-4 px-4 text-right font-bold text-accent-gold">{reit.yield}%</td>
+                        <td className="py-4 px-4 font-medium">{normalizeTicker(reit.ticker)} ({reit.shortName})</td>
+                        <td className="py-4 px-4 text-right font-bold text-accent-gold">{reit.yield != null ? formatPercent(reit.yield) : '—'}</td>
                         <td className="py-4 px-4 text-text-muted">{reit.sector}</td>
                       </tr>
                     ))}
@@ -288,6 +334,7 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
           </div>
           <a href="https://growbeansprout.com/singapore-reits-screening-framework" 
              target="_blank" 
+             rel="noreferrer"
              className="text-xs px-4 py-1.5 bg-accent-gold/10 text-accent-gold rounded-full hover:bg-accent-gold/20 transition-colors">
             Beansprout Framework →
           </a>
@@ -304,11 +351,11 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                 <div key={reit.ticker} className="border border-accent-green/30 bg-bg-elevated rounded-2xl p-6 hover:border-accent-green/50 transition-all">
                   <div className="flex justify-between items-start">
                     <div>
-                      <div className="font-mono text-3xl font-bold tracking-tight">{reit.ticker}</div>
+                      <div className="font-mono text-3xl font-bold tracking-tight">{normalizeTicker(reit.ticker)}</div>
                       <div className="text-base text-text-secondary">{reit.shortName}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-5xl font-bold text-accent-gold leading-none">{Number(reit.yield).toFixed(2)}%</div>
+                      <div className="text-5xl font-bold text-accent-gold leading-none">{reit.yield != null ? formatPercent(reit.yield) : '—'}</div>
                       <div className="text-xs text-text-muted">YIELD</div>
                     </div>
                   </div>
@@ -339,12 +386,12 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                   return (
                     <tr key={reit.ticker} className="hover:bg-bg-elevated/70 transition-colors">
                       <td className="py-4 px-4 font-medium">
-                        {reit.ticker} <span className="text-text-muted text-xs">({reit.shortName})</span>
+                        {normalizeTicker(reit.ticker)} <span className="text-text-muted text-xs">({reit.shortName})</span>
                       </td>
-                      <td className="py-4 px-4 text-right font-bold text-accent-gold">{Number(reit.yield).toFixed(2)}%</td>
-                      <td className="py-4 px-4 text-right">{reit.pb ? reit.pb.toFixed(2) : '—'}</td>
-                      <td className="py-4 px-4 text-right">{reit.gearing}%</td>
-                      <td className="py-4 px-4 text-right font-medium text-green-400">+{checks.yieldSpread}%</td>
+                      <td className="py-4 px-4 text-right font-bold text-accent-gold">{reit.yield != null ? formatPercent(reit.yield) : '—'}</td>
+                      <td className="py-4 px-4 text-right">{reit.pb != null ? formatNumber(reit.pb) : '—'}</td>
+                      <td className="py-4 px-4 text-right">{reit.gearing != null ? formatPercent(reit.gearing) : '—'}</td>
+                      <td className="py-4 px-4 text-right font-medium text-green-400">{formatSignedPercent(checks.yieldSpread)}</td>
                       <td className="py-4 px-4 text-text-muted">{reit.sector}</td>
                     </tr>
                   );
@@ -426,9 +473,8 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                 {sl.tickers.map((t) => (
                   <span
                     key={t}
-                    className={`px-2 py-0.5 rounded border text-[10px] font-mono font-semibold ${sl.labelColor}`}
-                  >
-                    {t}
+                    className={`px-2 py-0.5 rounded border text-[10px] font-mono font-semibold ${sl.labelColor}`}>
+                    {normalizeTicker(t)}
                   </span>
                 ))}
               </div>
@@ -521,7 +567,7 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                   const scoreBg = (v) =>
                     v >= 4 ? 'bg-accent-green/15 border-accent-green/30 text-accent-green' :
                     v >= 3 ? 'bg-amber-500/15 border-amber-500/30 text-amber-400' :
-                    'bg-accent-red/15 border-accent-red/30 text-accent-red'
+                    'bg-accent-red/15 border-accent-red/30 text-accent-red';
                   return (
                     <tr
                       key={reit.ticker}
@@ -531,7 +577,7 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                     >
                       <td className="px-3 py-2 text-text-muted">{i + 1}</td>
                       <td className="px-3 py-2">
-                        <span className="font-mono font-bold text-accent-gold">{reit.ticker}</span>
+                        <span className="font-mono font-bold text-accent-gold">{normalizeTicker(reit.ticker)}</span>
                       </td>
                       <td className="px-3 py-2 text-text-secondary max-w-[160px] truncate" title={reit.name}>
                         {reit.shortName || reit.name}
@@ -545,7 +591,7 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                       ))}
                       <td className="px-3 py-2 text-center">
                         <span className={`inline-flex items-center justify-center min-w-[2.25rem] h-6 px-1.5 rounded border font-bold text-[11px] ${scoreBg(reit.composite)}`}>
-                          {reit.composite?.toFixed(1)}
+                          {reit.composite != null ? formatNumber(reit.composite) : '—'}
                         </span>
                       </td>
                       <td className={`px-3 py-2 text-right font-mono font-semibold ${
@@ -553,14 +599,14 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                         reit.yield >= 5 ? 'text-amber-400' :
                         'text-text-muted'
                       }`}>
-                        {reit.yield != null ? reit.yield.toFixed(2) + '%' : '—'}
+                        {reit.yield != null ? formatPercent(reit.yield) : '—'}
                       </td>
                       <td className={`px-3 py-2 text-right font-mono ${
                         reit.gearing <= 35 ? 'text-accent-green' :
                         reit.gearing <= 42 ? 'text-amber-400' :
                         'text-accent-red'
                       }`}>
-                        {reit.gearing != null ? reit.gearing.toFixed(1) + '%' : '—'}
+                        {reit.gearing != null ? formatPercent(reit.gearing) : '—'}
                       </td>
                     </tr>
                   )
