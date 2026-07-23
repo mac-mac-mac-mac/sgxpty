@@ -187,16 +187,6 @@ export default function App() {
                 >
                   ETFs
                 </button>
-                <button
-  onClick={() => setActiveTab('rates')}
-  className={`px-5 py-2 rounded text-sm font-medium transition-all ${
-    activeTab === 'rates' 
-      ? 'bg-accent-gold text-black' 
-      : 'text-text-secondary hover:text-text-primary'
-  }`}
->
-  Rates
-</button>
               </div>
             </div>
 
