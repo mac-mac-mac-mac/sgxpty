@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function RatesPanel() {
-  const [soraRate] = useState(1.13); // Temporary static value
+  const [soraRate] = useState(1.13);
   const [spread, setSpread] = useState(0.45);
 
   const effectiveRate = (soraRate + spread).toFixed(2);
