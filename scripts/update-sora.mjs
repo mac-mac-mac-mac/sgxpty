@@ -2,12 +2,12 @@ import fs from 'fs';
 
 async function updateSora() {
   try {
-    // Official MAS API endpoint for Compounded SORA
     const masApi = 'https://eservices.mas.gov.sg/api/action/datastore/search.json?resource_id=9a0bf149-308c-4bd2-832d-76c8e6cb47ed&limit=1&sort=end_of_day%20desc';
     
     const response = await fetch(masApi);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+    // response.json() automatically parses the response into an Object!
     const data = await response.json();
     const latestRecord = data.result?.records?.[0];
     
@@ -20,7 +20,6 @@ async function updateSora() {
       lastUpdated: new Date().toISOString()
     };
 
-    // Ensure public folder exists and write the json file
     if (!fs.existsSync('./public')) {
       fs.mkdirSync('./public');
     }
