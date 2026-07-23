@@ -10,21 +10,32 @@ export default function RatesPanel() {
   useEffect(() => {
     const fetchSora = async () => {
       try {
+        // Official MAS API endpoint for Domestic Interest Rates
+        const masApi = 'https://eservices.mas.gov.sg/api/action/datastore/search.json?resource_id=9a0bf149-356b-4613-a5ea-4b2b2565ca66&limit=1&sort=end_of_day%20desc';
         const proxy = 'https://api.allorigins.win/get?url=';
-        const masUrl = encodeURIComponent('https://www.mas.gov.sg/api/sora');
         
-        const response = await fetch(proxy + masUrl);
+        const response = await fetch(proxy + encodeURIComponent(masApi));
+        if (!response.ok) throw new Error('Network response was not ok');
+        
         const data = await response.json();
         const parsed = JSON.parse(data.contents);
 
-        const latestSora = parsed.sora || parsed['3m-sora'] || 1.13;
-        setSoraRate(latestSora);
+        // MAS returns historical records sorted desc; index 0 is the latest day
+        const latestRecord = parsed.result?.records?.[0];
+        
+        if (latestRecord && latestRecord.sora_3m) {
+          const fetchedSora = parseFloat(latestRecord.sora_3m);
+          setSoraRate(fetchedSora);
+          setError(null);
+        } else {
+          throw new Error('3M SORA field not found in response');
+        }
+
         setLastUpdated(new Date());
-        setError(null);
       } catch (err) {
-        console.error(err);
-        setError("Live data temporarily unavailable. Showing latest known rate.");
-        setSoraRate(1.13);
+        console.error('Failed to fetch live SORA:', err);
+        setError('Live data temporarily unavailable. Showing latest known rate.');
+        setSoraRate(1.15); // Fallback to prevailing rate
         setLastUpdated(new Date());
       } finally {
         setLoading(false);
@@ -34,7 +45,10 @@ export default function RatesPanel() {
     fetchSora();
   }, []);
 
-  const effectiveRate = soraRate !== null ? (soraRate + spread).toFixed(2) : '—';
+  // Safe floating-point addition for effective rate
+  const currentSoraNum = parseFloat(soraRate) || 0;
+  const spreadNum = parseFloat(spread) || 0;
+  const effectiveRate = soraRate !== null ? (currentSoraNum + spreadNum).toFixed(2) : '—';
 
   return (
     <div className="max-w-3xl mx-auto pt-8">
@@ -43,13 +57,13 @@ export default function RatesPanel() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Current SORA */}
-          <div className="text-center border border-border rounded-2xl p-6">
-            <div className="text-sm text-text-muted mb-2">CURRENT SORA</div>
+          <div className="text-center border border-border rounded-2xl p-6 flex flex-col justify-center">
+            <div className="text-sm text-text-muted mb-2">CURRENT 3M SORA</div>
             <div className="text-6xl font-bold text-accent-gold tracking-tighter mb-1">
-              {soraRate ? soraRate : '—'}%
+              {loading ? '...' : (soraRate !== null ? soraRate : '—')}%
             </div>
             {lastUpdated && (
-              <div className="text-xs text-green-400 flex items-center gap-1.5 justify-center">
+              <div className="text-xs text-green-400 flex items-center gap-1.5 justify-center mt-2">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                 LIVE • {lastUpdated.toLocaleTimeString('en-SG')}
               </div>
@@ -57,13 +71,13 @@ export default function RatesPanel() {
           </div>
 
           {/* Spread Input */}
-          <div className="text-center border border-border rounded-2xl p-6">
+          <div className="text-center border border-border rounded-2xl p-6 flex flex-col justify-center">
             <div className="text-sm text-text-muted mb-4">SPREAD OVER SORA (%)</div>
             <input
               type="number"
               step="0.01"
               value={spread}
-              onChange={(e) => setSpread(parseFloat(e.target.value) || 0)}
+              onChange={(e) => setSpread(e.target.value)}
               className="w-full text-6xl font-bold text-center bg-transparent focus:outline-none text-accent-gold border-b-2 border-accent-gold"
             />
           </div>
