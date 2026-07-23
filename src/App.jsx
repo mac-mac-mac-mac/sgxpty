@@ -9,7 +9,7 @@ import { REITS, SECTORS } from './data/reits';
 import { ETFS, ETF_CATEGORIES } from './data/etfs';
 import { fetchSingleQuote, applyLiveData } from './lib/yahooFinance';
 import DAILY_PRICES from './data/prices.json'
-
+import RatesPanel from './components/RatesPanel';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -93,7 +93,20 @@ export default function App() {
   useEffect(() => {
     loadLiveData();
   }, [loadLiveData]);
+  // Deep link support for #rates
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      if (hash === 'rates') {
+        setActiveTab('rates');
+      }
+    };
 
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // Check on initial load
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   function handleCompareToggle(item) {
     setCompareList((prev) => {
       const exists = prev.find((c) => c.ticker === item.ticker);
@@ -135,6 +148,7 @@ export default function App() {
           { id: 'compare', label: 'Compare' },
           { id: 'filters', label: 'Five Filters' },
           { id: 'charts', label: 'Charts' },
+          { id: 'rates', label: 'Rates' },     // ← ADD THIS LINE
           { id: 'legacy', label: 'Legacy' },
         ]}
       />
@@ -334,6 +348,17 @@ export default function App() {
               </p>
             </div>
             <IntelligencePanel reits={reitsData} showLegacy={true} />
+          </div>
+        )}
+                {activeTab === 'rates' && (
+          <div className="flex flex-col gap-6">
+            <div>
+              <h1 className="text-xl font-bold text-text-accent">SORA Rates Calculator</h1>
+              <p className="text-xs text-text-muted mt-0.5">
+                Live SORA + Adjustable Spread
+              </p>
+            </div>
+            <RatesPanel />
           </div>
         )}
       </main>
