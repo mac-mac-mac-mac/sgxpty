@@ -4,55 +4,32 @@ export default function RatesPanel() {
   const [soraRate, setSoraRate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [spread, setSpread] = useState(0.45);
-  const [error, setError] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
 
   useEffect(() => {
-    const fetchSora = async () => {
+    const fetchCachedSora = async () => {
       try {
-        const masApi = 'https://eservices.mas.gov.sg/api/action/datastore/search.json?resource_id=9a0bf149-356b-4613-a5ea-4b2b2565ca66&limit=1&sort=end_of_day%20desc';
-        const proxy = 'https://api.allorigins.win/get?url=';
-
-        const response = await fetch(proxy + encodeURIComponent(masApi));
-        if (!response.ok) throw new Error('Network response was not ok');
+        // Fast static fetch directly from the generated public asset
+        const response = await fetch('/sora.json');
+        if (!response.ok) throw new Error('Failed to load local rate');
 
         const data = await response.json();
-        // Parse the stringified JSON returned inside data.contents
-        const parsed = JSON.parse(data.contents);
-        const latestRecord = parsed.result?.records?.[0];
-
-        if (latestRecord) {
-          // Support both common field names
-          const rate = parseFloat(
-            latestRecord.sora_3m || 
-            latestRecord.comp_sora_3m || 
-            latestRecord['3m_sora'] || 
-            1.15
-          );
-          
-          setSoraRate(rate);
-          setLastUpdated(new Date());
-          setError(null);
-        } else {
-          throw new Error('No data record found');
-        }
+        setSoraRate(data.soraRate);
+        setLastUpdated(new Date(data.lastUpdated));
       } catch (err) {
-        console.error('SORA fetch failed:', err);
-        setError("Live data temporarily unavailable. Showing latest known rate.");
-        setSoraRate(1.15);
-        setLastUpdated(new Date());
+        console.error('Static fetch error, falling back:', err);
+        setSoraRate(1.15); // Default fallback
       } finally {
         setLoading(false);
       }
     };
 
-    fetchSora();
+    fetchCachedSora();
   }, []);
 
-  // Safe numerical calculations
-  const currentSora = parseFloat(soraRate) || 0;
-  const currentSpread = parseFloat(spread) || 0;
-  const effectiveRate = soraRate !== null ? (currentSora + currentSpread).toFixed(2) : '—';
+  const soraNum = parseFloat(soraRate) || 0;
+  const spreadNum = parseFloat(spread) || 0;
+  const effectiveRate = soraRate !== null ? (soraNum + spreadNum).toFixed(2) : '—';
 
   return (
     <div className="max-w-4xl mx-auto pt-8">
@@ -65,12 +42,12 @@ export default function RatesPanel() {
           <div className="bg-bg-elevated border border-border rounded-2xl p-8 text-center flex flex-col justify-center">
             <div className="text-sm text-text-muted mb-3">CURRENT 3M SORA</div>
             <div className="text-6xl font-bold text-accent-gold tracking-tighter">
-              {loading ? '...' : (soraRate ? soraRate.toFixed(2) : '—')}%
+              {loading ? '...' : (soraRate !== null ? soraNum.toFixed(2) : '—')}%
             </div>
             {lastUpdated && (
               <div className="text-xs text-green-400 mt-4 flex items-center gap-1.5 justify-center">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                LIVE • {lastUpdated.toLocaleTimeString('en-SG')}
+                UPDATED • {lastUpdated.toLocaleDateString('en-SG')} {lastUpdated.toLocaleTimeString('en-SG')}
               </div>
             )}
           </div>
@@ -82,7 +59,7 @@ export default function RatesPanel() {
               type="number"
               step="0.01"
               value={spread}
-              onChange={(e) => setSpread(Math.max(0, parseFloat(e.target.value) || 0))}
+              onChange={(e) => setSpread(e.target.value)}
               className="w-full text-6xl font-bold text-center bg-transparent focus:outline-none text-accent-gold border-b border-accent-gold"
             />
           </div>
@@ -95,8 +72,6 @@ export default function RatesPanel() {
             </div>
           </div>
         </div>
-
-        {error && <p className="text-center text-amber-400 text-sm mt-8">{error}</p>}
       </div>
     </div>
   );
