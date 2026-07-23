@@ -1,32 +1,35 @@
-name: Daily SORA Rate Sync
+import fs from 'fs';
 
-on:
-  schedule:
-    # 02:00 UTC = 10:00 AM SGT (SGT is UTC+8)
-    - cron: '0 2 * * *'
-  workflow_dispatch: # Allows manual trigger from GitHub Actions UI
+async function updateSora() {
+  try {
+    const masApi = 'https://eservices.mas.gov.sg/api/action/datastore/search.json?resource_id=9a0bf149-308c-4bd2-832d-76c8e6cb47ed&limit=1&sort=end_of_day%20desc';
+    
+    const response = await fetch(masApi);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-jobs:
-  update-rate:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write # Needed to commit changes back to the repo
+    // response.json() automatically parses the response into an Object!
+    const data = await response.json();
+    const latestRecord = data.result?.records?.[0];
+    
+    // Extract 3M Compounded SORA
+    const raw3mSora = latestRecord?.comp_sora_3m || latestRecord?.sora_3m;
+    const rate = parseFloat(raw3mSora) || 1.15;
 
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
+    const output = {
+      soraRate: rate,
+      lastUpdated: new Date().toISOString()
+    };
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+    if (!fs.existsSync('./public')) {
+      fs.mkdirSync('./public');
+    }
+    
+    fs.writeFileSync('./public/sora.json', JSON.stringify(output, null, 2));
+    console.log('Successfully updated public/sora.json:', output);
+  } catch (err) {
+    console.error('Failed to update SORA rate:', err);
+    process.exit(1);
+  }
+}
 
-      - name: Fetch Latest SORA Rate
-        run: node scripts/update-sora.mjs
-
-      - name: Commit & Push Updated sora.json
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add public/sora.json
-          git diff-index --quiet HEAD || (git commit -m "chore: automated daily SORA update" && git push)
+updateSora();
