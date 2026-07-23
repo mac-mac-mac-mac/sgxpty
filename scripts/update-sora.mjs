@@ -11,7 +11,12 @@ async function updateSora() {
       const response = await fetch(masApi, { signal: controller.signal });
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-      // response.json() automatically parses the response into an Object!
+      // Check if response is actually JSON before parsing
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error(`Expected JSON response, got ${contentType || 'unknown content type'}`);
+      }
+
       const data = await response.json();
       const latestRecord = data.result?.records?.[0];
       
