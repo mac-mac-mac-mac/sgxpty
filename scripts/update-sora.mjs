@@ -17,7 +17,13 @@ async function updateSora() {
         throw new Error(`Expected JSON response, got ${contentType || 'unknown content type'}`);
       }
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseErr) {
+        throw new Error(`API returned non-JSON response. The API endpoint may be unavailable or returning an error page.`);
+      }
+      
       const latestRecord = data.result?.records?.[0];
       
       // Extract 3M Compounded SORA
