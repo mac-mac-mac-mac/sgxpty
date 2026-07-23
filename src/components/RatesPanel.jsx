@@ -5,25 +5,28 @@ export default function RatesPanel() {
   const [loading, setLoading] = useState(true);
   const [spread, setSpread] = useState(0.45);
   const [error, setError] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   useEffect(() => {
     const fetchSora = async () => {
       try {
-        // Reliable public source for SORA
-        const response = await fetch('https://www.mas.gov.sg/api/sora', {
-          headers: { 'Accept': 'application/json' }
-        });
+        // Public proxy to fetch latest SORA data
+        const proxy = 'https://api.allorigins.win/get?url=';
+        const masUrl = encodeURIComponent('https://www.mas.gov.sg/api/sora');
         
-        if (!response.ok) throw new Error('Failed to fetch');
-
+        const response = await fetch(proxy + masUrl);
         const data = await response.json();
-        // Adjust according to actual MAS API structure
-        const latestSora = data.sora || 1.13; // fallback
+        const parsed = JSON.parse(data.contents);
+
+        const latestSora = parsed.sora || parsed['3m-sora'] || 1.13;
         setSoraRate(latestSora);
+        setLastUpdated(new Date());
+        setError(null);
       } catch (err) {
-        console.error(err);
-        setError("Using latest known SORA rate (data may be slightly delayed)");
-        setSoraRate(1.13); // fallback
+        console.error('SORA fetch failed:', err);
+        setError("Live data temporarily unavailable. Showing latest known rate.");
+        setSoraRate(1.13);
+        setLastUpdated(new Date());
       } finally {
         setLoading(false);
       }
@@ -48,6 +51,12 @@ export default function RatesPanel() {
               <div className="text-7xl font-bold text-accent-gold tracking-tighter">
                 {soraRate}%
               </div>
+              {lastUpdated && (
+                <div className="text-xs text-green-400 mt-3 flex items-center gap-1.5 justify-center">
+                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                  LIVE • Updated {lastUpdated.toLocaleTimeString('en-SG')}
+                </div>
+              )}
             </div>
 
             <div className="mb-10">
