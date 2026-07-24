@@ -1,65 +1,178 @@
-import fs from 'fs';
+import fs from "fs";
 
-async function updateSora() {
-  const maxRetries = 3;
-  let lastError;
+const OUTPUT_FILE = "./public/sora.json";
 
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const masApi = 'https://eservices.mas.gov.sg/api/action/datastore/search.json?resource_id=9a0bf149-308c-4bd2-832d-76c8e6cb47ed&limit=1&sort=end_of_day%20desc';
-      
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-      
-      try {
-        const response = await fetch(masApi, { signal: controller.signal });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+const PROPKAKI_API =
+  "https://api.propkaki.sg/api/market/series?vertical=macro&keys=sora_3m_compounded_qtr";
 
-        // Check if response is actually JSON before parsing
-        const contentType = response.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error(`Expected JSON response, got ${contentType || 'unknown content type'}`);
-        }
+const MAS_API =
+  "https://eservices.mas.gov.sg/api/action/datastore/search.json?resource_id=9a0bf149-308c-4bd2-832d-76c8e6cb47ed&limit=1&sort=end_of_day%20desc";
 
-        let data;
-        try {
-          data = await response.json();
-        } catch (parseErr) {
-          throw new Error(`API returned non-JSON response. The API endpoint may be unavailable or returning an error page.`);
-        }
-        
-        const latestRecord = data.result?.records?.[0];
-        
-        // Extract 3M Compounded SORA
-        const raw3mSora = latestRecord?.comp_sora_3m || latestRecord?.sora_3m;
-        const rate = parseFloat(raw3mSora) || 1.15;
+async function fetchJson(url, timeout = 30000) {
+  const controller = new AbortController();
 
-        const output = {
-          soraRate: rate,
-          lastUpdated: new Date().toISOString()
-        };
+  const timer = setTimeout(() => {
+    controller.abort();
+  }, timeout);
 
-        if (!fs.existsSync('./public')) {
-          fs.mkdirSync('./public');
-        }
-        
-        fs.writeFileSync('./public/sora.json', JSON.stringify(output, null, 2));
-        console.log('Successfully updated public/sora.json:', output);
-        return; // Success - exit the retry loop
-      } finally {
-        clearTimeout(timeout);
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "SGXPTY-SORA-Updater/1.0"
       }
-    } catch (err) {
-      lastError = err;
-      console.warn(`Attempt ${attempt}/${maxRetries} failed:`, err.message);
-      if (attempt < maxRetries) {
-        await new Promise(r => setTimeout(r, 2000)); // Wait 2s before retry
-      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
+
+    const contentType = response.headers.get("content-type") || "";
+
+    if (!contentType.includes("application/json")) {
+      throw new Error(`Expected JSON but received ${contentType}`);
+    }
+
+    return await response.json();
+  } finally {
+    clearTimeout(timer);
   }
-  
-  console.error('Failed to update SORA rate after retries:', lastError);
-  process.exit(1);
 }
 
-updateSora();
+async function fetchFromPropKaki() {
+  console.log("Fetching from PropKaki...");
+
+  const json = await fetchJson(PROPKAKI_API);
+
+  // Locate the requested series regardless of array/object layout.
+  let series = null;
+
+  if (Array.isArray(json)) {
+    series = json.find(x => x.key === "sora_3m_compounded_qtr");
+  } else if (Array.isArray(json.series)) {
+    series = json.series.find(x => x.key === "sora_3m_compounded_qtr");
+  } else if (json.series?.sora_3m_compounded_qtr) {
+    series = json.series.sora_3m_compounded_qtr;
+  } else {
+    series = json;
+  }
+
+  let latest = null;
+
+  // Common layouts
+  if (Array.isArray(series?.values)) {
+    latest = series.values.at(-1);
+  } else if (Array.isArray(series?.data)) {
+    latest = series.data.at(-1);
+  } else if (Array.isArray(series?.history)) {
+    latest = series.history.at(-1);
+  }
+
+  if (!latest) {
+    throw new Error("Unable to locate latest PropKaki value.");
+  }
+
+  const rate = Number(
+    latest.value ??
+    latest.rate ??
+    latest.sora ??
+    latest.sora_3m_compounded_qtr
+  );
+
+  if (Number.isNaN(rate)) {
+    throw new Error("Invalid PropKaki rate.");
+  }
+
+  return {
+    source: "PropKaki",
+    rate,
+    effectiveDate:
+      latest.period ??
+      latest.date ??
+      latest.quarter ??
+      null
+  };
+}
+
+async function fetchFromMAS() {
+  console.log("Fetching from MAS...");
+
+  const json = await fetchJson(MAS_API);
+
+  const record = json.result?.records?.[0];
+
+  if (!record) {
+    throw new Error("No MAS records returned.");
+  }
+
+  const rate = Number(
+    record.comp_sora_3m ??
+    record.sora_3m
+  );
+
+  if (Number.isNaN(rate)) {
+    throw new Error("Invalid MAS rate.");
+  }
+
+  return {
+    source: "MAS",
+    rate,
+    effectiveDate:
+      record.end_of_day ??
+      record.date ??
+      null
+  };
+}
+
+function saveRate(result) {
+  if (!fs.existsSync("./public")) {
+    fs.mkdirSync("./public", {
+      recursive: true
+    });
+  }
+
+  const output = {
+    soraRate: result.rate,
+    source: result.source,
+    effectiveDate: result.effectiveDate,
+    lastUpdated: new Date().toISOString()
+  };
+
+  fs.writeFileSync(
+    OUTPUT_FILE,
+    JSON.stringify(output, null, 2)
+  );
+
+  console.log("Saved:", output);
+}
+
+async function main() {
+  try {
+    const result = await fetchFromPropKaki();
+    saveRate(result);
+    return;
+  } catch (err) {
+    console.warn("PropKaki failed:", err.message);
+  }
+
+  try {
+    const result = await fetchFromMAS();
+    saveRate(result);
+    return;
+  } catch (err) {
+    console.warn("MAS failed:", err.message);
+  }
+
+  if (fs.existsSync(OUTPUT_FILE)) {
+    console.log("Keeping previous public/sora.json");
+    process.exit(0);
+  }
+
+  throw new Error("No SORA data source available.");
+}
+
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
