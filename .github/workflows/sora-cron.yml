@@ -2,41 +2,38 @@ name: Daily SORA Rate Sync
 
 on:
   schedule:
-    # 02:00 UTC = 10:00 AM Singapore Time (UTC+8)
+    # 10:00 AM Singapore Time (02:00 UTC)
     - cron: '0 2 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: sora-sync
+  cancel-in-progress: false
+
 jobs:
   update-rate:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Verify project structure
-        run: |
-          echo "Current directory:"
-          pwd
-          echo ""
-          echo "Repository contents:"
-          ls -la
-          echo ""
-          echo "Scripts folder:"
-          ls -la scripts
+      - name: Show Node version
+        run: node --version
 
-      - name: Fetch Latest SORA Rate
-        run: node ./scripts/update-sora.mjs
+      - name: Update SORA rate
+        run: node scripts/update-sora.mjs
 
-      - name: Commit and Push Changes
+      - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -44,9 +41,9 @@ jobs:
           git add public/sora.json
 
           if git diff --cached --quiet; then
-            echo "No changes detected."
+            echo "No changes to commit."
             exit 0
           fi
 
-          git commit -m "chore: automated daily SORA update"
+          git commit -m "chore: update SORA rate"
           git push
