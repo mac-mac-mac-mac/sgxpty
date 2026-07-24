@@ -5,9 +5,6 @@ const OUTPUT_FILE = "./public/sora.json";
 const PROPKAKI_API =
   "https://api.propkaki.sg/api/market/series?vertical=macro&keys=sora_3m_compounded_qtr";
 
-const MAS_API =
-  "https://eservices.mas.gov.sg/api/action/datastore/search.json?resource_id=9a0bf149-308c-4bd2-832d-76c8e6cb47ed&limit=1&sort=end_of_day%20desc";
-
 async function fetchJson(url, timeout = 30000) {
   const controller = new AbortController();
 
@@ -40,96 +37,48 @@ async function fetchJson(url, timeout = 30000) {
   }
 }
 
-async function fetchFromPropKaki() {
-  console.log("Fetching from PropKaki...");
+async function main() {
+  console.log("Fetching SORA from PropKaki...");
 
   const json = await fetchJson(PROPKAKI_API);
 
-  console.log("========== RAW API RESPONSE ==========");
-  console.log(JSON.stringify(json, null, 2));
-  console.log("======================================");
-
-  process.exit(0);
-}
-
-async function fetchFromMAS() {
-  console.log("Fetching from MAS...");
-
-  const json = await fetchJson(MAS_API);
-
-  const record = json.result?.records?.[0];
-
-  if (!record) {
-    throw new Error("No MAS records returned.");
+  if (!json.ok) {
+    throw new Error("PropKaki returned ok=false");
   }
 
-  const rate = Number(
-    record.comp_sora_3m ??
-    record.sora_3m
+  const series = json.series.find(
+    (x) => x.key === "sora_3m_compounded_qtr"
   );
 
-  if (Number.isNaN(rate)) {
-    throw new Error("Invalid MAS rate.");
+  if (!series) {
+    throw new Error("SORA series not found.");
   }
 
-  return {
-    source: "MAS",
-    rate,
-    effectiveDate:
-      record.end_of_day ??
-      record.date ??
-      null
-  };
-}
-
-function saveRate(result) {
-  if (!fs.existsSync("./public")) {
-    fs.mkdirSync("./public", {
-      recursive: true
-    });
+  if (!Array.isArray(series.points) || series.points.length === 0) {
+    throw new Error("No SORA data available.");
   }
+
+  const latest = series.points.at(-1);
 
   const output = {
-    soraRate: result.rate,
-    source: result.source,
-    effectiveDate: result.effectiveDate,
+    soraRate: latest.v,
+    source: "PropKaki",
+    effectiveDate: latest.q,
     lastUpdated: new Date().toISOString()
   };
+
+  fs.mkdirSync("./public", { recursive: true });
 
   fs.writeFileSync(
     OUTPUT_FILE,
     JSON.stringify(output, null, 2)
   );
 
-  console.log("Saved:", output);
+  console.log("✅ Updated public/sora.json");
+  console.log(output);
 }
 
-async function main() {
-  try {
-    const result = await fetchFromPropKaki();
-    saveRate(result);
-    return;
-  } catch (err) {
-    console.warn("PropKaki failed:", err.message);
-  }
-
-  try {
-    const result = await fetchFromMAS();
-    saveRate(result);
-    return;
-  } catch (err) {
-    console.warn("MAS failed:", err.message);
-  }
-
-  if (fs.existsSync(OUTPUT_FILE)) {
-    console.log("Keeping previous public/sora.json");
-    process.exit(0);
-  }
-
-  throw new Error("No SORA data source available.");
-}
-
-main().catch(err => {
-  console.error(err);
+main().catch((err) => {
+  console.error("❌", err);
   process.exit(1);
 });
