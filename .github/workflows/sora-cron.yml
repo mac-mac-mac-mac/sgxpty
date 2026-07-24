@@ -1,10 +1,10 @@
 name: Daily SORA Rate Sync
 
 on:
-  schedule:
-    # 10:00 AM Singapore Time (02:00 UTC)
-    - cron: '0 2 * * *'
   workflow_dispatch:
+
+  schedule:
+    - cron: "0 2 * * *"
 
 permissions:
   contents: write
@@ -30,18 +30,23 @@ jobs:
       - name: Show Node version
         run: node --version
 
-      - name: Update SORA rate
+      - name: Update SORA
         run: node scripts/update-sora.mjs
 
       - name: Commit changes
         run: |
+          if [ ! -f public/sora.json ]; then
+            echo "public/sora.json was not created."
+            exit 1
+          fi
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add public/sora.json
 
           if git diff --cached --quiet; then
-            echo "No changes to commit."
+            echo "No changes."
             exit 0
           fi
 
