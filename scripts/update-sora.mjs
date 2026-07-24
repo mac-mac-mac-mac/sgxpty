@@ -45,54 +45,11 @@ async function fetchFromPropKaki() {
 
   const json = await fetchJson(PROPKAKI_API);
 
-  // Locate the requested series regardless of array/object layout.
-  let series = null;
+  console.log("========== RAW API RESPONSE ==========");
+  console.log(JSON.stringify(json, null, 2));
+  console.log("======================================");
 
-  if (Array.isArray(json)) {
-    series = json.find(x => x.key === "sora_3m_compounded_qtr");
-  } else if (Array.isArray(json.series)) {
-    series = json.series.find(x => x.key === "sora_3m_compounded_qtr");
-  } else if (json.series?.sora_3m_compounded_qtr) {
-    series = json.series.sora_3m_compounded_qtr;
-  } else {
-    series = json;
-  }
-
-  let latest = null;
-
-  // Common layouts
-  if (Array.isArray(series?.values)) {
-    latest = series.values.at(-1);
-  } else if (Array.isArray(series?.data)) {
-    latest = series.data.at(-1);
-  } else if (Array.isArray(series?.history)) {
-    latest = series.history.at(-1);
-  }
-
-  if (!latest) {
-    throw new Error("Unable to locate latest PropKaki value.");
-  }
-
-  const rate = Number(
-    latest.value ??
-    latest.rate ??
-    latest.sora ??
-    latest.sora_3m_compounded_qtr
-  );
-
-  if (Number.isNaN(rate)) {
-    throw new Error("Invalid PropKaki rate.");
-  }
-
-  return {
-    source: "PropKaki",
-    rate,
-    effectiveDate:
-      latest.period ??
-      latest.date ??
-      latest.quarter ??
-      null
-  };
+  process.exit(0);
 }
 
 async function fetchFromMAS() {
