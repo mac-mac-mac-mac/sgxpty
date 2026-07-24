@@ -2,18 +2,19 @@ name: Daily SORA Rate Sync
 
 on:
   schedule:
-    # 02:00 UTC = 10:00 AM SGT (SGT is UTC+8)
+    # 02:00 UTC = 10:00 AM Singapore Time (UTC+8)
     - cron: '0 2 * * *'
-  workflow_dispatch: # Allows manual trigger from GitHub Actions UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update-rate:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Needed to commit changes back to the repo
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -21,12 +22,31 @@ jobs:
         with:
           node-version: 20
 
-      - name: Fetch Latest SORA Rate
-        run: node scripts/update-sora.mjs
-
-      - name: Commit & Push Updated sora.json
+      - name: Verify project structure
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          echo "Current directory:"
+          pwd
+          echo ""
+          echo "Repository contents:"
+          ls -la
+          echo ""
+          echo "Scripts folder:"
+          ls -la scripts
+
+      - name: Fetch Latest SORA Rate
+        run: node ./scripts/update-sora.mjs
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add public/sora.json
-          git diff-index --quiet HEAD || (git commit -m "chore: automated daily SORA update" && git push)
+
+          if git diff --cached --quiet; then
+            echo "No changes detected."
+            exit 0
+          fi
+
+          git commit -m "chore: automated daily SORA update"
+          git push
