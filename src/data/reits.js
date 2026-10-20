@@ -1,7 +1,8 @@
 // SGX S-REIT Master Dataset — All 39 listed REITs/Property Trusts
 // Static fallback data; live prices fetched from Netlify Function
-// Five-filter ratings: asset (30%), debt (25%), dpu (25%), manager (10%), valuation (10%)
-// Each rating 1-5; composite = weighted average
+// Five-filter ratings: asset (30%), debt (25%), dpu (25%), manager (10%), valuation (10%)\n// Each rating 1-5; composite = weighted average
+// distributionStatus: 'active' | 'reduced' | 'suspended'
+// dpuGrowth: YoY % change in DPU (latest announced vs prior year equivalent)
 
 function calcComposite(r) {
   return +(
@@ -54,6 +55,8 @@ const raw = [
     sponsor: 'CapitaLand Investment',
     country: 'Singapore',
     listYear: 2002,
+    distributionStatus: 'active',
+    dpuGrowth: -1.2,
     ratings: { asset: 4, debt: 4, dpu: 4, manager: 5, valuation: 3 },
   },
   {
@@ -76,6 +79,8 @@ const raw = [
     sponsor: 'CapitaLand Investment',
     country: 'Singapore',
     listYear: 2002,
+    distributionStatus: 'active',
+    dpuGrowth: 2.1,
     ratings: { asset: 5, debt: 4, dpu: 5, manager: 5, valuation: 3 },
   },
   {
@@ -98,6 +103,8 @@ const raw = [
     sponsor: 'Mapletree Investments',
     country: 'Singapore',
     listYear: 2010,
+    distributionStatus: 'active',
+    dpuGrowth: -3.5,
     ratings: { asset: 4, debt: 4, dpu: 4, manager: 4, valuation: 3 },
   },
   {
@@ -120,6 +127,8 @@ const raw = [
     sponsor: 'Mapletree Investments',
     country: 'Pan-Asia',
     listYear: 2011,
+    distributionStatus: 'active',
+    dpuGrowth: -4.2,
     ratings: { asset: 3, debt: 3, dpu: 3, manager: 4, valuation: 4 },
   },
   {
@@ -142,6 +151,8 @@ const raw = [
     sponsor: 'Mapletree Investments',
     country: 'Pan-Asia',
     listYear: 2005,
+    distributionStatus: 'active',
+    dpuGrowth: -2.8,
     ratings: { asset: 4, debt: 3, dpu: 4, manager: 4, valuation: 3 },
   },
   {
@@ -164,6 +175,8 @@ const raw = [
     sponsor: 'Frasers Property',
     country: 'Singapore',
     listYear: 2006,
+    distributionStatus: 'active',
+    dpuGrowth: 1.5,
     ratings: { asset: 5, debt: 4, dpu: 4, manager: 4, valuation: 3 },
   },
   {
@@ -186,6 +199,8 @@ const raw = [
     sponsor: 'Keppel Corporation',
     country: 'Singapore',
     listYear: 2006,
+    distributionStatus: 'active',
+    dpuGrowth: -1.8,
     ratings: { asset: 4, debt: 3, dpu: 3, manager: 4, valuation: 4 },
   },
   {
@@ -208,6 +223,8 @@ const raw = [
     sponsor: 'Suntec City',
     country: 'Singapore',
     listYear: 2004,
+    distributionStatus: 'active',
+    dpuGrowth: -2.5,
     ratings: { asset: 3, debt: 3, dpu: 3, manager: 3, valuation: 4 },
   },
   {
@@ -230,6 +247,8 @@ const raw = [
     sponsor: 'Frasers Property',
     country: 'Australia/Europe',
     listYear: 2016,
+    distributionStatus: 'active',
+    dpuGrowth: 0.8,
     ratings: { asset: 4, debt: 4, dpu: 4, manager: 4, valuation: 4 },
   },
   {
@@ -252,9 +271,11 @@ const raw = [
     sponsor: 'ESR Group',
     country: 'Singapore/Australia',
     listYear: 2006,
+    distributionStatus: 'active',
+    dpuGrowth: -5.2,
     ratings: { asset: 2, debt: 2, dpu: 2, manager: 2, valuation: 3 },
   },
-    {
+  {
     ticker: 'M1GU',
     name: 'Sabana Industrial REIT',
     shortName: 'SABANA',
@@ -274,9 +295,10 @@ const raw = [
     sponsor: 'Independent',
     country: 'Singapore',
     listYear: 2010,
+    distributionStatus: 'active',
+    dpuGrowth: 0.5,
     ratings: { asset: 2, debt: 3, dpu: 2, manager: 2, valuation: 3 },
   },
-
   {
     ticker: 'RW0U',
     name: 'Parkway Life REIT',
@@ -297,6 +319,8 @@ const raw = [
     sponsor: 'IHH Healthcare',
     country: 'Singapore/Japan',
     listYear: 2007,
+    distributionStatus: 'active',
+    dpuGrowth: 3.2,
     ratings: { asset: 5, debt: 5, dpu: 5, manager: 5, valuation: 2 },
   },
   {
@@ -319,6 +343,8 @@ const raw = [
     sponsor: 'Keppel Corporation',
     country: 'USA',
     listYear: 2017,
+    distributionStatus: 'reduced',
+    dpuGrowth: -48.5,
     ratings: { asset: 1, debt: 1, dpu: 1, manager: 2, valuation: 2 },
   },
   {
@@ -341,6 +367,8 @@ const raw = [
     sponsor: 'Cromwell Property Group',
     country: 'Europe',
     listYear: 2017,
+    distributionStatus: 'active',
+    dpuGrowth: -1.5,
     ratings: { asset: 3, debt: 3, dpu: 3, manager: 3, valuation: 4 },
   },
   {
@@ -363,6 +391,8 @@ const raw = [
     sponsor: 'United Hampshire Asset Management',
     country: 'USA',
     listYear: 2020,
+    distributionStatus: 'active',
+    dpuGrowth: -0.8,
     ratings: { asset: 2, debt: 2, dpu: 2, manager: 2, valuation: 3 },
   },
   {
@@ -385,6 +415,8 @@ const raw = [
     sponsor: 'OUE Limited',
     country: 'Singapore',
     listYear: 2013,
+    distributionStatus: 'active',
+    dpuGrowth: -3.2,
     ratings: { asset: 2, debt: 3, dpu: 2, manager: 2, valuation: 4 },
   },
   {
@@ -407,6 +439,8 @@ const raw = [
     sponsor: 'CapitaLand Investment',
     country: 'China',
     listYear: 2006,
+    distributionStatus: 'active',
+    dpuGrowth: -4.1,
     ratings: { asset: 2, debt: 2, dpu: 2, manager: 4, valuation: 4 },
   },
   {
@@ -429,6 +463,8 @@ const raw = [
     sponsor: 'YTL Corporation',
     country: 'Singapore/Australia/Malaysia',
     listYear: 2005,
+    distributionStatus: 'active',
+    dpuGrowth: -1.2,
     ratings: { asset: 3, debt: 4, dpu: 3, manager: 3, valuation: 4 },
   },
   {
@@ -451,6 +487,8 @@ const raw = [
     sponsor: 'AIMS Financial Group',
     country: 'Singapore/Australia',
     listYear: 2007,
+    distributionStatus: 'active',
+    dpuGrowth: 1.8,
     ratings: { asset: 3, debt: 4, dpu: 3, manager: 3, valuation: 3 },
   },
   {
@@ -473,6 +511,8 @@ const raw = [
     sponsor: 'Manulife',
     country: 'USA',
     listYear: 2016,
+    distributionStatus: 'suspended',
+    dpuGrowth: -100,
     ratings: { asset: 1, debt: 1, dpu: 1, manager: 2, valuation: 1 },
   },
   {
@@ -495,6 +535,8 @@ const raw = [
     sponsor: 'KBS',
     country: 'USA',
     listYear: 2019,
+    distributionStatus: 'reduced',
+    dpuGrowth: -62.4,
     ratings: { asset: 1, debt: 1, dpu: 1, manager: 1, valuation: 2 },
   },
   {
@@ -517,6 +559,8 @@ const raw = [
     sponsor: 'OUE Limited',
     country: 'Singapore',
     listYear: 2014,
+    distributionStatus: 'active',
+    dpuGrowth: -2.1,
     ratings: { asset: 2, debt: 3, dpu: 2, manager: 2, valuation: 4 },
   },
   {
@@ -539,6 +583,8 @@ const raw = [
     sponsor: 'Cromwell Property Group',
     country: 'Europe',
     listYear: 2017,
+    distributionStatus: 'active',
+    dpuGrowth: -1.5,
     ratings: { asset: 3, debt: 3, dpu: 3, manager: 3, valuation: 4 },
   },
   {
@@ -561,6 +607,8 @@ const raw = [
     sponsor: 'ARA Asset Management',
     country: 'USA',
     listYear: 2019,
+    distributionStatus: 'suspended',
+    dpuGrowth: -100,
     ratings: { asset: 2, debt: 2, dpu: 1, manager: 2, valuation: 2 },
   },
   {
@@ -583,6 +631,8 @@ const raw = [
     sponsor: 'Daiwa House Industry',
     country: 'Japan',
     listYear: 2021,
+    distributionStatus: 'active',
+    dpuGrowth: 2.4,
     ratings: { asset: 4, debt: 4, dpu: 3, manager: 3, valuation: 3 },
   },
   {
@@ -605,6 +655,8 @@ const raw = [
     sponsor: 'Lendlease',
     country: 'Singapore/Italy',
     listYear: 2019,
+    distributionStatus: 'active',
+    dpuGrowth: -3.5,
     ratings: { asset: 4, debt: 3, dpu: 3, manager: 3, valuation: 4 },
   },
   {
@@ -627,6 +679,8 @@ const raw = [
     sponsor: 'Sasseur Cayman',
     country: 'China',
     listYear: 2018,
+    distributionStatus: 'active',
+    dpuGrowth: -0.5,
     ratings: { asset: 3, debt: 5, dpu: 3, manager: 3, valuation: 4 },
   },
   {
@@ -649,6 +703,8 @@ const raw = [
     sponsor: 'Keppel Corporation',
     country: 'Singapore',
     listYear: 2015,
+    distributionStatus: 'active',
+    dpuGrowth: 2.0,
     ratings: { asset: 3, debt: 2, dpu: 3, manager: 4, valuation: 3 },
   },
   {
@@ -671,6 +727,8 @@ const raw = [
     sponsor: 'Elite Partners Capital',
     country: 'UK',
     listYear: 2020,
+    distributionStatus: 'active',
+    dpuGrowth: -1.8,
     ratings: { asset: 3, debt: 2, dpu: 3, manager: 2, valuation: 4 },
   },
   {
@@ -693,6 +751,8 @@ const raw = [
     sponsor: 'CK Hutchison',
     country: 'HK',
     listYear: 2011,
+    distributionStatus: 'active',
+    dpuGrowth: -2.5,
     ratings: { asset: 2, debt: 3, dpu: 2, manager: 3, valuation: 3 },
   },
   {
@@ -715,6 +775,8 @@ const raw = [
     sponsor: 'CapitaLand Investment',
     country: 'Global',
     listYear: 2006,
+    distributionStatus: 'active',
+    dpuGrowth: 1.2,
     ratings: { asset: 3, debt: 3, dpu: 3, manager: 4, valuation: 4 },
   },
   {
@@ -737,6 +799,8 @@ const raw = [
     sponsor: 'ESR Group',
     country: 'Singapore/Australia',
     listYear: 2010,
+    distributionStatus: 'active',
+    dpuGrowth: 0.5,
     ratings: { asset: 3, debt: 4, dpu: 3, manager: 3, valuation: 3 },
   },
   {
@@ -759,6 +823,8 @@ const raw = [
     sponsor: 'Digital Realty',
     country: 'Global',
     listYear: 2021,
+    distributionStatus: 'active',
+    dpuGrowth: -1.5,
     ratings: { asset: 4, debt: 4, dpu: 3, manager: 3, valuation: 3 },
   },
   {
@@ -781,6 +847,8 @@ const raw = [
     sponsor: 'Balanced Capital',
     country: 'Singapore',
     listYear: 2018,
+    distributionStatus: 'active',
+    dpuGrowth: 0.0,
     ratings: { asset: 3, debt: 4, dpu: 3, manager: 2, valuation: 3 },
   },
   {
@@ -803,6 +871,8 @@ const raw = [
     sponsor: 'Lippo Group',
     country: 'Indonesia',
     listYear: 2007,
+    distributionStatus: 'suspended',
+    dpuGrowth: -100,
     ratings: { asset: 1, debt: 1, dpu: 1, manager: 1, valuation: 2 },
   },
   {
@@ -825,6 +895,8 @@ const raw = [
     sponsor: 'ARA Asset Management',
     country: 'USA',
     listYear: 2019,
+    distributionStatus: 'suspended',
+    dpuGrowth: -100,
     ratings: { asset: 2, debt: 2, dpu: 1, manager: 2, valuation: 2 },
   },
   {
@@ -847,6 +919,8 @@ const raw = [
     sponsor: 'CapitaLand Investment',
     country: 'India',
     listYear: 2007,
+    distributionStatus: 'active',
+    dpuGrowth: 4.2,
     ratings: { asset: 3, debt: 4, dpu: 3, manager: 4, valuation: 3 },
   },
   {
@@ -869,6 +943,8 @@ const raw = [
     sponsor: 'Keppel Corporation',
     country: 'Global',
     listYear: 2014,
+    distributionStatus: 'active',
+    dpuGrowth: 3.5,
     ratings: { asset: 5, debt: 5, dpu: 4, manager: 5, valuation: 2 },
   },
   {
@@ -891,6 +967,8 @@ const raw = [
     sponsor: 'SPH Media',
     country: 'Singapore/Australia',
     listYear: 2013,
+    distributionStatus: 'active',
+    dpuGrowth: 1.2,
     ratings: { asset: 4, debt: 5, dpu: 4, manager: 3, valuation: 3 },
   },
 ];
