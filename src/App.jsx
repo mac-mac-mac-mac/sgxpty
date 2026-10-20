@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Header from './components/Header';
 import DashboardTable from './components/DashboardTable';
+import ViewToggle from './components/ViewToggle';
 import ComparePanel from './components/ComparePanel';
 import ChartsPanel from './components/ChartsPanel';
 import IntelligencePanel from './components/IntelligencePanel';
@@ -32,6 +33,7 @@ export default function App() {
   const [etfCategory, setEtfCategory] = useState('All');
 
   const [compareList, setCompareList] = useState([]);
+  const [view, setView] = useState('yield');
   const [liveCount, setLiveCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const abortRef = useRef(null);
@@ -251,9 +253,13 @@ export default function App() {
               </div>
             )}
 
+            {mode === 'reits' && (
+              <ViewToggle view={view} onViewChange={setView} />
+            )}
             <DashboardTable
               data={currentData}
               mode={mode}
+              view={view}
               search={currentSearch}
               onSearchChange={handleSearchChange}
               sectorFilter={currentSector}
