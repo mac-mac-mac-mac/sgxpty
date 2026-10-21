@@ -8,14 +8,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const OUTPUT = path.join(__dirname, '../src/data/prices.json')
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
-const TICKERS = [
+// ── REITs ────────────────────────────────────────────────────────────────────
+const REIT_TICKERS = [
   'C38U','A17U','ME8U','N2IU','M44U','J69U','K71U','T82U','BUOU','SK6U',
   'M1GU','RW0U','CMOU','CJLU','UD1U','OU8U','AU8U','SV3U','J91U','BTOU',
   'T8B','OXMU','CWBU','AW9U','DHLU','LREIT','SYTU','ZACAU','EDIU','TS0U',
   'CY6U','ACV','BWCU','BARE','LIPPO','VC2','CLND','AJBU','SPHREIT',
-  // ETFs
-  'ES3','G3B','A35','CFA','SRT','HST','MBH','CLR',
 ]
+
+// ── ETFs — update this list when new ETFs list on SGX ───────────────────────
+const ETF_TICKERS = [
+  'ES3','G3B','CLR','MBH','O9P','CFA','A35','GLD',
+  'D7VY','S27','QS0','P74U','SEMI','RYZ','CNXT','UOBAM',
+  // Xtrackers UCITS ETFs — listed 13 Oct 2026
+  'XUS','EUS','XND','XWR',
+]
+
+const TICKERS = [...REIT_TICKERS, ...ETF_TICKERS]
 
 async function fetchWithRetry(ticker, attempts = 3) {
   const symbol = ticker.endsWith('.SI') ? ticker : ticker + '.SI'
@@ -38,7 +47,7 @@ async function fetchWithRetry(ticker, attempts = 3) {
 
 async function main() {
   console.log(`\nSGXPTY Price Fetch — ${new Date().toISOString()}`)
-  console.log(`Fetching ${TICKERS.length} tickers with 2s delay between each\n`)
+  console.log(`Fetching ${REIT_TICKERS.length} REITs + ${ETF_TICKERS.length} ETFs (${TICKERS.length} total)\n`)
 
   const prices = {}
   let success = 0
@@ -76,6 +85,7 @@ async function main() {
 
   writeFileSync(OUTPUT, JSON.stringify(prices, null, 2))
   console.log(`\nDone. ${success} succeeded, ${failed} failed.`)
+  console.log(`Prices written to ${OUTPUT}`)
 }
 
 main().catch((err) => {
