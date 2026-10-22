@@ -1,0 +1,56 @@
+name: Daily Price & SORA Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 9 * * 1-5"  # 5:30 PM SGT, Mon–Fri only
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update SORA
+        run: node scripts/update-sora.mjs
+
+      - name: Fetch prices + append history
+        run: node scripts/fetch-prices.mjs
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            public/sora.json \
+            src/data/prices.json \
+            src/data/history/
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          DATE=$(date -u +%Y-%m-%d)
+          git commit -m "prices: ${DATE}"
+          git push
