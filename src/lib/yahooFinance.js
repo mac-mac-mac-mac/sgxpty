@@ -12,18 +12,21 @@ export async function fetchSingleQuote(ticker) {
 }
 
 // Apply live data onto static items
+// Covers: price, change, marketCap, yield, currency, pb, nav
 export function applyLiveData(items, liveMap) {
   return items.map((item) => {
     const live = liveMap[item.ticker]
     if (!live) return item
     return {
       ...item,
-      price: live.price ?? item.price,
-      change: live.changePercent != null ? +live.changePercent.toFixed(2) : item.change,
-      marketCap: live.marketCap ?? item.marketCap,
-      yield: live.dividendYield ?? item.yield,
-      currency: live.currency || item.currency,
-      liveData: live,
+      price:     live.price                != null ? live.price                          : item.price,
+      change:    live.changePercent        != null ? +live.changePercent.toFixed(2)      : item.change,
+      marketCap: live.marketCap            != null ? live.marketCap                      : item.marketCap,
+      yield:     live.dividendYield        != null ? live.dividendYield                  : item.yield,
+      pb:        live.priceToBook          != null ? +live.priceToBook.toFixed(3)        : item.pb,
+      nav:       live.bookValue            != null ? +live.bookValue.toFixed(3)          : item.nav,
+      currency:  live.currency             || item.currency,
+      liveData:  live,
     }
   })
 }
