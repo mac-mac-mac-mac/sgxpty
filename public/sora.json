@@ -2,5 +2,39 @@
   "soraRate": 1.16,
   "source": "PropKaki",
   "effectiveDate": "2026Q3",
-  "lastUpdated": "2026-10-21T06:43:14.263Z"
+  "lastUpdated": "2026-10-22T04:12:55.738Z",
+  "history": [
+    {
+      "quarter": "2024Q4",
+      "rate": 3.3
+    },
+    {
+      "quarter": "2025Q1",
+      "rate": 2.8
+    },
+    {
+      "quarter": "2025Q2",
+      "rate": 2.32
+    },
+    {
+      "quarter": "2025Q3",
+      "rate": 1.72
+    },
+    {
+      "quarter": "2025Q4",
+      "rate": 1.29
+    },
+    {
+      "quarter": "2026Q1",
+      "rate": 1.13
+    },
+    {
+      "quarter": "2026Q2",
+      "rate": 1.06
+    },
+    {
+      "quarter": "2026Q3",
+      "rate": 1.16
+    }
+  ]
 }
