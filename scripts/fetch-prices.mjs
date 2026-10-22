@@ -1,8 +1,9 @@
-import YahooFinance from 'yahoo-finance2';
+import YahooFinanceLib from 'yahoo-finance2';
 import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
+const YahooFinance = new YahooFinanceLib();
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 const PRICES_OUT  = path.join(__dirname, '../src/data/prices.json');
 const HISTORY_DIR = path.join(__dirname, '../src/data/history');
