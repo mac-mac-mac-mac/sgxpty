@@ -3,7 +3,7 @@ name: Daily Price & SORA Sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 9 * * 1-5"  # 5:30 PM SGT, Mon–Fri only
+    - cron: "30 9 * * 1-5"  # 5:30 PM SGT, Mon–Fri
 
 permissions:
   contents: write
@@ -33,6 +33,9 @@ jobs:
       - name: Update SORA
         run: node scripts/update-sora.mjs
 
+      - name: Update US rates & FX
+        run: node scripts/update-rates.mjs
+
       - name: Fetch prices + append history
         run: node scripts/fetch-prices.mjs
 
@@ -43,6 +46,7 @@ jobs:
 
           git add \
             public/sora.json \
+            public/rates.json \
             src/data/prices.json \
             src/data/history/
 
