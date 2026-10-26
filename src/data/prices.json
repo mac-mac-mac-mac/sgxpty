@@ -1,31 +1,31 @@
 {
   "XZL": {
-    "price": 0.22,
+    "price": 0.225,
     "previousClose": 0.225,
-    "change": -0.004999995,
-    "changePercent": -2.2222202,
-    "marketCap": 127622528,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 130523040,
     "dividendYield": 1.7778,
     "currency": "USD",
     "fiftyTwoWeekLow": 0.171,
     "fiftyTwoWeekHigh": 0.27,
-    "volume": 14500,
+    "volume": 36800,
     "shortName": "Acro HTrust USD",
-    "fetchedAt": "2026-10-26T01:15:34.471Z"
+    "fetchedAt": "2026-10-26T02:26:18.323Z"
   },
   "O5RU": {
-    "price": 1.4,
+    "price": 1.39,
     "previousClose": 1.4,
-    "change": 0,
-    "changePercent": 0,
-    "marketCap": 1154138624,
+    "change": -0.00999999,
+    "changePercent": -0.714285,
+    "marketCap": 1145894784,
     "dividendYield": 7.1429,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.36,
     "fiftyTwoWeekHigh": 1.67,
-    "volume": 61800,
+    "volume": 87800,
     "shortName": "AIMS APAC Reit",
-    "fetchedAt": "2026-10-26T01:15:36.626Z"
+    "fetchedAt": "2026-10-26T02:26:20.381Z"
   },
   "M1GU": {
     "price": 0.475,
@@ -37,9 +37,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.445,
     "fiftyTwoWeekHigh": 0.525,
-    "volume": 37600,
+    "volume": 29200,
     "shortName": "Alpha Integrated REIT",
-    "fetchedAt": "2026-10-26T01:15:38.746Z"
+    "fetchedAt": "2026-10-26T02:26:22.434Z"
   },
   "BMGU": {
     "price": 0.46,
@@ -53,7 +53,7 @@
     "fiftyTwoWeekHigh": 0.49,
     "volume": 52800,
     "shortName": "BHG Retail Reit",
-    "fetchedAt": "2026-10-26T01:15:40.820Z"
+    "fetchedAt": "2026-10-26T02:26:24.489Z"
   },
   "A17U": {
     "price": 2.24,
@@ -65,51 +65,51 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 2.14,
     "fiftyTwoWeekHigh": 2.92,
-    "volume": 414900,
+    "volume": 11168800,
     "shortName": "CapLand Ascendas REIT",
-    "fetchedAt": "2026-10-26T01:15:42.898Z"
+    "fetchedAt": "2026-10-26T02:26:26.588Z"
   },
   "HMN": {
-    "price": 0.825,
+    "price": 0.82,
     "previousClose": 0.82,
-    "change": 0.004999995,
-    "changePercent": 0.6097555,
-    "marketCap": 3177433856,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 3158176768,
     "dividendYield": 7.439,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.79,
     "fiftyTwoWeekHigh": 0.99,
-    "volume": 13100,
+    "volume": 324700,
     "shortName": "CapLand Ascott T",
-    "fetchedAt": "2026-10-26T01:15:44.981Z"
+    "fetchedAt": "2026-10-26T02:26:28.731Z"
   },
   "AU8U": {
-    "price": 0.61,
+    "price": 0.615,
     "previousClose": 0.61,
-    "change": 0,
-    "changePercent": 0,
-    "marketCap": 1071861632,
+    "change": 0.004999995,
+    "changePercent": 0.81967133,
+    "marketCap": 1080647424,
     "dividendYield": 7.8689,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.59,
     "fiftyTwoWeekHigh": 0.825,
-    "volume": 2800,
+    "volume": 21300,
     "shortName": "CapLand China T",
-    "fetchedAt": "2026-10-26T01:15:47.058Z"
+    "fetchedAt": "2026-10-26T02:26:30.782Z"
   },
   "CY6U": {
-    "price": 0.875,
+    "price": 0.87,
     "previousClose": 0.87,
-    "change": 0.004999995,
-    "changePercent": 0.5747121,
-    "marketCap": 1301051520,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 1293616896,
     "dividendYield": 9.0805,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.855,
     "fiftyTwoWeekHigh": 1.32,
-    "volume": 5700,
+    "volume": 527500,
     "shortName": "CapLand India T",
-    "fetchedAt": "2026-10-26T01:15:49.134Z"
+    "fetchedAt": "2026-10-26T02:26:32.836Z"
   },
   "C38U": {
     "price": 2.3,
@@ -121,9 +121,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 2.2,
     "fiftyTwoWeekHigh": 2.57,
-    "volume": 1876600,
+    "volume": 6911800,
     "shortName": "CapLand IntCom T",
-    "fetchedAt": "2026-10-26T01:15:51.207Z"
+    "fetchedAt": "2026-10-26T02:26:34.890Z"
   },
   "J85": {
     "price": 0.71,
@@ -135,23 +135,23 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.675,
     "fiftyTwoWeekHigh": 0.885,
-    "volume": 51300,
+    "volume": 154100,
     "shortName": "CDL HTrust",
-    "fetchedAt": "2026-10-26T01:15:53.284Z"
+    "fetchedAt": "2026-10-26T02:26:36.946Z"
   },
   "8C8U": {
-    "price": 1.05,
+    "price": 1.04,
     "previousClose": 1.04,
-    "change": 0.00999999,
-    "changePercent": 0.9615376,
-    "marketCap": 1814379776,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 1797099904,
     "dividendYield": 5.6731,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.995,
     "fiftyTwoWeekHigh": 1.2,
-    "volume": 17900,
+    "volume": 110100,
     "shortName": "Cent Accom REIT",
-    "fetchedAt": "2026-10-26T01:15:55.358Z"
+    "fetchedAt": "2026-10-26T02:26:39.006Z"
   },
   "DHLU": {
     "price": 0.4,
@@ -163,23 +163,23 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.38,
     "fiftyTwoWeekHigh": 0.585,
-    "volume": 400,
+    "volume": 50700,
     "shortName": "Daiwa Hse Log Tr",
-    "fetchedAt": "2026-10-26T01:15:57.432Z"
+    "fetchedAt": "2026-10-26T02:26:41.063Z"
   },
   "DCRU": {
-    "price": 0.45,
+    "price": 0.44,
     "previousClose": 0.44,
-    "change": 0.00999999,
-    "changePercent": 2.272725,
-    "marketCap": 583211648,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 570251392,
     "dividendYield": 8.1818,
     "currency": "USD",
     "fiftyTwoWeekLow": 0.415,
     "fiftyTwoWeekHigh": 0.575,
-    "volume": 390600,
+    "volume": 903800,
     "shortName": "DigiCore Reit USD",
-    "fetchedAt": "2026-10-26T01:15:59.504Z"
+    "fetchedAt": "2026-10-26T02:26:43.116Z"
   },
   "MXNU": {
     "price": 0.305,
@@ -193,21 +193,21 @@
     "fiftyTwoWeekHigh": 0.37,
     "volume": 10000,
     "shortName": "EliteUKREIT GBP",
-    "fetchedAt": "2026-10-26T01:16:01.575Z"
+    "fetchedAt": "2026-10-26T02:26:45.215Z"
   },
   "9A4U": {
-    "price": 2.01,
+    "price": 1.99,
     "previousClose": 1.99,
-    "change": 0.01999998,
-    "changePercent": 1.0050242,
-    "marketCap": 1624195968,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 1608034944,
     "dividendYield": 11.1558,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.95,
     "fiftyTwoWeekHigh": 2.91,
-    "volume": 100,
+    "volume": 73700,
     "shortName": "ESR REIT",
-    "fetchedAt": "2026-10-26T01:16:03.648Z"
+    "fetchedAt": "2026-10-26T02:26:47.265Z"
   },
   "Q5T": {
     "price": 0.515,
@@ -219,51 +219,51 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.49,
     "fiftyTwoWeekHigh": 0.625,
-    "volume": 100,
+    "volume": 310200,
     "shortName": "Far East HTrust",
-    "fetchedAt": "2026-10-26T01:16:05.719Z"
+    "fetchedAt": "2026-10-26T02:26:49.316Z"
   },
   "AW9U": {
-    "price": 0.178,
+    "price": 0.177,
     "previousClose": 0.176,
-    "change": 0.002000004,
-    "changePercent": 1.1363659,
-    "marketCap": 377223712,
+    "change": 0.001000002,
+    "changePercent": 0.56818295,
+    "marketCap": 375104480,
     "dividendYield": 11.3636,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.174,
     "fiftyTwoWeekHigh": 0.285,
-    "volume": 45400,
+    "volume": 103800,
     "shortName": "First Reit",
-    "fetchedAt": "2026-10-26T01:16:07.792Z"
+    "fetchedAt": "2026-10-26T02:26:51.366Z"
   },
   "J69U": {
-    "price": 2.19,
+    "price": 2.17,
     "previousClose": 2.18,
-    "change": 0.00999999,
-    "changePercent": 0.45871514,
-    "marketCap": 4466078208,
+    "change": -0.00999999,
+    "changePercent": -0.45871514,
+    "marketCap": 4425291776,
     "dividendYield": 5.6881,
     "currency": "SGD",
     "fiftyTwoWeekLow": 2.03,
     "fiftyTwoWeekHigh": 2.47,
-    "volume": 654200,
+    "volume": 2750000,
     "shortName": "Frasers Cpt Tr",
-    "fetchedAt": "2026-10-26T01:16:09.865Z"
+    "fetchedAt": "2026-10-26T02:26:53.418Z"
   },
   "BUOU": {
-    "price": 0.905,
+    "price": 0.91,
     "previousClose": 0.905,
-    "change": 0,
-    "changePercent": 0,
-    "marketCap": 3446791168,
+    "change": 0.005000055,
+    "changePercent": 0.55249226,
+    "marketCap": 3465834240,
     "dividendYield": 6.5193,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.86,
     "fiftyTwoWeekHigh": 1.05,
-    "volume": 522900,
+    "volume": 5889700,
     "shortName": "Frasers L&C Tr",
-    "fetchedAt": "2026-10-26T01:16:11.939Z"
+    "fetchedAt": "2026-10-26T02:26:55.471Z"
   },
   "UD1U": {
     "price": 0.166,
@@ -275,9 +275,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.16,
     "fiftyTwoWeekHigh": 0.31,
-    "volume": 10400,
+    "volume": 58000,
     "shortName": "IREIT Global SGD",
-    "fetchedAt": "2026-10-26T01:16:14.017Z"
+    "fetchedAt": "2026-10-26T02:26:57.524Z"
   },
   "AJBU": {
     "price": 2.14,
@@ -289,71 +289,71 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 2.01,
     "fiftyTwoWeekHigh": 2.44,
-    "volume": 1234500,
+    "volume": 2318900,
     "shortName": "Keppel DC Reit",
-    "fetchedAt": "2026-10-26T01:16:16.092Z"
+    "fetchedAt": "2026-10-26T02:26:59.576Z"
   },
   "K71U": {
-    "price": 0.825,
+    "price": 0.815,
     "previousClose": 0.815,
-    "change": 0.00999999,
-    "changePercent": 1.2269927,
-    "marketCap": 4108460800,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 4058661376,
     "dividendYield": 6.2577,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.78,
     "fiftyTwoWeekHigh": 1.08,
-    "volume": 188700,
+    "volume": 1100800,
     "shortName": "Keppel Reit",
-    "fetchedAt": "2026-10-26T01:16:18.174Z"
+    "fetchedAt": "2026-10-26T02:27:01.626Z"
   },
   "CMOU": {
-    "price": 0.148,
+    "price": 0.146,
     "previousClose": 0.148,
-    "change": 0,
-    "changePercent": 0,
-    "marketCap": 154578640,
+    "change": -0.002000004,
+    "changePercent": -1.3513541,
+    "marketCap": 152489728,
     "dividendYield": 4.7297,
     "currency": "USD",
     "fiftyTwoWeekLow": 0.139,
     "fiftyTwoWeekHigh": 0.26,
-    "volume": 146300,
+    "volume": 158600,
     "shortName": "KOREReitUSD",
-    "fetchedAt": "2026-10-26T01:16:20.251Z"
+    "fetchedAt": "2026-10-26T02:27:03.674Z"
   },
   "JYEU": {
-    "price": 0.545,
+    "price": 0.55,
     "previousClose": 0.55,
-    "change": -0.004999995,
-    "changePercent": -0.90909004,
-    "marketCap": 1822032640,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 1838748544,
     "dividendYield": 6.7273,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.52,
     "fiftyTwoWeekHigh": 0.66,
-    "volume": 13300,
+    "volume": 413900,
     "shortName": "Lendlease Reit",
-    "fetchedAt": "2026-10-26T01:16:22.322Z"
+    "fetchedAt": "2026-10-26T02:27:05.727Z"
   },
   "D5IU": {
-    "price": 0.008,
+    "price": 0.007,
     "previousClose": 0.007,
-    "change": 0.0010000002,
-    "changePercent": 14.285716,
-    "marketCap": 136195120,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 119170728,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.006,
     "fiftyTwoWeekHigh": 0.015,
-    "volume": 500100,
+    "volume": 22517600,
     "shortName": "Landmark REIT",
-    "fetchedAt": "2026-10-26T01:16:24.460Z"
+    "fetchedAt": "2026-10-26T02:27:07.782Z"
   },
   "BTOU": {
     "price": 0.033,
-    "previousClose": 0.032,
-    "change": 0.0009999983,
-    "changePercent": 3.1249945,
+    "previousClose": 0.033,
+    "change": 0,
+    "changePercent": 0,
     "marketCap": 58626656,
     "dividendYield": null,
     "currency": "USD",
@@ -361,63 +361,63 @@
     "fiftyTwoWeekHigh": 0.082,
     "volume": 156000,
     "shortName": "ManulifeReit USD",
-    "fetchedAt": "2026-10-26T01:16:26.533Z"
+    "fetchedAt": "2026-10-26T02:27:09.833Z"
   },
   "ME8U": {
-    "price": 1.81,
+    "price": 1.8,
     "previousClose": 1.8,
-    "change": 0.00999999,
-    "changePercent": 0.55555505,
-    "marketCap": 5167556096,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 5139005952,
     "dividendYield": 7,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.72,
     "fiftyTwoWeekHigh": 2.23,
-    "volume": 2478600,
+    "volume": 4361700,
     "shortName": "Mapletree Ind Tr",
-    "fetchedAt": "2026-10-26T01:16:28.607Z"
+    "fetchedAt": "2026-10-26T02:27:11.890Z"
   },
   "M44U": {
-    "price": 1.1,
+    "price": 1.09,
     "previousClose": 1.09,
-    "change": 0.00999999,
-    "changePercent": 0.9174303,
-    "marketCap": 5631886336,
+    "change": 0,
+    "changePercent": 0,
+    "marketCap": 5580687360,
     "dividendYield": 6.6972,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.06,
     "fiftyTwoWeekHigh": 1.37,
-    "volume": 86300,
+    "volume": 1672400,
     "shortName": "Mapletree Log Tr",
-    "fetchedAt": "2026-10-26T01:16:30.680Z"
+    "fetchedAt": "2026-10-26T02:27:13.941Z"
   },
   "N2IU": {
-    "price": 1.17,
+    "price": 1.16,
     "previousClose": 1.17,
-    "change": 0,
-    "changePercent": 0,
-    "marketCap": 6186746880,
+    "change": -0.00999999,
+    "changePercent": -0.8547001,
+    "marketCap": 6133869056,
     "dividendYield": 6.7521,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.12,
     "fiftyTwoWeekHigh": 1.5,
-    "volume": 1296000,
+    "volume": 2631900,
     "shortName": "Mapletree PanAsia Com Tr",
-    "fetchedAt": "2026-10-26T01:16:32.772Z"
+    "fetchedAt": "2026-10-26T02:27:15.993Z"
   },
   "NTDU": {
-    "price": 0.86,
+    "price": 0.855,
     "previousClose": 0.865,
-    "change": -0.004999995,
-    "changePercent": -0.5780341,
-    "marketCap": 895625728,
+    "change": -0.00999999,
+    "changePercent": -1.1560682,
+    "marketCap": 890418560,
     "dividendYield": 6.474,
     "currency": "USD",
-    "fiftyTwoWeekLow": 0.855,
+    "fiftyTwoWeekLow": 0.85,
     "fiftyTwoWeekHigh": 1.06,
-    "volume": 100000,
+    "volume": 1355700,
     "shortName": "NTT DC REIT USD",
-    "fetchedAt": "2026-10-26T01:16:34.845Z"
+    "fetchedAt": "2026-10-26T02:27:18.052Z"
   },
   "TS0U": {
     "price": 0.34,
@@ -429,23 +429,23 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.33,
     "fiftyTwoWeekHigh": 0.39,
-    "volume": 22900,
+    "volume": 71400,
     "shortName": "OUEREIT",
-    "fetchedAt": "2026-10-26T01:16:36.916Z"
+    "fetchedAt": "2026-10-26T02:27:20.102Z"
   },
   "C2PU": {
-    "price": 4.07,
+    "price": 4.08,
     "previousClose": 4.07,
-    "change": 0,
-    "changePercent": 0,
-    "marketCap": 2656298240,
+    "change": 0.009999752,
+    "changePercent": 0.24569415,
+    "marketCap": 2662824704,
     "dividendYield": 4.0295,
     "currency": "SGD",
     "fiftyTwoWeekLow": 3.91,
     "fiftyTwoWeekHigh": 4.31,
-    "volume": 11400,
+    "volume": 49600,
     "shortName": "ParkwayLife Reit",
-    "fetchedAt": "2026-10-26T01:16:39.054Z"
+    "fetchedAt": "2026-10-26T02:27:22.156Z"
   },
   "OXMU": {
     "price": 0.107,
@@ -457,9 +457,9 @@
     "currency": "USD",
     "fiftyTwoWeekLow": 0.105,
     "fiftyTwoWeekHigh": 0.23,
-    "volume": 475100,
+    "volume": 33300,
     "shortName": "Prime US ReitUSD",
-    "fetchedAt": "2026-10-26T01:16:41.126Z"
+    "fetchedAt": "2026-10-26T02:27:24.207Z"
   },
   "CRPU": {
     "price": 0.605,
@@ -471,23 +471,23 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.59,
     "fiftyTwoWeekHigh": 0.72,
-    "volume": 42500,
+    "volume": 115100,
     "shortName": "Sasseur Reit",
-    "fetchedAt": "2026-10-26T01:16:43.197Z"
+    "fetchedAt": "2026-10-26T02:27:26.259Z"
   },
   "P40U": {
-    "price": 0.505,
+    "price": 0.5,
     "previousClose": 0.505,
-    "change": 0,
-    "changePercent": 0,
-    "marketCap": 1172818688,
+    "change": -0.004999995,
+    "changePercent": -0.99009806,
+    "marketCap": 1161206656,
     "dividendYield": 7.3267,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.485,
     "fiftyTwoWeekHigh": 0.6,
-    "volume": 9300,
+    "volume": 206300,
     "shortName": "StarhillGbl Reit",
-    "fetchedAt": "2026-10-26T01:16:45.270Z"
+    "fetchedAt": "2026-10-26T02:27:28.309Z"
   },
   "SET": {
     "price": 1.46,
@@ -499,23 +499,23 @@
     "currency": "EUR",
     "fiftyTwoWeekLow": 1.4,
     "fiftyTwoWeekHigh": 1.74,
-    "volume": 366200,
+    "volume": 10400,
     "shortName": "Stoneweg EUTrust EUR",
-    "fetchedAt": "2026-10-26T01:16:47.344Z"
+    "fetchedAt": "2026-10-26T02:27:30.362Z"
   },
   "T82U": {
-    "price": 1.4,
+    "price": 1.39,
     "previousClose": 1.4,
-    "change": 0,
-    "changePercent": 0,
-    "marketCap": 4142020096,
+    "change": -0.00999999,
+    "changePercent": -0.714285,
+    "marketCap": 4112434176,
     "dividendYield": 5.5714,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.31,
     "fiftyTwoWeekHigh": 1.58,
-    "volume": 50000,
+    "volume": 2260300,
     "shortName": "Suntec Reit",
-    "fetchedAt": "2026-10-26T01:16:49.417Z"
+    "fetchedAt": "2026-10-26T02:27:32.411Z"
   },
   "UIBU": {
     "price": 0.775,
@@ -527,9 +527,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.75,
     "fiftyTwoWeekHigh": 0.855,
-    "volume": 221900,
+    "volume": 1354900,
     "shortName": "UIBREIT",
-    "fetchedAt": "2026-10-26T01:16:51.487Z"
+    "fetchedAt": "2026-10-26T02:27:34.464Z"
   },
   "ODBU": {
     "price": 0.43,
@@ -541,51 +541,51 @@
     "currency": "USD",
     "fiftyTwoWeekLow": 0.415,
     "fiftyTwoWeekHigh": 0.57,
-    "volume": 861900,
+    "volume": 200100,
     "shortName": "UtdHampshReitUSD",
-    "fetchedAt": "2026-10-26T01:16:53.560Z"
+    "fetchedAt": "2026-10-26T02:27:36.548Z"
   },
   "ES3": {
-    "price": 5.506,
+    "price": 5.498,
     "previousClose": 5.49,
-    "change": 0.01600027,
-    "changePercent": 0.2914439,
+    "change": 0.008000374,
+    "changePercent": 0.14572631,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 4.431,
     "fiftyTwoWeekHigh": 5.92,
-    "volume": 13429,
+    "volume": 165413,
     "shortName": "SS SPDR STI ETF",
-    "fetchedAt": "2026-10-26T01:16:55.633Z"
+    "fetchedAt": "2026-10-26T02:27:38.599Z"
   },
   "G3B": {
-    "price": 5.604,
+    "price": 5.584,
     "previousClose": 5.585,
-    "change": 0.019000053,
-    "changePercent": 0.34019792,
+    "change": -0.0009999275,
+    "changePercent": -0.017903805,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 4.511,
     "fiftyTwoWeekHigh": 6.038,
-    "volume": 20648,
+    "volume": 105162,
     "shortName": "Amova STI ETF S$D",
-    "fetchedAt": "2026-10-26T01:16:57.706Z"
+    "fetchedAt": "2026-10-26T02:27:40.650Z"
   },
   "GAB": {
-    "price": 5.208,
+    "price": 5.194,
     "previousClose": 5.195,
-    "change": 0.013000011,
-    "changePercent": 0.25024083,
+    "change": -0.0010004044,
+    "changePercent": -0.019257061,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 4.078,
     "fiftyTwoWeekHigh": 5.629,
-    "volume": 4139,
+    "volume": 12890,
     "shortName": "Amova STI ETF S$A",
-    "fetchedAt": "2026-10-26T01:16:59.781Z"
+    "fetchedAt": "2026-10-26T02:27:42.705Z"
   },
   "O9A": {
     "price": 2.565,
@@ -599,21 +599,21 @@
     "fiftyTwoWeekHigh": 3,
     "volume": 431,
     "shortName": "XT MS SING US$",
-    "fetchedAt": "2026-10-26T01:17:01.854Z"
+    "fetchedAt": "2026-10-26T02:27:44.767Z"
   },
   "S27": {
-    "price": 761.2,
+    "price": 762,
     "previousClose": 764.95,
-    "change": -3.75,
-    "changePercent": -0.49022812,
+    "change": -2.9500122,
+    "changePercent": -0.3856477,
     "marketCap": null,
     "dividendYield": 0.7402,
     "currency": "USD",
     "fiftyTwoWeekLow": 631.75,
     "fiftyTwoWeekHigh": 780.23,
-    "volume": 29,
+    "volume": 373,
     "shortName": "SS SPDR S&P500 USD",
-    "fetchedAt": "2026-10-26T01:17:03.926Z"
+    "fetchedAt": "2026-10-26T02:27:46.824Z"
   },
   "D07": {
     "price": 521.78,
@@ -627,63 +627,63 @@
     "fiftyTwoWeekHigh": 557.95,
     "volume": 1,
     "shortName": "SS SPDR DJIA USD",
-    "fetchedAt": "2026-10-26T01:17:06.003Z"
+    "fetchedAt": "2026-10-26T02:27:48.878Z"
   },
   "XUS": {
-    "price": 18.96,
+    "price": 19.01,
     "previousClose": 19.05,
-    "change": -0.09000015,
-    "changePercent": -0.47244176,
+    "change": -0.03999901,
+    "changePercent": -0.20996855,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 15.1606,
     "fiftyTwoWeekHigh": 23,
-    "volume": 63837,
+    "volume": 80289,
     "shortName": "XT S&P 500 SGD",
-    "fetchedAt": "2026-10-26T01:17:08.075Z"
+    "fetchedAt": "2026-10-26T02:27:50.928Z"
   },
   "EUS": {
-    "price": 155.29,
+    "price": 155.35,
     "previousClose": 156.08,
-    "change": -0.79000854,
-    "changePercent": -0.50615615,
+    "change": -0.7299957,
+    "changePercent": -0.4677061,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 119.0369,
     "fiftyTwoWeekHigh": 158,
-    "volume": 69,
+    "volume": 90,
     "shortName": "XT S&P 500 EW SGD",
-    "fetchedAt": "2026-10-26T01:17:10.309Z"
+    "fetchedAt": "2026-10-26T02:27:52.977Z"
   },
   "XND": {
-    "price": 86.01,
+    "price": 86.14,
     "previousClose": 86.38,
-    "change": -0.36999512,
-    "changePercent": -0.42833427,
+    "change": -0.23999786,
+    "changePercent": -0.27783963,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 71.1679,
     "fiftyTwoWeekHigh": 102.33,
-    "volume": 1957,
+    "volume": 3579,
     "shortName": "XT NASDAQ 100 SGD",
-    "fetchedAt": "2026-10-26T01:17:12.383Z"
+    "fetchedAt": "2026-10-26T02:27:55.030Z"
   },
   "XWR": {
-    "price": 204.05,
+    "price": 204.37,
     "previousClose": 204.28,
-    "change": -0.22999573,
-    "changePercent": -0.11258847,
+    "change": 0.08999634,
+    "changePercent": 0.044055384,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 161.4426,
     "fiftyTwoWeekHigh": 220,
-    "volume": 2361,
+    "volume": 2809,
     "shortName": "XT MS World SGD",
-    "fetchedAt": "2026-10-26T01:17:14.455Z"
+    "fetchedAt": "2026-10-26T02:27:57.080Z"
   },
   "H1N": {
     "price": 21.22,
@@ -697,35 +697,35 @@
     "fiftyTwoWeekHigh": 23.1,
     "volume": 80,
     "shortName": "Amundi EM Mkt Sw US$",
-    "fetchedAt": "2026-10-26T01:17:16.539Z"
+    "fetchedAt": "2026-10-26T02:27:59.132Z"
   },
   "A93": {
-    "price": 1.6,
+    "price": 1.59,
     "previousClose": 1.601,
-    "change": -0.0009999275,
-    "changePercent": -0.062456436,
+    "change": -0.010999918,
+    "changePercent": -0.6870655,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.207,
     "fiftyTwoWeekHigh": 1.949,
-    "volume": 100,
+    "volume": 62420,
     "shortName": "Amova Asia exJC S$",
-    "fetchedAt": "2026-10-26T01:17:18.610Z"
+    "fetchedAt": "2026-10-26T02:28:01.228Z"
   },
   "ICM": {
-    "price": 1.793,
+    "price": 1.796,
     "previousClose": 1.79,
-    "change": 0.003000021,
-    "changePercent": 0.16759895,
+    "change": 0.006000042,
+    "changePercent": 0.3351979,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.695,
     "fiftyTwoWeekHigh": 2.138,
-    "volume": 7108,
+    "volume": 7348,
     "shortName": "ISHARES AXJCLIMATE S$",
-    "fetchedAt": "2026-10-26T01:17:20.682Z"
+    "fetchedAt": "2026-10-26T02:28:03.279Z"
   },
   "YLD": {
     "price": 1.46,
@@ -737,37 +737,37 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.253,
     "fiftyTwoWeekHigh": 1.642,
-    "volume": 55266,
+    "volume": 71983,
     "shortName": "Lion-OSPL APAC Fin S$",
-    "fetchedAt": "2026-10-26T01:17:22.754Z"
+    "fetchedAt": "2026-10-26T02:28:05.330Z"
   },
   "ESG": {
-    "price": 1.314,
+    "price": 1.312,
     "previousClose": 1.316,
-    "change": -0.0019999743,
-    "changePercent": -0.15197372,
+    "change": -0.0039999485,
+    "changePercent": -0.30394745,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.3,
     "fiftyTwoWeekHigh": 1.6,
-    "volume": 1102,
+    "volume": 7532,
     "shortName": "Lion-OSPL Low Carbon S$",
-    "fetchedAt": "2026-10-26T01:17:24.826Z"
+    "fetchedAt": "2026-10-26T02:28:07.382Z"
   },
   "UPD": {
-    "price": 0.98,
+    "price": 0.965,
     "previousClose": 0.961,
-    "change": 0.018999994,
-    "changePercent": 1.9771065,
+    "change": 0.0039999485,
+    "changePercent": 0.41622773,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.947,
     "fiftyTwoWeekHigh": 1.07,
-    "volume": 51,
+    "volume": 17977,
     "shortName": "UOBAM PA FT ASEAN DV S$",
-    "fetchedAt": "2026-10-26T01:17:26.899Z"
+    "fetchedAt": "2026-10-26T02:28:09.433Z"
   },
   "SQQ": {
     "price": 0.968,
@@ -781,7 +781,7 @@
     "fiftyTwoWeekHigh": 1.35,
     "volume": 400000,
     "shortName": "CSOP SEA TECH ETF S$",
-    "fetchedAt": "2026-10-26T01:17:28.974Z"
+    "fetchedAt": "2026-10-26T02:28:11.487Z"
   },
   "LCS": {
     "price": 2.59,
@@ -795,7 +795,7 @@
     "fiftyTwoWeekHigh": 2.925,
     "volume": 4596,
     "shortName": "CSOP APAC SELECT S$",
-    "fetchedAt": "2026-10-26T01:17:31.061Z"
+    "fetchedAt": "2026-10-26T02:28:13.542Z"
   },
   "SUN": {
     "price": 0.851,
@@ -809,7 +809,7 @@
     "fiftyTwoWeekHigh": 5.3209,
     "volume": 2000,
     "shortName": "CSOP CS A500 ETF S$",
-    "fetchedAt": "2026-10-26T01:17:33.135Z"
+    "fetchedAt": "2026-10-26T02:28:15.591Z"
   },
   "SCY": {
     "price": 1.235,
@@ -823,105 +823,105 @@
     "fiftyTwoWeekHigh": 11.4151,
     "volume": 300,
     "shortName": "CSOP Star&Chinext50 S$",
-    "fetchedAt": "2026-10-26T01:17:35.210Z"
+    "fetchedAt": "2026-10-26T02:28:17.640Z"
   },
   "CXT": {
-    "price": 1.199,
+    "price": 1.17,
     "previousClose": 1.199,
-    "change": 0,
-    "changePercent": 0,
+    "change": -0.029000044,
+    "changePercent": -2.418686,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.12,
     "fiftyTwoWeekHigh": 1.95,
-    "volume": 34736,
+    "volume": 4140,
     "shortName": "AmovaEFund ChiNext S$",
-    "fetchedAt": "2026-10-26T01:17:37.347Z"
+    "fetchedAt": "2026-10-26T02:28:19.695Z"
   },
   "CXS": {
-    "price": 0.959,
+    "price": 0.96,
     "previousClose": 0.963,
-    "change": -0.004000008,
-    "changePercent": -0.41536948,
+    "change": -0.003000021,
+    "changePercent": -0.31152865,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.906,
     "fiftyTwoWeekHigh": 1.559,
-    "volume": 50,
+    "volume": 20050,
     "shortName": "UOBAM PINGAN CHINEXT S$",
-    "fetchedAt": "2026-10-26T01:17:39.419Z"
+    "fetchedAt": "2026-10-26T02:28:21.746Z"
   },
   "JK8": {
-    "price": 2.23,
+    "price": 2.202,
     "previousClose": 2.225,
-    "change": 0.0050001144,
-    "changePercent": 0.22472425,
+    "change": -0.023000002,
+    "changePercent": -1.033708,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 2.17,
     "fiftyTwoWeekHigh": 2.696,
-    "volume": 85108,
+    "volume": 2400,
     "shortName": "UOBAM FTSE CN A50 S$",
-    "fetchedAt": "2026-10-26T01:17:41.491Z"
+    "fetchedAt": "2026-10-26T02:28:23.798Z"
   },
   "YYY": {
-    "price": 1.639,
+    "price": 1.635,
     "previousClose": 1.644,
-    "change": -0.004999995,
-    "changePercent": -0.30413595,
+    "change": -0.009000063,
+    "changePercent": -0.54744905,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.61,
     "fiftyTwoWeekHigh": 1.992,
-    "volume": 2701,
+    "volume": 4201,
     "shortName": "Lion-OSPL China L S$",
-    "fetchedAt": "2026-10-26T01:17:43.563Z"
+    "fetchedAt": "2026-10-26T02:28:25.900Z"
   },
   "HST": {
-    "price": 0.619,
+    "price": 0.611,
     "previousClose": 0.615,
-    "change": 0.004000008,
-    "changePercent": 0.6504078,
+    "change": -0.004000008,
+    "changePercent": -0.6504078,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.605,
     "fiftyTwoWeekHigh": 1.015,
-    "volume": 8345,
+    "volume": 983462,
     "shortName": "Lion-OCBC Sec HSTECH S$",
-    "fetchedAt": "2026-10-26T01:17:45.638Z"
+    "fetchedAt": "2026-10-26T02:28:28.003Z"
   },
   "EVS": {
-    "price": 0.445,
+    "price": 0.444,
     "previousClose": 0.452,
-    "change": -0.0069999993,
-    "changePercent": -1.5486724,
+    "change": -0.007999986,
+    "changePercent": -1.7699085,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.434,
     "fiftyTwoWeekHigh": 0.723,
-    "volume": 12009,
+    "volume": 200000,
     "shortName": "Amova-STC CN EV S$",
-    "fetchedAt": "2026-10-26T01:17:47.777Z"
+    "fetchedAt": "2026-10-26T02:28:30.058Z"
   },
   "SRT": {
-    "price": 0.686,
+    "price": 0.684,
     "previousClose": 0.68,
-    "change": 0.0059999824,
-    "changePercent": 0.8823503,
+    "change": 0.004000008,
+    "changePercent": 0.58823645,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.66,
     "fiftyTwoWeekHigh": 0.81,
-    "volume": 2473,
+    "volume": 34680,
     "shortName": "CSOP iEdge SREIT ETF S$",
-    "fetchedAt": "2026-10-26T01:17:49.851Z"
+    "fetchedAt": "2026-10-26T02:28:32.114Z"
   },
   "CFA": {
     "price": 0.74,
@@ -933,23 +933,23 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.726,
     "fiftyTwoWeekHigh": 0.854,
-    "volume": 23436,
+    "volume": 444534,
     "shortName": "Amova-STC Asia REIT",
-    "fetchedAt": "2026-10-26T01:17:51.923Z"
+    "fetchedAt": "2026-10-26T02:28:34.165Z"
   },
   "CLR": {
-    "price": 0.765,
+    "price": 0.763,
     "previousClose": 0.76,
-    "change": 0.004999995,
-    "changePercent": 0.65789413,
+    "change": 0.003000021,
+    "changePercent": 0.3947396,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.737,
     "fiftyTwoWeekHigh": 0.895,
-    "volume": 563858,
+    "volume": 1148277,
     "shortName": "LION-PHILLIP S-REIT",
-    "fetchedAt": "2026-10-26T01:17:53.996Z"
+    "fetchedAt": "2026-10-26T02:28:36.217Z"
   },
   "BYJ": {
     "price": 1.056,
@@ -963,21 +963,21 @@
     "fiftyTwoWeekHigh": 1.227,
     "volume": 10,
     "shortName": "PHIL AP DIV REIT S$D",
-    "fetchedAt": "2026-10-26T01:17:56.072Z"
+    "fetchedAt": "2026-10-26T02:28:38.268Z"
   },
   "GRN": {
-    "price": 0.662,
+    "price": 0.667,
     "previousClose": 0.663,
-    "change": -0.0009999871,
-    "changePercent": -0.15082762,
+    "change": 0.004000008,
+    "changePercent": 0.60331947,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.646,
     "fiftyTwoWeekHigh": 0.79,
-    "volume": 35171,
+    "volume": 30456,
     "shortName": "UOB AP GRN REIT S$",
-    "fetchedAt": "2026-10-26T01:17:58.144Z"
+    "fetchedAt": "2026-10-26T02:28:40.318Z"
   },
   "A35": {
     "price": 1.115,
@@ -989,9 +989,9 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 1.089,
     "fiftyTwoWeekHigh": 1.165,
-    "volume": 48836,
+    "volume": 166811,
     "shortName": "ABF SG BOND ETF",
-    "fetchedAt": "2026-10-26T01:18:00.217Z"
+    "fetchedAt": "2026-10-26T02:28:42.370Z"
   },
   "MBH": {
     "price": 0.985,
@@ -1003,23 +1003,23 @@
     "currency": "SGD",
     "fiftyTwoWeekLow": 0.98,
     "fiftyTwoWeekHigh": 1.033,
-    "volume": 29118,
+    "volume": 276581,
     "shortName": "Amova SGD IGBond ETF",
-    "fetchedAt": "2026-10-26T01:18:02.299Z"
+    "fetchedAt": "2026-10-26T02:28:44.424Z"
   },
   "O9P": {
-    "price": 6.54,
+    "price": 6.53,
     "previousClose": 6.53,
-    "change": 0.009999752,
-    "changePercent": 0.15313555,
+    "change": 0,
+    "changePercent": 0,
     "marketCap": null,
     "dividendYield": null,
     "currency": "USD",
     "fiftyTwoWeekLow": 6.48,
     "fiftyTwoWeekHigh": 6.89,
-    "volume": 4500,
+    "volume": 6390,
     "shortName": "IS ASIA HYG US$",
-    "fetchedAt": "2026-10-26T01:18:04.370Z"
+    "fetchedAt": "2026-10-26T02:28:46.473Z"
   },
   "N6M": {
     "price": 9.41,
@@ -1033,7 +1033,7 @@
     "fiftyTwoWeekHigh": 10.11,
     "volume": 20,
     "shortName": "IS ASIA BND US$",
-    "fetchedAt": "2026-10-26T01:18:06.440Z"
+    "fetchedAt": "2026-10-26T02:28:48.574Z"
   },
   "CYC": {
     "price": 13.7,
@@ -1047,34 +1047,34 @@
     "fiftyTwoWeekHigh": 13.72,
     "volume": 8,
     "shortName": "ICBC CSOP CGB ETF S$",
-    "fetchedAt": "2026-10-26T01:18:08.518Z"
+    "fetchedAt": "2026-10-26T02:28:50.625Z"
   },
   "MMS": {
-    "price": 103.019,
+    "price": 103.44,
     "previousClose": 103.445,
-    "change": -0.4260025,
-    "changePercent": -0.41181546,
+    "change": -0.0049972534,
+    "changePercent": -0.004830831,
     "marketCap": null,
     "dividendYield": null,
     "currency": "SGD",
     "fiftyTwoWeekLow": 100.522,
     "fiftyTwoWeekHigh": 104.662,
-    "volume": 949,
+    "volume": 1042,
     "shortName": "PHILLIP MM S$",
-    "fetchedAt": "2026-10-26T01:18:10.595Z"
+    "fetchedAt": "2026-10-26T02:28:52.679Z"
   },
   "O87": {
-    "price": 364.31,
+    "price": 365.47,
     "previousClose": 368.51,
-    "change": -4.200012,
-    "changePercent": -1.1397281,
+    "change": -3.0400085,
+    "changePercent": -0.824946,
     "marketCap": null,
     "dividendYield": null,
     "currency": "USD",
     "fiftyTwoWeekLow": 358,
     "fiftyTwoWeekHigh": 514,
-    "volume": 979,
+    "volume": 1285,
     "shortName": "GLD US$",
-    "fetchedAt": "2026-10-26T01:18:12.667Z"
+    "fetchedAt": "2026-10-26T02:28:54.733Z"
   }
 }
