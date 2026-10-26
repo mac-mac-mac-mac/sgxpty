@@ -123,7 +123,7 @@ const SHORTLISTS = [
     description: 'High-quality, locally anchored, conservative balance sheet',
     color: 'border-accent-green/30',
     labelColor: 'bg-accent-green/15 text-accent-green border-accent-green/30',
-    tickers: ['C38U', 'A17U', 'RW0U', 'KDCREIT', 'J69U'],
+    tickers: ['C38U', 'A17U', 'C2PU', 'AJBU', 'J69U'],
   },
   {
     title: 'Value Recovery',
@@ -137,7 +137,7 @@ const SHORTLISTS = [
     description: 'Elevated yield, structural challenges, careful sizing required',
     color: 'border-accent-red/30',
     labelColor: 'bg-accent-red/15 text-accent-red border-accent-red/30',
-    tickers: ['AJBU', 'BTOU', 'T8B', 'LIPPO', 'AU8U'],
+    tickers: ['CMOU', 'BTOU', 'OXMU', 'D5IU', 'AU8U'],
   },
 ];
 
@@ -251,7 +251,7 @@ export default function IntelligencePanel({ reits, showLegacy = false }) {
                     .map(reit => (
                       <tr key={reit.ticker} className="border-b border-border/50 hover:bg-bg-elevated">
                         <td className="py-4 px-4 font-medium">{reit.ticker} ({reit.shortName})</td>
-                        <td className="py-4 px-4 text-right font-bold text-accent-gold">{reit.yield}%</td>
+                        <td className="py-4 px-4 text-right font-bold text-accent-gold">{reit.yield != null ? Number(reit.yield).toFixed(2) : '—'}%</td>
                         <td className="py-4 px-4 text-text-muted">{reit.sector}</td>
                       </tr>
                     ))}
