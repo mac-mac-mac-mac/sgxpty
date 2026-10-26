@@ -9,23 +9,24 @@ const PRICES_OUT  = path.join(__dirname, '../src/data/prices.json');
 const HISTORY_DIR = path.join(__dirname, '../src/data/history');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// ── Tickers ───────────────────────────────────────────────────────────────────
+// ── All 39 verified SGX REITs ─────────────────────────────────────────────────
 const REIT_TICKERS = [
-  'C38U','A17U','ME8U','N2IU','M44U','J69U','K71U','T82U','BUOU','SK6U',
-  'M1GU','RW0U','CMOU','CJLU','UD1U','OU8U','AU8U','SV3U','J91U','BTOU',
-  'T8B','OXMU','CWBU','AW9U','DHLU','LREIT','SYTU','ZACAU','EDIU','TS0U',
-  'CY6U','ACV','BWCU','LIPPO','VC2','CLND','AJBU',
+  'XZL','O5RU','M1GU','BMGU','A17U','HMN','AU8U','CY6U','C38U','J85',
+  '8C8U','DHLU','DCRU','MXNU','9A4U','Q5T','AW9U','J69U','BUOU','UD1U',
+  'AJBU','K71U','CMOU','JYEU','D5IU','BTOU','ME8U','M44U','N2IU','NTDU',
+  'TS0U','C2PU','OXMU','CRPU','P40U','SET','T82U','UIBU','ODBU',
 ];
 
+// ── 38 SGX-listed ETFs ────────────────────────────────────────────────────────
 const ETF_TICKERS = [
-  'ES3','G3B','CLR','MBH','O9P','CFA','A35','GLD',
-  'D7VY','S27','QS0','P74U','SEMI','RYZ','CNXT','UOBAM',
-  'XUS','EUS','XND','XWR',
+  'ES3','G3B','GAB','O9A','S27','D07','XUS','EUS','XND','XWR',
+  'H1N','A93','ICM','YLD','ESG','UPD','SQQ','LCS','SUN','SCY',
+  'CXT','CXS','JK8','YYY','HST','EVS','SRT','CFA','CLR','BYJ',
+  'GRN','A35','MBH','O9P','N6M','CYC','MMS','O87',
 ];
 
 const TICKERS = [...REIT_TICKERS, ...ETF_TICKERS];
 
-// ── Fetch with retry ──────────────────────────────────────────────────────────
 async function fetchWithRetry(ticker, attempts = 3) {
   const symbol = ticker + '.SI';
   for (let i = 0; i < attempts; i++) {
@@ -44,7 +45,6 @@ async function fetchWithRetry(ticker, attempts = 3) {
   }
 }
 
-// ── Append one row to ticker's history file ───────────────────────────────────
 function appendHistory(ticker, row) {
   const file = path.join(HISTORY_DIR, `${ticker}.json`);
   let rows = [];
@@ -59,7 +59,6 @@ function appendHistory(ticker, row) {
   writeFileSync(file, JSON.stringify(rows));
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
   console.log(`\nSGXPTY Price Fetch — ${new Date().toISOString()}`);
   console.log(`Fetching ${TICKERS.length} tickers (${REIT_TICKERS.length} REITs + ${ETF_TICKERS.length} ETFs)\n`);
@@ -77,42 +76,34 @@ async function main() {
       const quote = await fetchWithRetry(ticker);
       if (!quote) throw new Error('Empty response');
 
-      const price    = quote.regularMarketPrice             ?? null;
-      const chgPct   = quote.regularMarketChangePercent     ?? null;
-      const mktCap   = quote.marketCap                      ?? null;
-      const yld      = quote.trailingAnnualDividendYield
+      const price  = quote.regularMarketPrice          ?? null;
+      const chgPct = quote.regularMarketChangePercent  ?? null;
+      const mktCap = quote.marketCap                   ?? null;
+      const yld    = quote.trailingAnnualDividendYield
         ? +(quote.trailingAnnualDividendYield * 100).toFixed(4)
         : null;
-      const pb       = quote.priceToBook                    ?? null;
-      const nav      = quote.bookValue                      ?? null;
 
-      // prices.json — used by applyLiveData() in the frontend
       prices[ticker] = {
         price,
-        previousClose:   quote.regularMarketPreviousClose   ?? null,
-        change:          quote.regularMarketChange           ?? null,
-        changePercent:   chgPct,
-        marketCap:       mktCap,
-        dividendYield:   yld,
-        priceToBook:     pb   != null ? +pb.toFixed(3)   : null,
-        bookValue:       nav  != null ? +nav.toFixed(3)  : null,
-        currency:        quote.currency                      ?? 'SGD',
-        fiftyTwoWeekLow:  quote.fiftyTwoWeekLow             ?? null,
-        fiftyTwoWeekHigh: quote.fiftyTwoWeekHigh            ?? null,
-        volume:          quote.regularMarketVolume           ?? null,
-        shortName:       quote.shortName ?? quote.longName  ?? ticker,
-        fetchedAt:       new Date().toISOString(),
+        previousClose:  quote.regularMarketPreviousClose ?? null,
+        change:         quote.regularMarketChange         ?? null,
+        changePercent:  chgPct,
+        marketCap:      mktCap,
+        dividendYield:  yld,
+        currency:       quote.currency                    ?? 'SGD',
+        fiftyTwoWeekLow:  quote.fiftyTwoWeekLow           ?? null,
+        fiftyTwoWeekHigh: quote.fiftyTwoWeekHigh          ?? null,
+        volume:         quote.regularMarketVolume          ?? null,
+        shortName:      quote.shortName ?? quote.longName  ?? ticker,
+        fetchedAt:      new Date().toISOString(),
       };
 
-      // history/{TICKER}.json — one compact row per trading day
       if (price !== null) {
         appendHistory(ticker, {
-          d: today,                                          // date
-          p: price,                                         // price
-          y: yld,                                           // yield %
-          c: chgPct != null ? +chgPct.toFixed(3) : null,   // % change
-          pb: pb    != null ? +pb.toFixed(3)     : null,   // P/B
-          nav: nav  != null ? +nav.toFixed(3)    : null,   // NAV
+          d: today,
+          p: price,
+          y: yld,
+          c: chgPct != null ? +chgPct.toFixed(3) : null,
         });
       }
 
