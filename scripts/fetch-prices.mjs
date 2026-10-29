@@ -17,6 +17,12 @@ const REIT_TICKERS = [
   'TS0U','C2PU','OXMU','CRPU','P40U','SET','T82U','UIBU','ODBU',
 ];
 
+// ── 15 STI Dividend Stocks ────────────────────────────────────────────────────
+const STOCK_TICKERS = [
+  'D05','O39','U11','Z74','G13','BS6','S63','BN4','J36','S68',
+  '9CI','H78','C6L','U96','F34',
+];
+
 // ── 38 SGX-listed ETFs ────────────────────────────────────────────────────────
 const ETF_TICKERS = [
   'ES3','G3B','GAB','O9A','S27','D07','XUS','EUS','XND','XWR',
@@ -25,7 +31,7 @@ const ETF_TICKERS = [
   'GRN','A35','MBH','O9P','N6M','CYC','MMS','O87',
 ];
 
-const TICKERS = [...REIT_TICKERS, ...ETF_TICKERS];
+const TICKERS = [...REIT_TICKERS, ...ETF_TICKERS, ...STOCK_TICKERS];
 
 async function fetchWithRetry(ticker, attempts = 3) {
   const symbol = ticker + '.SI';
@@ -61,7 +67,7 @@ function appendHistory(ticker, row) {
 
 async function main() {
   console.log(`\nSGXPTY Price Fetch — ${new Date().toISOString()}`);
-  console.log(`Fetching ${TICKERS.length} tickers (${REIT_TICKERS.length} REITs + ${ETF_TICKERS.length} ETFs)\n`);
+  console.log(`Fetching ${TICKERS.length} tickers (${REIT_TICKERS.length} REITs + ${ETF_TICKERS.length} ETFs + ${STOCK_TICKERS.length} Stocks)\n`);
 
   mkdirSync(HISTORY_DIR, { recursive: true });
 
