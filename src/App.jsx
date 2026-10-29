@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Header from './components/Header';
 import DashboardTable from './components/DashboardTable';
-import ViewToggle from './components/ViewToggle';
 import ComparePanel from './components/ComparePanel';
 import ChartsPanel from './components/ChartsPanel';
 import IntelligencePanel from './components/IntelligencePanel';
 import Footer from './components/Footer';
 import { REITS, SECTORS } from './data/reits';
 import { ETFS, ETF_CATEGORIES } from './data/etfs';
+import { STOCKS, STOCK_SECTORS } from './data/stocks';
 import { fetchSingleQuote, applyLiveData } from './lib/yahooFinance';
 import DAILY_PRICES from './data/prices.json'
 import RatesPanel from './components/RatesPanel';
@@ -19,6 +19,9 @@ export default function App() {
   const hasDailyPrices = Object.keys(DAILY_PRICES).length > 0;
   const [reitsData, setReitsData] = useState(() =>
     hasDailyPrices ? applyLiveData(REITS, DAILY_PRICES) : REITS
+  );
+  const [stocksData, setStocksData] = useState(() =>
+    hasDailyPrices ? applyLiveData(STOCKS, DAILY_PRICES) : STOCKS
   );
   const [etfsData, setEtfsData] = useState(() =>
     hasDailyPrices ? applyLiveData(ETFS, DAILY_PRICES) : ETFS
@@ -33,7 +36,6 @@ export default function App() {
   const [etfCategory, setEtfCategory] = useState('All');
 
   const [compareList, setCompareList] = useState([]);
-  const [view, setView] = useState('yield');
   const [liveCount, setLiveCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const abortRef = useRef(null);
@@ -54,6 +56,7 @@ export default function App() {
     const allTickers = [
       ...REITS.map((r) => r.ticker),
       ...ETFS.map((e) => e.ticker),
+      ...STOCKS.map((s) => s.ticker),
     ];
     setTotalCount(allTickers.length);
 
@@ -72,6 +75,7 @@ export default function App() {
         // Update UI immediately after each successful fetch
         setReitsData(applyLiveData(REITS, { ...liveMapRef.current }));
         setEtfsData(applyLiveData(ETFS, { ...liveMapRef.current }));
+        setStocksData(applyLiveData(STOCKS, { ...liveMapRef.current }));
 
         // Show "live" as soon as the first quote arrives
         if (loaded === 1) setLiveStatus('live');
@@ -122,10 +126,10 @@ export default function App() {
     setCompareList((prev) => prev.filter((c) => c.ticker !== item.ticker));
   }
 
-  const currentData = mode === 'reits' ? reitsData : etfsData;
+  const currentData = mode === 'reits' ? reitsData : mode === 'stocks' ? stocksData : etfsData;
   const currentSearch = mode === 'reits' ? reitSearch : etfSearch;
   const currentSector = mode === 'reits' ? reitSector : etfCategory;
-  const currentSectors = mode === 'reits' ? SECTORS : ETF_CATEGORIES;
+  const currentSectors = mode === 'reits' ? SECTORS : mode === 'stocks' ? STOCK_SECTORS : ETF_CATEGORIES;
 
   function handleSearchChange(v) {
     if (mode === 'reits') setReitSearch(v);
@@ -165,6 +169,8 @@ export default function App() {
                 <p className="text-xs text-text-muted mt-0.5">
                   {mode === 'reits'
                     ? `${reitsData.length} S-REITs & Property Trusts`
+                    : mode === 'stocks'
+                    ? `${stocksData.length} STI Dividend Stocks`
                     : `${etfsData.length} ETFs listed on SGX`}
                 </p>
               </div>
@@ -188,6 +194,16 @@ export default function App() {
                   }`}
                 >
                   ETFs
+                </button>
+                <button
+                  onClick={() => setMode('stocks')}
+                  className={`px-4 py-1.5 rounded text-xs font-medium transition-all ${
+                    mode === 'stocks'
+                      ? 'bg-accent-gold/15 text-accent-gold border border-accent-gold/30'
+                      : 'text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  Stocks
                 </button>
               </div>
             </div>
@@ -253,13 +269,9 @@ export default function App() {
               </div>
             )}
 
-            {mode === 'reits' && (
-              <ViewToggle view={view} onViewChange={setView} />
-            )}
             <DashboardTable
               data={currentData}
               mode={mode}
-              view={view}
               search={currentSearch}
               onSearchChange={handleSearchChange}
               sectorFilter={currentSector}
@@ -302,6 +314,16 @@ export default function App() {
                   }`}
                 >
                   ETFs
+                </button>
+                <button
+                  onClick={() => setMode('stocks')}
+                  className={`px-4 py-1.5 rounded text-xs font-medium transition-all ${
+                    mode === 'stocks'
+                      ? 'bg-accent-gold/15 text-accent-gold border border-accent-gold/30'
+                      : 'text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  Stocks
                 </button>
               </div>
             </div>
