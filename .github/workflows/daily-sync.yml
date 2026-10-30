@@ -57,5 +57,20 @@ jobs:
 
           DATE=$(date -u +%Y-%m-%d)
           git commit -m "prices: ${DATE}"
-          git pull --rebase --autostash origin main
-          git push
+          # Discard leftover noise (e.g. package-lock.json from npm install)
+          git checkout -- .
+
+          # Retry: if main moved while we were running, rebase onto it and
+          # keep OUR freshly generated data on any conflict (-X theirs = the
+          # commit being replayed during a rebase).
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if git rebase -X theirs origin/main && git push origin HEAD:main; then
+              echo "Pushed on attempt ${attempt}."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep 5
+          done
+          echo "Failed to push after 3 attempts."
+          exit 1
