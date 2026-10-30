@@ -93,15 +93,20 @@ export default function RatesPanel() {
   const spreadNum = parseFloat(spread)   || 0;
   const effective = soraRate != null ? (soraNum + spreadNum).toFixed(2) : '—';
 
-  const rates     = history.map(p => p.rate);
+  const [period, setPeriod] = useState('2Y');
+
+  const periodSlice = { '3Q': 3, '1Y': 4, '2Y': 8 };
+  const chartData = history.slice(-periodSlice[period]);
+
+  const rates     = chartData.map(p => p.rate);
   const chartMin  = rates.length ? Math.min(...rates) : 0;
   const chartMax  = rates.length ? Math.max(...rates) : 2;
   const chartStart = rates[0] ?? null;
   const chartChange = chartStart != null ? (soraNum - chartStart).toFixed(4) : null;
   const chartChangePct = chartStart != null
     ? (((soraNum - chartStart) / chartStart) * 100).toFixed(2) : null;
-  const highPoint = history.reduce((a, b) => b.rate > a.rate ? b : a, history[0] ?? { label: '—', rate: 0 });
-  const lowPoint  = history.reduce((a, b) => b.rate < a.rate ? b : a, history[0] ?? { label: '—', rate: 99 });
+  const highPoint = chartData.reduce((a, b) => b.rate > a.rate ? b : a, chartData[0] ?? { label: '—', rate: 0 });
+  const lowPoint  = chartData.reduce((a, b) => b.rate < a.rate ? b : a, chartData[0] ?? { label: '—', rate: 99 });
   const yPad      = (chartMax - chartMin) * 0.15 || 0.1;
   const yDomain   = [Math.max(0, chartMin - yPad), chartMax + yPad];
 
@@ -164,6 +169,21 @@ export default function RatesPanel() {
       {/* ── SORA Chart ────────────────────────────────────────────────────── */}
       {history.length > 0 && (
         <div className="bg-bg-card border border-border rounded-2xl p-6">
+          {/* Period tabs */}
+          <div className="flex gap-1 mb-5">
+            {['3Q','1Y','2Y'].map(p => (
+              <button
+                key={p}
+                onClick={() => setPeriod(p)}
+                className={`px-3 py-1 rounded text-xs font-mono font-semibold transition-all ${
+                  period === p
+                    ? 'bg-accent-gold/15 text-accent-gold border border-accent-gold/30'
+                    : 'text-text-muted border border-border hover:text-text-primary'
+                }`}
+              >{p}</button>
+            ))}
+          </div>
+
           <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
             <div>
               <div className="text-xs text-text-muted uppercase tracking-widest mb-1">3M Compounded SORA — Quarterly</div>
@@ -184,7 +204,7 @@ export default function RatesPanel() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={260}>
-            <AreaChart data={history} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+            <AreaChart data={chartData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="soraGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%"  stopColor="#3b6bc9" stopOpacity={0.5} />
@@ -256,7 +276,7 @@ export default function RatesPanel() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h3 className="text-base font-semibold text-text-primary">SGD Exchange Rates</h3>
-            <p className="text-xs text-text-muted mt-0.5">1 SGD = X foreign currency</p>
+            <p className="text-xs text-text-muted mt-0.5">SGD : foreign currency ratio</p>
           </div>
           {ratesDate && (
             <span className="text-xs text-text-muted font-mono">{ratesDate}</span>
@@ -273,7 +293,9 @@ export default function RatesPanel() {
                   <span className="text-xs text-text-muted ml-2">{desc}</span>
                 </div>
                 <span className="font-mono text-sm font-bold text-accent-gold">
-                  {fxRates[code] != null ? fxRates[code] : '—'}
+                  {fxRates[code] != null
+                    ? `1 : ${code === 'JPY' ? fxRates[code].toFixed(2) : fxRates[code].toFixed(4)}`
+                    : '—'}
                 </span>
               </div>
             ))}
