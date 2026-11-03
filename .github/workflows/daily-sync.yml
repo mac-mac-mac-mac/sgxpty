@@ -37,7 +37,7 @@ jobs:
         run: node scripts/update-rates.mjs
 
       - name: Test calculations
-        run: node --test scripts/test/
+        run: node --test scripts/test/calc.test.mjs
 
       - name: Fetch prices, calculate metrics + append history
         run: node scripts/fetch-prices.mjs
