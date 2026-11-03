@@ -1,49 +1,69 @@
 import { useState, useMemo } from 'react';
 import { ChevronUp, ChevronDown, ChevronsUpDown, Plus, Check } from 'lucide-react';
+import PNavBadge from './PNavBadge';
+import GearingPill from './GearingPill';
 
-const REIT_COLS = [
-  { key: 'ticker', label: 'Ticker', align: 'left' },
-  { key: 'name', label: 'Name', align: 'left' },
-  { key: 'sector', label: 'Sector', align: 'left' },
-  { key: 'price', label: 'Price', align: 'right', format: 'price' },
-  { key: 'change', label: '% Chg', align: 'right', format: 'change' },
-  { key: 'marketCap', label: 'Mkt Cap (M)', align: 'right', format: 'number' },
-  { key: 'yield', label: 'Yield %', align: 'right', format: 'pct' },
-  { key: 'pb', label: 'P/B', align: 'right', format: 'decimal' },
-  { key: 'gearing', label: 'Gearing %', align: 'right', format: 'pct' },
-  { key: 'wale', label: 'WALE (yr)', align: 'right', format: 'decimal' },
-  { key: 'occupancy', label: 'Occ %', align: 'right', format: 'pct' },
-  { key: 'asset', label: 'Asset', align: 'center', format: 'rating', group: 'Five Filters' },
-  { key: 'debt', label: 'Debt', align: 'center', format: 'rating', group: 'Five Filters' },
-  { key: 'dpu', label: 'DPU', align: 'center', format: 'rating', group: 'Five Filters' },
-  { key: 'manager', label: 'Mgr', align: 'center', format: 'rating', group: 'Five Filters' },
-  { key: 'valuation', label: 'Val', align: 'center', format: 'rating', group: 'Five Filters' },
-  { key: 'composite', label: 'Comp', align: 'center', format: 'composite' },
+// ── Column definitions ────────────────────────────────────────────────────────
+// Every market number below is calculated nightly (see scripts/fetch-prices.mjs).
+
+const REIT_COLS_YIELD = [
+  { key: 'ticker',    label: 'Ticker',        align: 'left' },
+  { key: 'name',      label: 'Name',          align: 'left' },
+  { key: 'sector',    label: 'Sector',        align: 'left' },
+  { key: 'price',     label: 'Price',         align: 'right',  format: 'price' },
+  { key: 'change',    label: '% Chg',         align: 'right',  format: 'change' },
+  { key: 'marketCap', label: 'Mkt Cap',       align: 'right',  format: 'number' },
+  { key: 'yield',     label: 'Yield %',       align: 'right',  format: 'pct' },
+  { key: 'pb',        label: 'P/NAV',         align: 'right',  format: 'decimal' },
+  { key: 'gearing',   label: 'Gearing est. %', align: 'right', format: 'pct' },
+  { key: 'asset',     label: 'Asset',         align: 'center', format: 'rating', group: 'Five Filters' },
+  { key: 'debt',      label: 'Debt',          align: 'center', format: 'rating', group: 'Five Filters' },
+  { key: 'dpu',       label: 'DPU',           align: 'center', format: 'rating', group: 'Five Filters' },
+  { key: 'manager',   label: 'Mgr',           align: 'center', format: 'rating', group: 'Five Filters' },
+  { key: 'valuation', label: 'Val',           align: 'center', format: 'rating', group: 'Five Filters' },
+  { key: 'composite', label: 'Comp',          align: 'center', format: 'composite' },
 ];
 
-const ETF_COLS = [
-  { key: 'ticker', label: 'Ticker', align: 'left' },
-  { key: 'name', label: 'Name', align: 'left' },
-  { key: 'category', label: 'Category', align: 'left' },
-  { key: 'assetClass', label: 'Asset Class', align: 'left' },
-  { key: 'price', label: 'Price', align: 'right', format: 'price' },
-  { key: 'change', label: '% Chg', align: 'right', format: 'change' },
-  { key: 'aum', label: 'AUM (M)', align: 'right', format: 'number' },
-  { key: 'yield', label: 'Yield %', align: 'right', format: 'pct' },
-  { key: 'expenseRatio', label: 'TER %', align: 'right', format: 'decimal' },
+const REIT_COLS_VALUATION = [
+  { key: 'ticker',             label: 'Ticker',         align: 'left' },
+  { key: 'name',               label: 'Name',           align: 'left' },
+  { key: 'sector',             label: 'Sector',         align: 'left' },
+  { key: 'price',              label: 'Price',          align: 'right',  format: 'price' },
+  { key: 'nav',                label: 'NAV',            align: 'right',  format: 'decimal' },
+  { key: 'pb',                 label: 'P/NAV',          align: 'center', format: 'pnav' },
+  { key: 'gearing',            label: 'Gearing (est.)', align: 'center', format: 'gearing' },
+  { key: 'dpuGrowth',          label: 'DPU Growth',     align: 'right',  format: 'dpugrowth' },
+  { key: 'distributionStatus', label: 'Dist. Status',   align: 'center', format: 'diststatus' },
+  { key: 'yield',              label: 'Yield %',        align: 'right',  format: 'pct' },
+  { key: 'composite',          label: 'Comp',           align: 'center', format: 'composite' },
 ];
 
 const STOCK_COLS = [
-  { key: 'ticker',            label: 'Ticker',      align: 'left' },
-  { key: 'name',              label: 'Name',        align: 'left' },
-  { key: 'sector',            label: 'Sector',      align: 'left' },
-  { key: 'price',             label: 'Price',       align: 'right', format: 'price' },
-  { key: 'change',            label: '% Chg',       align: 'right', format: 'change' },
-  { key: 'marketCap',         label: 'Mkt Cap (M)', align: 'right', format: 'number' },
-  { key: 'yield',             label: 'Yield %',     align: 'right', format: 'pct' },
-  { key: 'pe',                label: 'P/E',         align: 'right', format: 'decimal' },
-  { key: 'dividendFrequency', label: 'Frequency',   align: 'center' },
+  { key: 'ticker',            label: 'Ticker',     align: 'left' },
+  { key: 'name',              label: 'Name',       align: 'left' },
+  { key: 'sector',            label: 'Sector',     align: 'left' },
+  { key: 'price',             label: 'Price',      align: 'right',  format: 'price' },
+  { key: 'change',            label: '% Chg',      align: 'right',  format: 'change' },
+  { key: 'marketCap',         label: 'Mkt Cap',    align: 'right',  format: 'number' },
+  { key: 'yield',             label: 'Yield %',    align: 'right',  format: 'pct' },
+  { key: 'dpuGrowth',         label: 'DPU Growth', align: 'right',  format: 'dpugrowth' },
+  { key: 'pe',                label: 'P/E',        align: 'right',  format: 'decimal' },
+  { key: 'dividendFrequency', label: 'Frequency',  align: 'center' },
 ];
+
+const ETF_COLS = [
+  { key: 'ticker',       label: 'Ticker',      align: 'left' },
+  { key: 'name',         label: 'Name',        align: 'left' },
+  { key: 'category',     label: 'Category',    align: 'left' },
+  { key: 'assetClass',   label: 'Asset Class', align: 'left' },
+  { key: 'price',        label: 'Price',       align: 'right', format: 'price' },
+  { key: 'change',       label: '% Chg',       align: 'right', format: 'change' },
+  { key: 'aum',          label: 'AUM (M)',     align: 'right', format: 'number' },
+  { key: 'yield',        label: 'Yield %',     align: 'right', format: 'pct' },
+  { key: 'expenseRatio', label: 'TER %',       align: 'right', format: 'decimal' },
+];
+
+// ── Cell formatters ───────────────────────────────────────────────────────────
 
 function SortIcon({ col, sort }) {
   if (sort.key !== col) return <ChevronsUpDown className="w-3 h-3 opacity-30" />;
@@ -53,7 +73,13 @@ function SortIcon({ col, sort }) {
 }
 
 function formatCell(value, format, currency) {
+  if (format === 'pnav')       return <PNavBadge pb={value} />;
+  if (format === 'gearing')    return <GearingPill gearing={value} />;
+  if (format === 'diststatus') return <DistStatusBadge status={value} />;
+  if (format === 'dpugrowth')  return <DpuGrowthCell value={value} />;
+
   if (value == null || value === '') return <span className="text-text-muted">—</span>;
+
   switch (format) {
     case 'price':
       return (
@@ -83,9 +109,7 @@ function formatCell(value, format, currency) {
             : value}
         </span>
       );
-
     case 'pct':
-      return <span className="font-mono text-xs">{typeof value === 'number' ? value.toFixed(2) : value}</span>;
     case 'decimal':
       return <span className="font-mono text-xs">{typeof value === 'number' ? value.toFixed(2) : value}</span>;
     case 'rating':
@@ -96,6 +120,8 @@ function formatCell(value, format, currency) {
       return <span className="text-xs">{value}</span>;
   }
 }
+
+// ── Sub-components ────────────────────────────────────────────────────────────
 
 function RatingBadge({ value }) {
   const colors = {
@@ -115,7 +141,13 @@ function RatingBadge({ value }) {
 function CompositeBadge({ value }) {
   if (value == null) return <span className="text-text-muted">—</span>;
   const v = typeof value === 'number' ? value : parseFloat(value);
-  const color = v >= 4.0 ? 'bg-accent-gold/20 text-accent-gold border-accent-gold/40' : v >= 3.0 ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' : v >= 2.0 ? 'bg-orange-500/15 text-orange-400 border-orange-500/30' : 'bg-accent-red/15 text-accent-red border-accent-red/30';
+  const color = v >= 4.0
+    ? 'bg-accent-gold/20 text-accent-gold border-accent-gold/40'
+    : v >= 3.0
+    ? 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+    : v >= 2.0
+    ? 'bg-orange-500/15 text-orange-400 border-orange-500/30'
+    : 'bg-accent-red/15 text-accent-red border-accent-red/30';
   return (
     <span className={`inline-flex items-center justify-center min-w-[2.25rem] h-6 px-1 rounded border text-[10px] font-bold ${color}`}>
       {v.toFixed(1)}
@@ -125,35 +157,78 @@ function CompositeBadge({ value }) {
 
 function SectorBadge({ sector }) {
   const colors = {
-    'Diversified': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    'Industrial': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    'Retail': 'bg-pink-500/10 text-pink-400 border-pink-500/20',
-    'Office': 'bg-sky-500/10 text-sky-400 border-sky-500/20',
-    'Healthcare': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-    'Hospitality': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-    'Infrastructure': 'bg-slate-400/10 text-slate-400 border-slate-400/20',
-    'Equity': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    'Fixed Income': 'bg-green-500/10 text-green-400 border-green-500/20',
-    'REIT': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    'Commodity': 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+    'Diversified':        'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    'Industrial':         'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    'Retail':             'bg-pink-500/10 text-pink-400 border-pink-500/20',
+    'Office':             'bg-sky-500/10 text-sky-400 border-sky-500/20',
+    'Healthcare':         'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    'Hospitality':        'bg-orange-500/10 text-orange-400 border-orange-500/20',
+    'Residential':        'bg-violet-500/10 text-violet-400 border-violet-500/20',
+    'Infrastructure':     'bg-slate-400/10 text-slate-400 border-slate-400/20',
+    'Equity':             'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    'Fixed Income':       'bg-green-500/10 text-green-400 border-green-500/20',
+    'REIT':               'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    'Commodity':          'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+    'Money Market':       'bg-teal-500/10 text-teal-400 border-teal-500/20',
+    'Banks':              'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    'Telco':              'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+    'Gaming':             'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20',
+    'Conglomerate':       'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+    'Financial Services': 'bg-green-500/10 text-green-400 border-green-500/20',
+    'Real Estate':        'bg-sky-500/10 text-sky-400 border-sky-500/20',
+    'Aviation':           'bg-rose-500/10 text-rose-400 border-rose-500/20',
+    'Utilities':          'bg-lime-500/10 text-lime-400 border-lime-500/20',
+    'Agribusiness':       'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
   };
+  if (!sector) return <span className="text-text-muted">—</span>;
   return (
     <span className={`inline-block px-1.5 py-0.5 rounded border text-[10px] font-medium whitespace-nowrap ${colors[sector] || 'bg-bg-elevated text-text-secondary border-border'}`}>
       {sector}
     </span>
   );
 }
-function MobileCard({ row, isInCompare, canAdd, onCompareToggle, mode }) {
-  const change = row.change
-  const changeColor = change > 0
-    ? 'text-accent-green'
-    : change < 0
-    ? 'text-accent-red'
-    : 'text-text-muted'
+
+function DistStatusBadge({ status }) {
+  if (!status) return <span className="text-text-muted">—</span>;
+  const map = {
+    active:    { cls: 'bg-accent-green/10 text-accent-green border-accent-green/30', label: 'Active' },
+    reduced:   { cls: 'bg-accent-gold/10 text-accent-gold border-accent-gold/30',   label: 'Reduced' },
+    suspended: { cls: 'bg-accent-red/10 text-accent-red border-accent-red/30',       label: 'Suspended' },
+  };
+  const { cls, label } = map[status] || { cls: 'bg-bg-elevated text-text-secondary border-border', label: status };
+  return (
+    <span className={`inline-block px-1.5 py-0.5 rounded border text-[10px] font-medium whitespace-nowrap ${cls}`}>
+      {label}
+    </span>
+  );
+}
+
+function DpuGrowthCell({ value }) {
+  if (value == null || isNaN(value)) return <span className="text-text-muted font-mono text-xs">—</span>;
+  const v = parseFloat(value);
+  const color = v > 0 ? 'text-accent-green' : v < 0 ? 'text-accent-red' : 'text-text-muted';
+  return (
+    <span className={`font-mono text-xs ${color}`}>
+      {v > 0 ? '+' : ''}{v.toFixed(1)}%
+    </span>
+  );
+}
+
+const fmt = (v, dp = 2, suffix = '') => (v != null && !isNaN(v) ? Number(v).toFixed(dp) + suffix : '—');
+
+// ── Mobile card ───────────────────────────────────────────────────────────────
+
+function MobileCard({ row, isInCompare, canAdd, onCompareToggle, mode, view }) {
+  const change = row.change;
+  const changeColor = change > 0 ? 'text-accent-green' : change < 0 ? 'text-accent-red' : 'text-text-muted';
+  const isValuation = mode === 'reits' && view === 'valuation';
+  const fourth =
+    mode === 'reits' ? { label: 'Gear est.', value: fmt(row.gearing, 1, '%') }
+    : mode === 'stocks' ? { label: 'P/E', value: fmt(row.pe, 1) }
+    : { label: 'TER', value: fmt(row.expenseRatio, 2, '%') };
 
   return (
     <div className="bg-bg-card border border-border rounded-lg p-3 flex flex-col gap-2">
-      {/* Row 1 — ticker, name, compare button */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex flex-col gap-0.5">
           <span className="font-mono text-sm font-bold text-accent-gold">{row.ticker}</span>
@@ -174,57 +249,69 @@ function MobileCard({ row, isInCompare, canAdd, onCompareToggle, mode }) {
         </button>
       </div>
 
-      {/* Row 2 — price, change, yield, gearing */}
-      <div className="grid grid-cols-4 gap-1 text-center">
-        <div className="bg-bg-elevated rounded p-1.5">
-          <div className="text-[10px] text-text-muted mb-0.5">Price</div>
-          <div className="font-mono text-xs font-semibold">
-            {row.price != null ? row.price.toFixed(row.price < 1 ? 3 : 2) : '—'}
+      {!isValuation && (
+        <div className="grid grid-cols-4 gap-1 text-center">
+          <div className="bg-bg-elevated rounded p-1.5">
+            <div className="text-[10px] text-text-muted mb-0.5">Price</div>
+            <div className="font-mono text-xs font-semibold">
+              {row.price != null ? row.price.toFixed(row.price < 1 ? 3 : 2) : '—'}
+            </div>
+          </div>
+          <div className="bg-bg-elevated rounded p-1.5">
+            <div className="text-[10px] text-text-muted mb-0.5">Chg%</div>
+            <div className={`font-mono text-xs font-semibold ${changeColor}`}>
+              {change != null ? (change > 0 ? '+' : '') + change.toFixed(2) + '%' : '—'}
+            </div>
+          </div>
+          <div className="bg-bg-elevated rounded p-1.5">
+            <div className="text-[10px] text-text-muted mb-0.5">Yield</div>
+            <div className="font-mono text-xs font-semibold text-accent-gold">{fmt(row.yield, 2, '%')}</div>
+          </div>
+          <div className="bg-bg-elevated rounded p-1.5">
+            <div className="text-[10px] text-text-muted mb-0.5">{fourth.label}</div>
+            <div className="font-mono text-xs font-semibold">{fourth.value}</div>
           </div>
         </div>
-        <div className="bg-bg-elevated rounded p-1.5">
-          <div className="text-[10px] text-text-muted mb-0.5">Chg%</div>
-          <div className={`font-mono text-xs font-semibold ${changeColor}`}>
-            {change != null ? (change > 0 ? '+' : '') + change.toFixed(2) + '%' : '—'}
-          </div>
-        </div>
-        <div className="bg-bg-elevated rounded p-1.5">
-          <div className="text-[10px] text-text-muted mb-0.5">Yield</div>
-          <div className="font-mono text-xs font-semibold text-accent-gold">
-            {row.yield != null ? row.yield.toFixed(2) + '%' : '—'}
-          </div>
-        </div>
-        <div className="bg-bg-elevated rounded p-1.5">
-          <div className="text-[10px] text-text-muted mb-0.5">
-            {mode === 'reits' ? 'Gear' : 'TER'}
-          </div>
-          <div className="font-mono text-xs font-semibold">
-            {mode === 'reits'
-              ? (row.gearing != null ? row.gearing.toFixed(1) + '%' : '—')
-              : (row.expenseRatio != null ? row.expenseRatio.toFixed(2) + '%' : '—')}
-          </div>
-        </div>
-      </div>
+      )}
 
-      {/* Row 3 — sector, composite score, occupancy */}
+      {isValuation && (
+        <div className="grid grid-cols-2 gap-1.5">
+          <div className="bg-bg-elevated rounded p-1.5 flex flex-col gap-1">
+            <div className="text-[10px] text-text-muted">P/NAV</div>
+            <PNavBadge pb={row.pb} />
+          </div>
+          <div className="bg-bg-elevated rounded p-1.5 flex flex-col gap-1">
+            <div className="text-[10px] text-text-muted">Gearing (est.)</div>
+            <GearingPill gearing={row.gearing} />
+          </div>
+          <div className="bg-bg-elevated rounded p-1.5 flex flex-col gap-1">
+            <div className="text-[10px] text-text-muted">DPU Growth</div>
+            <DpuGrowthCell value={row.dpuGrowth} />
+          </div>
+          <div className="bg-bg-elevated rounded p-1.5 flex flex-col gap-1">
+            <div className="text-[10px] text-text-muted">Dist. Status</div>
+            <DistStatusBadge status={row.distributionStatus} />
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-between gap-2">
         <SectorBadge sector={row.sector || row.category} />
         <div className="flex items-center gap-2 text-xs text-text-muted">
-          {mode === 'reits' && row.occupancy != null && (
-            <span>Occ {row.occupancy.toFixed(1)}%</span>
-          )}
-          {mode === 'reits' && row.composite != null && (
-            <CompositeBadge value={row.composite} />
-          )}
+          {mode === 'stocks' && row.dividendFrequency && <span>{row.dividendFrequency}</span>}
+          {mode === 'reits' && row.composite != null && <CompositeBadge value={row.composite} />}
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+// ── Main component ────────────────────────────────────────────────────────────
 
 export default function DashboardTable({
   data,
   mode,
+  view = 'yield',
   search,
   onSearchChange,
   sectorFilter,
@@ -235,9 +322,11 @@ export default function DashboardTable({
 }) {
   const [sort, setSort] = useState({ key: 'marketCap', dir: 'desc' });
 
-  const cols = mode === 'reits' ? REIT_COLS
-             : mode === 'stocks' ? STOCK_COLS
-             : ETF_COLS;
+  const cols =
+    mode === 'stocks' ? STOCK_COLS
+    : mode === 'etfs' ? ETF_COLS
+    : view === 'valuation' ? REIT_COLS_VALUATION
+    : REIT_COLS_YIELD;
 
   const filtered = useMemo(() => {
     let rows = [...data];
@@ -266,21 +355,19 @@ export default function DashboardTable({
   }, [data, search, sectorFilter, sort]);
 
   function toggleSort(key) {
-    setSort((s) => ({
-      key,
-      dir: s.key === key && s.dir === 'desc' ? 'asc' : 'desc',
-    }));
+    setSort((s) => ({ key, dir: s.key === key && s.dir === 'desc' ? 'asc' : 'desc' }));
   }
+
+  const placeholder = mode === 'reits' ? 'Search REITs…' : mode === 'stocks' ? 'Search stocks…' : 'Search ETFs…';
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Filters row */}
       <div className="flex flex-wrap items-center gap-2">
         <input
           type="text"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder={mode === 'reits' ? 'Search REITs…' : mode === 'stocks' ? 'Search stocks…' : 'Search ETFs…'}
+          placeholder={placeholder}
           className="flex-1 min-w-48 bg-bg-card border border-border rounded px-3 py-1.5 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-gold/50 transition-colors"
         />
         <div className="flex flex-wrap gap-1">
@@ -300,12 +387,11 @@ export default function DashboardTable({
         </div>
       </div>
 
-      {/* Table */}
       {/* Mobile card list */}
       <div className="flex flex-col gap-2 md:hidden">
         {filtered.map((row) => {
-          const isInCompare = compareList && compareList.some((c) => c.ticker === row.ticker)
-          const canAdd = compareList && compareList.length < 2 && !isInCompare
+          const isInCompare = compareList && compareList.some((c) => c.ticker === row.ticker);
+          const canAdd = compareList && compareList.length < 2 && !isInCompare;
           return (
             <MobileCard
               key={row.ticker}
@@ -314,8 +400,9 @@ export default function DashboardTable({
               canAdd={canAdd}
               onCompareToggle={onCompareToggle}
               mode={mode}
+              view={view}
             />
-          )
+          );
         })}
         {filtered.length === 0 && (
           <div className="text-center py-8 text-text-muted text-sm">No results found</div>
@@ -326,7 +413,7 @@ export default function DashboardTable({
       <div className="hidden md:block overflow-x-auto rounded-lg border border-border">
         <table className="w-full text-sm min-w-[900px]">
           <thead>
-            {mode === 'reits' && (
+            {mode === 'reits' && view === 'yield' && (
               <tr className="border-b border-border bg-bg-elevated">
                 {compareList !== undefined && <th className="w-8" />}
                 {cols.map((col, ci) => {
@@ -404,7 +491,9 @@ export default function DashboardTable({
                   {cols.map((col) => (
                     <td
                       key={col.key}
-                      className={`px-3 py-2.5 ${col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : 'text-left'}`}
+                      className={`px-3 py-2.5 ${
+                        col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : 'text-left'
+                      }`}
                     >
                       {col.key === 'ticker' ? (
                         <span className="font-mono text-xs font-semibold text-accent-gold">{row.ticker}</span>
@@ -433,8 +522,7 @@ export default function DashboardTable({
             )}
           </tbody>
         </table>
+      </div>
     </div>
-</div>
-
-      );
+  );
 }

@@ -9,19 +9,33 @@ const REIT_FIELDS = [
   { key: 'sponsor', label: 'Sponsor' },
   { key: 'price', label: 'Price', format: 'price' },
   { key: 'change', label: '% Change', format: 'change' },
-  { key: 'marketCap', label: 'Market Cap (M SGD)', format: 'number' },
+  { key: 'marketCap', label: 'Market Cap', format: 'cap' },
   { key: 'yield', label: 'Dividend Yield %', format: 'pct', higher: 'neutral' },
+  { key: 'dpuGrowth', label: 'DPU Growth (YoY)', format: 'change', higher: 'better' },
+  { key: 'distributionStatus', label: 'Distribution Status', format: 'status' },
   { key: 'nav', label: 'NAV per Unit', format: 'price' },
-  { key: 'pb', label: 'Price / Book', format: 'decimal', higher: 'worse' },
-  { key: 'gearing', label: 'Gearing %', format: 'pct', higher: 'worse' },
-  { key: 'wale', label: 'WALE (Years)', format: 'decimal', higher: 'better' },
-  { key: 'occupancy', label: 'Occupancy %', format: 'pct', higher: 'better' },
+  { key: 'pb', label: 'P / NAV', format: 'decimal', higher: 'worse' },
+  { key: 'gearing', label: 'Gearing % (est.)', format: 'pct', higher: 'worse' },
   { key: 'asset', label: 'Asset Quality (1–5)', format: 'rating', higher: 'better' },
   { key: 'debt', label: 'Debt Quality (1–5)', format: 'rating', higher: 'better' },
   { key: 'dpu', label: 'DPU Quality (1–5)', format: 'rating', higher: 'better' },
   { key: 'manager', label: 'Manager Quality (1–5)', format: 'rating', higher: 'better' },
   { key: 'valuation', label: 'Valuation (1–5)', format: 'rating', higher: 'better' },
   { key: 'composite', label: 'Composite Score', format: 'composite', higher: 'better' },
+  { key: 'listYear', label: 'Listed Year' },
+];
+
+const STOCK_FIELDS = [
+  { key: 'ticker', label: 'Ticker' },
+  { key: 'name', label: 'Name' },
+  { key: 'sector', label: 'Sector' },
+  { key: 'price', label: 'Price', format: 'price' },
+  { key: 'change', label: '% Change', format: 'change' },
+  { key: 'marketCap', label: 'Market Cap', format: 'cap' },
+  { key: 'yield', label: 'Dividend Yield %', format: 'pct', higher: 'neutral' },
+  { key: 'dpuGrowth', label: 'Dividend Growth (YoY)', format: 'change', higher: 'better' },
+  { key: 'pe', label: 'P / E', format: 'decimal', higher: 'worse' },
+  { key: 'dividendFrequency', label: 'Payout Frequency' },
   { key: 'listYear', label: 'Listed Year' },
 ];
 
@@ -49,6 +63,10 @@ function formatValue(value, format) {
       return `${value > 0 ? '+' : ''}${typeof value === 'number' ? value.toFixed(2) : value}%`;
     case 'number':
       return typeof value === 'number' ? value.toLocaleString() : value;
+    case 'cap':
+      return typeof value !== 'number' ? value : value >= 1e9 ? (value / 1e9).toFixed(2) + 'B' : value >= 1e6 ? (value / 1e6).toFixed(0) + 'M' : value.toLocaleString();
+    case 'status':
+      return typeof value === 'string' ? value.charAt(0).toUpperCase() + value.slice(1) : value;
     case 'pct':
       return `${typeof value === 'number' ? value.toFixed(2) : value}%`;
     case 'decimal':
@@ -81,10 +99,12 @@ function CompareIndicator({ valA, valB, preference }) {
   );
 }
 
+const NOUN = { reits: 'REIT', stocks: 'stock', etfs: 'ETF' };
+
 function EmptySlot({ mode, onAddClick }) {
   return (
     <div className="flex-1 min-w-0 flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border p-8 text-center">
-      <p className="text-text-muted text-sm">No {mode === 'reits' ? 'REIT' : 'ETF'} selected</p>
+      <p className="text-text-muted text-sm">No {NOUN[mode] || 'asset'} selected</p>
       <p className="text-text-muted text-xs">Go to Dashboard and click + to add</p>
     </div>
   );
@@ -92,13 +112,13 @@ function EmptySlot({ mode, onAddClick }) {
 
 export default function ComparePanel({ compareList, onRemove, mode }) {
   const [a, b] = compareList;
-  const fields = mode === 'reits' ? REIT_FIELDS : ETF_FIELDS;
+  const fields = mode === 'reits' ? REIT_FIELDS : mode === 'stocks' ? STOCK_FIELDS : ETF_FIELDS;
 
   if (!a && !b) {
     return (
       <div className="flex flex-col items-center justify-center gap-3 py-24 text-center">
         <p className="text-text-secondary text-base">No assets selected for comparison</p>
-        <p className="text-text-muted text-sm">Switch to the Dashboard tab and click + next to any {mode === 'reits' ? 'REIT' : 'ETF'} to add it here.</p>
+        <p className="text-text-muted text-sm">Switch to the Dashboard tab and click + next to any {NOUN[mode] || 'asset'} to add it here.</p>
       </div>
     );
   }
