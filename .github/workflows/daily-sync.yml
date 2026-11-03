@@ -36,7 +36,10 @@ jobs:
       - name: Update US rates & FX
         run: node scripts/update-rates.mjs
 
-      - name: Fetch prices + append history
+      - name: Test calculations
+        run: node --test scripts/test/
+
+      - name: Fetch prices, calculate metrics + append history
         run: node scripts/fetch-prices.mjs
 
       - name: Commit changes
