@@ -156,3 +156,78 @@ test('payout streak counts consecutive years, breaks on a gap', () => {
 test('dividendMetrics exposes payYears', () => {
   assert.equal(dividendMetrics(quarterlyUp, 2, NOW).payYears, 3); // payouts in 2024, 2025, 2026
 });
+
+import { clusterDividends, reconcile, trailingDps } from '../lib/calc.mjs';
+
+// ── Regression tests from the first live run (2026-11-03) ────────────────────
+
+// CICT/CLAR-style: each semi-annual distribution reported as two parts a few days apart.
+// Old logic counted only one part per distribution → half the real DPU and a fake "-48% reduced".
+const splitSemi = [
+  d('2024-02-12', 0.030), d('2024-02-15', 0.029),
+  d('2024-08-13', 0.030), d('2024-08-16', 0.029),
+  d('2025-02-11', 0.030), d('2025-02-14', 0.029),
+  d('2025-08-12', 0.030), d('2025-08-15', 0.029),
+  d('2026-02-10', 0.030), d('2026-02-13', 0.029),
+  d('2026-08-11', 0.030), d('2026-08-14', 0.029),
+];
+
+test('split distributions are grouped: full annual DPU, correct frequency, no fake cut', () => {
+  assert.equal(clusterDividends(cleanDividends(splitSemi)).length, 6);
+  const m = dividendMetrics(splitSemi, 2.27, NOW);
+  assert.equal(m.freq, 2);
+  approx(m.dpuTtm, 0.118, 1e-9);        // 2 distributions × (0.030 + 0.029)
+  approx(m.growth, 0, 1e-9);
+  assert.equal(m.status, 'active');
+  approx(m.yield, (0.118 / 2.27) * 100, 1e-9);
+});
+
+test('a missing earlier payout in the data does NOT create fake growth', () => {
+  // 2025-03 distribution absent from the feed; old logic compared against the wrong older payouts (+43%)
+  const gappy = [d('2024-09-01', 0.04), d('2025-09-01', 0.10), d('2026-03-01', 0.10), d('2026-09-01', 0.10)];
+  const m = dividendMetrics(gappy, 3.0, NOW);
+  assert.equal(m.growth, null);
+  assert.equal(m.status, 'active');
+});
+
+test('monthly payers are not merged into one event', () => {
+  const monthly = Array.from({ length: 24 }, (_, i) => d(new Date(Date.UTC(2024 + Math.floor(i / 12), i % 12, 15)).toISOString(), 0.01));
+  assert.equal(clusterDividends(cleanDividends(monthly)).length, 24);
+});
+
+test('trailing DPS: uses Yahoo rate, falls back to yield × price', () => {
+  assert.equal(trailingDps({ trailingAnnualDividendRate: 0.12 }, 2), 0.12);
+  approx(trailingDps({ trailingAnnualDividendYield: 0.05 }, 2), 0.10, 1e-12);
+  assert.equal(trailingDps({}, 2), null);
+});
+
+test('reconcile: within 10% ok, outside mismatch, missing unchecked', () => {
+  assert.equal(reconcile(0.118, 0.12, 'active'), 'ok');
+  assert.equal(reconcile(0.06, 0.12, 'active'), 'mismatch');   // the "half" bug
+  assert.equal(reconcile(0.0085, 0.0041, 'reduced'), 'mismatch');
+  assert.equal(reconcile(0.1, null, 'active'), 'unchecked');
+  assert.equal(reconcile(null, 0.1, null), 'unchecked');
+  assert.equal(reconcile(0, 0, 'suspended'), 'ok');
+});
+
+test('buildCalculated publishes nothing when our maths disagrees with Yahoo', () => {
+  // Feed that undercounts by half (one component per distribution) vs Yahoo's true trailing 0.118
+  const undercounted = splitSemi.filter((_, i) => i % 2 === 0).map((x) => ({ ...x, date: new Date(x.date.getTime() + 40 * 86_400_000) }));
+  const bad = buildCalculated({ kind: 'reit', now: NOW, quote: { regularMarketPrice: 2.27, trailingAnnualDividendRate: 0.118 }, dividends: undercounted });
+  assert.equal(bad.dpuCheck, 'mismatch');
+  assert.equal(bad.yield, null);
+  assert.equal(bad.dpuGrowth, null);
+  assert.equal(bad.distributionStatus, null);
+  assert.ok(bad.dpuTtmCalc > 0 && bad.dpuTtmYahoo === 0.118); // kept for diagnostics
+
+  const good = buildCalculated({ kind: 'reit', now: NOW, quote: { regularMarketPrice: 2.27, trailingAnnualDividendRate: 0.118 }, dividends: splitSemi });
+  assert.equal(good.dpuCheck, 'ok');
+  approx(good.yield, 5.1982, 1e-3);
+  assert.equal(good.distributionStatus, 'active');
+});
+
+test('without a Yahoo reference the result is published but marked unchecked', () => {
+  const out = buildCalculated({ kind: 'stock', now: NOW, quote: { regularMarketPrice: 74, trailingPE: 11 }, dividends: quarterlyUp });
+  assert.equal(out.dpuCheck, 'unchecked');
+  assert.equal(out.yield != null, true);
+});
