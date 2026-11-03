@@ -7,7 +7,7 @@ import YahooFinanceLib from 'yahoo-finance2';
 import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { buildCalculated } from './lib/calc.mjs';
+import { buildCalculated, cleanDividends } from './lib/calc.mjs';
 
 const yf = new YahooFinanceLib({ suppressNotices: ['yahooSurvey'] });
 const __dirname   = path.dirname(fileURLToPath(import.meta.url));
@@ -69,7 +69,7 @@ function appendHistory(ticker, row) {
 const asArray = (divs) => (Array.isArray(divs) ? divs : divs && typeof divs === 'object' ? Object.values(divs) : []);
 
 // Calculated keys we carry over from last night when a sub-fetch fails
-const DIVIDEND_KEYS = ['dpuTtm', 'dpuFreq', 'dpuGrowth', 'distributionStatus', 'lastExDate', 'payYears', 'yield'];
+const DIVIDEND_KEYS = ['dpuTtm', 'dpuFreq', 'dpuGrowth', 'distributionStatus', 'lastExDate', 'payYears', 'yield', 'dpuCheck'];
 const GEARING_KEYS  = ['gearing', 'gearingAsAt'];
 const pickKeys = (obj = {}, keys) => Object.fromEntries(keys.filter((k) => k in obj).map((k) => [k, obj[k]]));
 
@@ -101,6 +101,10 @@ async function fetchOne({ ticker, kind }, prev) {
   }
 
   const calc = buildCalculated({ quote, dividends, balanceRows, kind });
+  if (calc.dpuCheck === 'mismatch' && dividends) {
+    const tail = cleanDividends(dividends).slice(-8).map((x) => `${new Date(x.t).toISOString().slice(0, 10)}:${x.amount}`).join(' ');
+    notes.push(`DPU mismatch (calc ${calc.dpuTtmCalc} vs Yahoo ${calc.dpuTtmYahoo}) — raw events: ${tail}`);
+  }
   const carried = {
     ...(dividends ? {} : pickKeys(prev, DIVIDEND_KEYS)),
     ...(balanceRows || kind !== 'reit' ? {} : pickKeys(prev, GEARING_KEYS)),
@@ -187,6 +191,10 @@ async function main() {
   console.log(`  REITs   yield ${cov('reit', 'yield')} · DPU growth ${cov('reit', 'dpuGrowth')} · status ${cov('reit', 'distributionStatus')} · P/NAV ${cov('reit', 'pb')} · gearing ${cov('reit', 'gearing')}`);
   console.log(`  Stocks  yield ${cov('stock', 'yield')} · DPU growth ${cov('stock', 'dpuGrowth')} · P/E ${cov('stock', 'pe')}`);
   console.log(`  ETFs    yield ${cov('etf', 'yield')}`);
+  const check = (k) => JOBS.map((j) => prices[j.ticker]?.dpuCheck).filter((v) => v === k).length;
+  console.log(`  DPU cross-check vs Yahoo: ok ${check('ok')} · mismatch ${check('mismatch')} (published as —) · unchecked ${check('unchecked')}`);
+  const mism = JOBS.filter((j) => prices[j.ticker]?.dpuCheck === 'mismatch').map((j) => j.ticker);
+  if (mism.length) console.log(`  Mismatched tickers: ${mism.join(', ')}`);
   const noGearing = REIT_TICKERS.filter((t) => prices[t] && prices[t].gearing == null);
   const noPb = REIT_TICKERS.filter((t) => prices[t] && prices[t].pb == null);
   if (noGearing.length) console.log(`  REITs without gearing estimate: ${noGearing.join(', ')}`);
