@@ -72,3 +72,21 @@ export function applyLiveData(items, dataMap = {}) {
     }
   })
 }
+
+// Seconds left for the live refresh, from the average time per ticker so far.
+// null = not enough data to estimate yet.
+export function etaSeconds(processed, total, startedAt, now = Date.now()) {
+  if (!total || processed >= total) return processed >= total && total ? 0 : null
+  if (startedAt == null || processed < 3) return null
+  const perTicker = (now - startedAt) / processed
+  return Math.max(0, Math.round(((total - processed) * perTicker) / 1000))
+}
+
+export function formatDuration(seconds) {
+  if (seconds < 5) return 'a few seconds'
+  if (seconds < 60) return `${Math.max(5, Math.round(seconds / 5) * 5)} sec`
+  let m = Math.floor(seconds / 60)
+  let s = Math.round((seconds % 60) / 10) * 10
+  if (s === 60) { m += 1; s = 0 }
+  return s ? `${m} min ${s} sec` : `${m} min`
+}

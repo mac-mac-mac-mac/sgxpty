@@ -77,3 +77,20 @@ export function nearLows(items, { withinPct = 10, minYield = 4 } = {}) {
     .filter((r) => r.pctAboveLow <= withinPct && r.yield >= minYield)
     .sort((a, b) => a.pctAboveLow - b.pctAboveLow);
 }
+
+/** Sort rows by key; empty values always last; strings A→Z, numbers high→low unless dir says otherwise. */
+export function sortRows(rows, key, dir = 'desc') {
+  const empty = (v) => v == null || (typeof v === 'number' && !Number.isFinite(v));
+  return [...rows].sort((a, b) => {
+    const av = a[key];
+    const bv = b[key];
+    if (empty(av) && empty(bv)) return 0;
+    if (empty(av)) return 1;
+    if (empty(bv)) return -1;
+    const cmp = typeof av === 'string' && typeof bv === 'string' ? av.localeCompare(bv) : av < bv ? -1 : av > bv ? 1 : 0;
+    return dir === 'asc' ? cmp : -cmp;
+  });
+}
+
+/** First click on a text column sorts A→Z; on a numeric column, high→low. */
+export const firstDir = (rows, key) => (typeof rows.find((r) => r[key] != null)?.[key] === 'string' ? 'asc' : 'desc');
