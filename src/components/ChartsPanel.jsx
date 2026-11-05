@@ -3,10 +3,11 @@ import {
   ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   ReferenceLine, ReferenceArea, Cell, LabelList,
 } from 'recharts';
+import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
 import PNavBadge from './PNavBadge';
 import GearingPill from './GearingPill';
 import {
-  median, yieldMapPoints, trapMapPoints, trapZone, sectorStats, nearLows,
+  median, yieldMapPoints, trapMapPoints, trapZone, sectorStats, nearLows, sortRows, firstDir,
 } from '../lib/analytics';
 
 const GREEN = '#22c55e';
@@ -141,25 +142,52 @@ function YieldTrapMap({ points, limit }) {
   );
 }
 
+// ── Sortable table plumbing ───────────────────────────────────────────────────
+const TH = 'px-3 py-2.5 text-xs font-semibold text-text-secondary uppercase tracking-wide whitespace-nowrap cursor-pointer select-none hover:text-text-primary transition-colors';
+const ALIGN = { left: 'text-left', right: 'text-right', center: 'text-center' };
+
+function useSort(defaultKey, defaultDir) {
+  const [sort, setSort] = useState({ key: defaultKey, dir: defaultDir });
+  const onSort = (key, rows) =>
+    setSort((s) => (s.key === key ? { key, dir: s.dir === 'desc' ? 'asc' : 'desc' } : { key, dir: firstDir(rows, key) }));
+  return [sort, onSort];
+}
+
+function SortTh({ label, col, sort, onSort, rows, align = 'right' }) {
+  const active = sort.key === col;
+  const Icon = !active ? ChevronsUpDown : sort.dir === 'asc' ? ChevronUp : ChevronDown;
+  return (
+    <th className={`${TH} ${ALIGN[align]}`} onClick={() => onSort(col, rows)} aria-sort={active ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
+      <span className="inline-flex items-center gap-1">
+        {label}
+        <Icon className={`w-3 h-3 ${active ? 'text-accent-gold' : 'opacity-30'}`} />
+      </span>
+    </th>
+  );
+}
+
 // ── 3. Sector scorecard ───────────────────────────────────────────────────────
 function SectorScorecard({ rows }) {
-  const th = 'px-3 py-2.5 text-xs font-semibold text-text-secondary uppercase tracking-wide whitespace-nowrap';
+  const data = useMemo(() => rows.map((r) => ({ ...r, growingShare: r.growthKnown ? r.growing / r.growthKnown : null })), [rows]);
+  const [sort, onSort] = useSort('medYield', 'desc');
+  const sorted = useMemo(() => sortRows(data, sort.key, sort.dir), [data, sort]);
+  const h = (label, col, align = 'right') => <SortTh label={label} col={col} sort={sort} onSort={onSort} rows={data} align={align} />;
   return (
     <div className="overflow-x-auto rounded border border-border">
       <table className="w-full text-sm min-w-[620px]">
         <thead>
           <tr className="bg-bg-elevated border-b border-border">
-            <th className={`${th} text-left`}>Sector</th>
-            <th className={`${th} text-right`}>REITs</th>
-            <th className={`${th} text-right`}>Median yield</th>
-            <th className={`${th} text-center`}>Median P/NAV</th>
-            <th className={`${th} text-center`}>Median gearing (est.)</th>
-            <th className={`${th} text-right`}>DPU rising</th>
-            <th className={`${th} text-right`}>Cut / suspended</th>
+            {h('Sector', 'sector', 'left')}
+            {h('REITs', 'count')}
+            {h('Median yield', 'medYield')}
+            {h('Median P/NAV', 'medPb', 'center')}
+            {h('Median gearing (est.)', 'medGearing', 'center')}
+            {h('DPU rising', 'growingShare')}
+            {h('Cut / suspended', 'troubled')}
           </tr>
         </thead>
         <tbody>
-          {rows.map((s, i) => (
+          {sorted.map((s, i) => (
             <tr key={s.sector} className={`border-b border-border/50 ${i % 2 ? 'bg-bg-secondary/40' : ''}`}>
               <td className="px-3 py-2.5 font-medium">{s.sector}</td>
               <td className="px-3 py-2.5 text-right font-mono text-xs text-text-secondary">{s.count}</td>
@@ -214,28 +242,30 @@ function RangeBar({ position }) {
 function NearLowsList({ items }) {
   const [withinPct, setWithinPct] = useState(5);
   const [minYield, setMinYield] = useState(6);
-  const rows = useMemo(() => nearLows(items, { withinPct, minYield }), [items, withinPct, minYield]);
-  const th = 'px-3 py-2.5 text-xs font-semibold text-text-secondary uppercase tracking-wide whitespace-nowrap';
+  const found = useMemo(() => nearLows(items, { withinPct, minYield }).map((r) => ({ ...r, label: r.shortName || r.name })), [items, withinPct, minYield]);
+  const [sort, onSort] = useSort('pctAboveLow', 'asc');
+  const rows = useMemo(() => sortRows(found, sort.key, sort.dir), [found, sort]);
+  const h = (label, col, align = 'right') => <SortTh label={label} col={col} sort={sort} onSort={onSort} rows={found} align={align} />;
   return (
     <>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
         <Pills label="Within" options={[2, 5, 10, 15]} value={withinPct} onChange={setWithinPct} suffix="% of low" />
         <Pills label="Yield at least" options={[4, 5, 6, 7]} value={minYield} onChange={setMinYield} suffix="%" />
-        <span className="text-xs text-text-muted ml-auto">{rows.length} {rows.length === 1 ? 'name' : 'names'}</span>
+        <span className="text-xs text-text-muted ml-auto">{found.length} {found.length === 1 ? 'name' : 'names'}</span>
       </div>
       <div className="overflow-x-auto rounded border border-border">
         <table className="w-full text-sm min-w-[760px]">
           <thead>
             <tr className="bg-bg-elevated border-b border-border">
-              <th className={`${th} text-left`}>Ticker</th>
-              <th className={`${th} text-left`}>Name</th>
-              <th className={`${th} text-right`}>Price</th>
-              <th className={`${th} text-right`}>52w low</th>
-              <th className={`${th} text-right`}>Above low</th>
-              <th className={`${th} text-center`}>52w range</th>
-              <th className={`${th} text-right`}>Yield</th>
-              <th className={`${th} text-center`}>P/NAV</th>
-              <th className={`${th} text-right`}>DPU growth</th>
+              {h('Ticker', 'ticker', 'left')}
+              {h('Name', 'label', 'left')}
+              {h('Price', 'price')}
+              {h('52w low', 'low52')}
+              {h('Above low', 'pctAboveLow')}
+              {h('52w range', 'position', 'center')}
+              {h('Yield', 'yield')}
+              {h('P/NAV', 'pb', 'center')}
+              {h('DPU growth', 'dpuGrowth')}
             </tr>
           </thead>
           <tbody>
