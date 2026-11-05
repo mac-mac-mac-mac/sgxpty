@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 import { REITS, SECTORS } from './data/reits';
 import { ETFS, ETF_CATEGORIES } from './data/etfs';
 import { STOCKS, STOCK_SECTORS } from './data/stocks';
-import { fetchSingleQuote, applyLiveData, mergeLive } from './lib/yahooFinance';
+import { fetchSingleQuote, applyLiveData, mergeLive, etaSeconds, formatDuration } from './lib/yahooFinance';
 import DAILY_PRICES from './data/prices.json';
 
 const MODES = [
@@ -57,6 +57,9 @@ export default function App() {
   const [compareList, setCompareList] = useState([]);
   const [liveCount, setLiveCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const [processed, setProcessed] = useState(0);   // tickers attempted so far (success or fail)
+  const [startedAt, setStartedAt] = useState(null);
+  const [lastLiveAt, setLastLiveAt] = useState(null);
   const abortRef = useRef(null);
   const liveMapRef = useRef({});
 
@@ -67,6 +70,8 @@ export default function App() {
 
     liveMapRef.current = {};
     setLiveCount(0);
+    setProcessed(0);
+    setStartedAt(Date.now());
     setIsRefreshing(true);
     setLiveStatus('loading');
 
@@ -92,6 +97,7 @@ export default function App() {
       } catch (err) {
         console.warn(`[SGXPTY] ${ticker}:`, err.message);
       }
+      setProcessed(i + 1);
       // 1.5s gap between requests — stays under Yahoo's rate limit
       if (i < allTickers.length - 1 && !controller.signal.aborted) {
         await new Promise((r) => setTimeout(r, 1500));
@@ -101,6 +107,7 @@ export default function App() {
     if (!controller.signal.aborted) {
       setIsRefreshing(false);
       if (loaded === 0) setLiveStatus(hasDailyPrices ? 'daily' : 'fallback');
+      else setLastLiveAt(new Date());
     }
   }, [hasDailyPrices]);
 
@@ -140,6 +147,9 @@ export default function App() {
     stocks: `${stocksData.length} STI Dividend Stocks`,
   };
 
+  const eta = etaSeconds(processed, totalCount, startedAt);
+  const etaLabel = eta == null ? 'estimating time left…' : eta === 0 ? 'almost done' : `about ${formatDuration(eta)} left`;
+
   function handleModeChange(next) {
     setMode(next);
     setCompareList([]); // compare list is per asset type
@@ -175,10 +185,32 @@ export default function App() {
             </div>
 
             {/* Live data banner */}
-            {liveStatus === 'live' && (
-              <div className="flex items-center gap-2 px-4 py-2 bg-accent-green/5 border border-accent-green/20 rounded text-xs text-accent-green">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent-green animate-pulse" />
-                Live prices from Yahoo Finance — yield and P/NAV recalculated on the live price
+            {isRefreshing && totalCount > 0 && (
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2.5 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                  Updating live prices — {processed} of {totalCount}
+                </span>
+                <div className="flex-1 min-w-32 max-w-72 h-1.5 bg-blue-500/20 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-400 rounded-full transition-all duration-500"
+                    style={{ width: `${(processed / totalCount) * 100}%` }}
+                  />
+                </div>
+                <span className="font-mono">{Math.round((processed / totalCount) * 100)}%</span>
+                <span className="text-text-muted">{etaLabel}</span>
+                <span className="text-text-muted">Tables show last close and update as prices arrive.</span>
+              </div>
+            )}
+            {!isRefreshing && liveStatus === 'live' && (
+              <div className="flex items-center justify-between px-4 py-2 bg-accent-green/5 border border-accent-green/20 rounded text-xs text-accent-green">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-green" />
+                  Live prices loaded{lastLiveAt ? ` at ${lastLiveAt.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' })}` : ''} — yield and P/NAV recalculated on the live price
+                </div>
+                <button onClick={loadLiveData} className="underline hover:text-green-300 transition-colors">
+                  Refresh again →
+                </button>
               </div>
             )}
             {liveStatus === 'daily' && (
@@ -190,18 +222,6 @@ export default function App() {
                 <button onClick={loadLiveData} className="underline hover:text-blue-300 transition-colors">
                   Refresh for live prices →
                 </button>
-              </div>
-            )}
-            {liveStatus === 'loading' && totalCount > 0 && (
-              <div className="flex items-center gap-2 px-4 py-2 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                Fetching live prices — {liveCount} / {totalCount} tickers (~2 min due to rate limits)
-                <div className="flex-1 max-w-48 h-1 bg-blue-500/20 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-blue-400 rounded-full transition-all duration-300"
-                    style={{ width: `${(liveCount / totalCount) * 100}%` }}
-                  />
-                </div>
               </div>
             )}
             {liveStatus === 'fallback' && (
