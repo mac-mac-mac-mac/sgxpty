@@ -56,6 +56,8 @@ export function applyLiveData(items, dataMap = {}) {
       price,
       change: finite(d.changePercent) != null ? +d.changePercent.toFixed(2) : null,
       marketCap: finite(d.marketCap),
+      low52: finite(d.fiftyTwoWeekLow),
+      high52: finite(d.fiftyTwoWeekHigh),
       currency: d.currency || null,
       yield: yieldPct,
       dpuGrowth: finite(d.dpuGrowth),
