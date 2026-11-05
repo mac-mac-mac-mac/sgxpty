@@ -29,7 +29,7 @@ export function mergeLive(daily = {}, live = {}) {
   for (const [ticker, quote] of Object.entries(live)) {
     const patch = {}
     for (const key of LIVE_FIELDS) if (quote?.[key] != null) patch[key] = quote[key]
-    out[ticker] = { ...(daily[ticker] || {}), ...patch }
+    out[ticker] = { ...(daily[ticker] || {}), ...patch, isLive: true, liveAt: quote?.liveAt ?? null }
   }
   return out
 }
@@ -69,6 +69,8 @@ export function applyLiveData(items, dataMap = {}) {
       gearing: finite(d.gearing),
       dividendFrequency: FREQ_LABEL[d.dpuFreq] || null,
       stale: Boolean(d.stale),
+      isLive: Boolean(d.isLive),   // true once this session's live quote has arrived
+      liveAt: d.liveAt ?? null,
     }
   })
 }
