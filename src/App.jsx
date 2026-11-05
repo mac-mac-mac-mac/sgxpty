@@ -245,7 +245,7 @@ export default function App() {
               onCompareToggle={handleCompareToggle}
             />
 
-            <ChartsPanel reits={reitsData} etfs={etfsData} />
+            <ChartsPanel reits={reitsData} stocks={stocksData} />
           </div>
         )}
 
@@ -281,10 +281,10 @@ export default function App() {
             <div>
               <h1 className="text-xl font-bold text-text-accent">Charts</h1>
               <p className="text-xs text-text-muted mt-0.5">
-                Sector distribution, yield analysis and allocation breakdowns
+                Valuation, yield-trap and 52-week-low screens, calculated from nightly data
               </p>
             </div>
-            <ChartsPanel reits={reitsData} etfs={etfsData} />
+            <ChartsPanel reits={reitsData} stocks={stocksData} />
           </div>
         )}
 
