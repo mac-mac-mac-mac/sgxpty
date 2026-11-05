@@ -83,7 +83,7 @@ export default function App() {
       if (controller.signal.aborted) break;
       const ticker = allTickers[i];
       try {
-        liveMapRef.current[ticker] = await fetchSingleQuote(ticker);
+        liveMapRef.current[ticker] = { ...(await fetchSingleQuote(ticker)), liveAt: Date.now() };
         loaded++;
         setLiveCount(loaded);
 
@@ -206,7 +206,7 @@ export default function App() {
               <div className="flex items-center justify-between px-4 py-2 bg-accent-green/5 border border-accent-green/20 rounded text-xs text-accent-green">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-green" />
-                  Live prices loaded{lastLiveAt ? ` at ${lastLiveAt.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' })}` : ''} — yield and P/NAV recalculated on the live price
+                  Live prices loaded{lastLiveAt ? ` at ${lastLiveAt.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' })}` : ''} — {liveCount} of {totalCount} prices updated{liveCount < totalCount ? `, ${totalCount - liveCount} still on last close` : ''}; yield and P/NAV recalculated on the live price
                 </div>
                 <button onClick={loadLiveData} className="underline hover:text-green-300 transition-colors">
                   Refresh again →
