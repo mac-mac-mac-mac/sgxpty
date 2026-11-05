@@ -214,6 +214,34 @@ function DpuGrowthCell({ value }) {
   );
 }
 
+// Green dot = live price received this session; hollow = last close from the nightly job.
+function LiveDot({ row }) {
+  const cls = row.isLive ? 'bg-accent-green' : row.stale ? 'border border-amber-400' : 'border border-text-muted';
+  return <span className={`inline-block w-1.5 h-1.5 rounded-full shrink-0 ${cls}`} />;
+}
+
+function priceTitle(row) {
+  if (row.isLive) {
+    const t = row.liveAt ? new Date(row.liveAt).toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
+    return `Live price${t ? ` · updated ${t}` : ''}`;
+  }
+  return row.stale ? 'Last close — the nightly update missed this ticker, so it may be out of date' : 'Last close (updated nightly)';
+}
+
+function PriceCell({ row }) {
+  if (row.price == null) return <span className="text-text-muted">—</span>;
+  return (
+    <span
+      title={priceTitle(row)}
+      className={`inline-flex items-center justify-end gap-1.5 rounded px-1 font-mono text-xs ${row.isLive ? 'sgxpty-flash' : ''}`}
+    >
+      <LiveDot row={row} />
+      {row.currency && <span className="text-text-muted text-[10px]">{row.currency}</span>}
+      {row.price.toFixed(row.price < 1 ? 3 : 2)}
+    </span>
+  );
+}
+
 const fmt = (v, dp = 2, suffix = '') => (v != null && !isNaN(v) ? Number(v).toFixed(dp) + suffix : '—');
 
 // ── Mobile card ───────────────────────────────────────────────────────────────
@@ -253,7 +281,8 @@ function MobileCard({ row, isInCompare, canAdd, onCompareToggle, mode, view }) {
         <div className="grid grid-cols-4 gap-1 text-center">
           <div className="bg-bg-elevated rounded p-1.5">
             <div className="text-[10px] text-text-muted mb-0.5">Price</div>
-            <div className="font-mono text-xs font-semibold">
+            <div className="font-mono text-xs font-semibold inline-flex items-center gap-1" title={priceTitle(row)}>
+              <LiveDot row={row} />
               {row.price != null ? row.price.toFixed(row.price < 1 ? 3 : 2) : '—'}
             </div>
           </div>
@@ -362,6 +391,7 @@ export default function DashboardTable({
 
   return (
     <div className="flex flex-col gap-4">
+      <style>{`@keyframes sgxptyFlash{0%{background-color:rgba(34,197,94,.35)}100%{background-color:transparent}}.sgxpty-flash{animation:sgxptyFlash 1.6s ease-out}`}</style>
       <div className="flex flex-wrap items-center gap-2">
         <input
           type="text"
@@ -385,6 +415,11 @@ export default function DashboardTable({
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[11px] text-text-muted -mt-2">
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-green" />Live price (updated just now)</span>
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block w-1.5 h-1.5 rounded-full border border-text-muted" />Last close (updated nightly)</span>
       </div>
 
       {/* Mobile card list */}
@@ -505,8 +540,10 @@ export default function DashboardTable({
                         <span className="text-xs text-text-secondary truncate max-w-32 block" title={row.assetClass}>{row.assetClass}</span>
                       ) : col.key === 'dividendFrequency' ? (
                         <span className="text-xs text-text-secondary">{row.dividendFrequency || '—'}</span>
+                      ) : col.key === 'price' ? (
+                        <PriceCell row={row} />
                       ) : (
-                        formatCell(row[col.key], col.format, col.key === 'price' ? row.currency : null)
+                        formatCell(row[col.key], col.format, null)
                       )}
                     </td>
                   ))}
