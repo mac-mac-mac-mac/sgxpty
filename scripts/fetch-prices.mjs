@@ -192,7 +192,7 @@ async function main() {
   console.log(`  Stocks  yield ${cov('stock', 'yield')} · DPU growth ${cov('stock', 'dpuGrowth')} · P/E ${cov('stock', 'pe')}`);
   console.log(`  ETFs    yield ${cov('etf', 'yield')}`);
   const check = (k) => JOBS.map((j) => prices[j.ticker]?.dpuCheck).filter((v) => v === k).length;
-  console.log(`  DPU cross-check vs Yahoo: ok ${check('ok')} · mismatch ${check('mismatch')} (published as —) · unchecked ${check('unchecked')}`);
+  console.log(`  DPU cross-check vs Yahoo: ok ${check('ok')} · above ${check('above')} (published; calc 10-40% over Yahoo) · mismatch ${check('mismatch')} (published as —) · unchecked ${check('unchecked')}`);
   const mism = JOBS.filter((j) => prices[j.ticker]?.dpuCheck === 'mismatch').map((j) => j.ticker);
   if (mism.length) console.log(`  Mismatched tickers: ${mism.join(', ')}`);
   const noGearing = REIT_TICKERS.filter((t) => prices[t] && prices[t].gearing == null);
