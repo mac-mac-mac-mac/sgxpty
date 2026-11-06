@@ -14,7 +14,8 @@ export const FREQ_LABEL = { 1: 'Annual', 2: 'Semi-annual', 4: 'Quarterly', 12: '
 
 const CLUSTER_DAYS = 10;          // payouts this close together are ONE distribution (split components)
 const WINDOW_JITTER = 20 * DAY;   // tolerance for ex-dates drifting a few days year to year
-export const DPU_TOLERANCE = 0.10; // calculated annual DPU must be within 10% of Yahoo's trailing figure
+export const DPU_UNDER = 0.10; // calculated annual DPU may be at most 10% BELOW Yahoo's trailing figure (= missing payouts)
+export const DPU_OVER = 0.40;  // ...and up to 40% ABOVE it (special / capital-return payouts Yahoo's figure leaves out)
 
 /** Keep valid payouts (one per exact timestamp), sorted oldest → newest. */
 export function cleanDividends(list = []) {
@@ -67,13 +68,21 @@ export function payoutStreakYears(divs, now = Date.now()) {
   return n;
 }
 
+/** Longest gap (days) between the most recent distributions — the "normal" cadence incl. split tranches. */
+function longestRecentGapDays(events) {
+  const recent = events.slice(-8);
+  let max = 0;
+  for (let i = 1; i < recent.length; i++) max = Math.max(max, (recent[i].t - recent[i - 1].t) / DAY);
+  return max || 365;
+}
+
 /**
  * Annual DPU, YoY growth, yield and distribution status from raw payouts.
- *  - two date windows anchored on the latest distribution: the last year and the year before
- *  - annual DPU = sum of the last-year window
- *  - growth     = only when BOTH windows hold exactly the expected number of distributions
- *                 (a missing payout in Yahoo's data must not look like growth)
- *  - suspended  = no payout for > 1.6 × the normal gap (+15 days)
+ *  - annual DPU = EVERYTHING paid in the year ending at the latest distribution
+ *                 (so a distribution paid in several tranches is counted in full)
+ *  - growth     = that vs the year before, only when both years hold the same number of payouts
+ *                 (a payout missing from Yahoo's data must not look like growth or a cut)
+ *  - suspended  = nothing paid for > 1.6 × the longest recent gap (+15 days)
  *  - reduced    = still paying but annual DPU fell ≥ 20% YoY
  */
 export function dividendMetrics(rawDividends, price, now = Date.now()) {
@@ -89,21 +98,19 @@ export function dividendMetrics(rawDividends, price, now = Date.now()) {
   const payouts = events.length;
   const payYears = payoutStreakYears(divs, now);
 
-  if (daysSince > (365 / freq) * 1.6 + 15) {
+  if (daysSince > longestRecentGapDays(events) * 1.6 + 15) {
     return { status: 'suspended', dpuTtm: 0, freq, growth: -100, yield: 0, lastExDate, payouts, payYears };
   }
 
   const sum = (arr) => arr.reduce((a, e) => a + e.amount, 0);
   const w1 = events.filter((e) => e.t > last.t - 365 * DAY + WINDOW_JITTER && e.t <= last.t);
   const w2 = events.filter((e) => e.t > last.t - 730 * DAY + WINDOW_JITTER && e.t <= last.t - 365 * DAY + WINDOW_JITTER);
+  const fullYear = last.t - events[0].t >= 365 * DAY - WINDOW_JITTER; // at least a year of history
 
-  let dpuTtm;
-  if (w1.length === freq) dpuTtm = sum(w1);
-  else if (w1.length > freq) dpuTtm = sum(events.slice(-freq));
-  else dpuTtm = (sum(w1) / w1.length) * freq; // fewer than expected (new listing / gap) → annualise
+  const dpuTtm = fullYear ? sum(w1) : (sum(w1) / w1.length) * freq; // new listing → annualise
 
   let growth = null;
-  if (w1.length === freq && w2.length === freq) {
+  if (fullYear && w1.length > 0 && w1.length === w2.length) {
     const prior = sum(w2);
     if (prior > 0) growth = (dpuTtm / prior - 1) * 100;
   }
@@ -121,11 +128,13 @@ export function trailingDps(quote, price) {
   return y != null && num(price) > 0 ? y * price : null;
 }
 
-/** 'ok' | 'mismatch' | 'unchecked' */
+/** 'ok' | 'above' | 'mismatch' | 'unchecked'   ('above' = published; calc is 10–40% over Yahoo, typically special payouts) */
 export function reconcile(calc, ref, status) {
   if (calc == null || ref == null) return 'unchecked';
-  if (ref === 0) return calc === 0 || status === 'suspended' ? 'ok' : 'mismatch';
-  return Math.abs(calc - ref) / ref <= DPU_TOLERANCE ? 'ok' : 'mismatch';
+  if (ref === 0) return calc === 0 ? 'ok' : 'unchecked'; // Yahoo has no trailing figure → cannot judge
+  const rel = (calc - ref) / ref;
+  if (rel < -DPU_UNDER || rel > DPU_OVER) return 'mismatch';
+  return rel > DPU_UNDER ? 'above' : 'ok';
 }
 
 // ── Valuation ────────────────────────────────────────────────────────────────
