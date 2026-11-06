@@ -231,3 +231,66 @@ test('without a Yahoo reference the result is published but marked unchecked', (
   assert.equal(out.dpuCheck, 'unchecked');
   assert.equal(out.yield != null, true);
 });
+
+// ── Regression tests from the second live run (2026-11-05) ───────────────────
+// CICT / CLAR / CLINT: every distribution reported in TWO tranches ~25 days apart (too far to merge).
+// The first fix summed only the last distribution → exactly 0.50× Yahoo's figure (0.0602 vs 0.12).
+const tranches = [2024, 2025, 2026].flatMap((y) => [
+  d(`${y}-02-10`, 0.030), d(`${y}-03-07`, 0.030),
+  d(`${y}-08-12`, 0.030), d(`${y}-09-06`, 0.030),
+]);
+
+test('two-tranche distributions: the full year is counted, not half', () => {
+  const m = dividendMetrics(tranches, 2.27, NOW);
+  approx(m.dpuTtm, 0.12, 1e-9);            // 4 payouts × 0.030 (was 0.06)
+  approx(m.growth, 0, 1e-9);
+  assert.equal(m.status, 'active');         // 54 days since the last tranche is NOT a suspension
+  approx(m.yield, (0.12 / 2.27) * 100, 1e-9);
+});
+
+test('two-tranche REIT reconciles with Yahoo and is published', () => {
+  const out = buildCalculated({ kind: 'reit', now: NOW, quote: { regularMarketPrice: 2.27, trailingAnnualDividendRate: 0.12 }, dividends: tranches });
+  assert.equal(out.dpuCheck, 'ok');
+  approx(out.yield, 5.2863, 1e-3);
+  assert.equal(out.distributionStatus, 'active');
+});
+
+test('a tranche payer that stopped paying is still caught as suspended', () => {
+  const stopped = [2022, 2023].flatMap((y) => [d(`${y}-02-10`, 0.03), d(`${y}-03-07`, 0.03), d(`${y}-08-12`, 0.03), d(`${y}-09-06`, 0.03)]);
+  const m = dividendMetrics(stopped, 0.5, NOW);
+  assert.equal(m.status, 'suspended');
+  assert.equal(m.yield, 0);
+});
+
+test('special / capital-return payouts: 10–40% above Yahoo is published, flagged "above"', () => {
+  // quarterly 0.60 ×4 plus a 0.78 capital return within the year = 3.18 vs Yahoo's 2.58 (+23%)
+  const bank = [
+    d('2025-02-14', 0.60), d('2025-05-16', 0.60), d('2025-08-14', 0.60), d('2025-11-07', 0.60),
+    d('2026-02-13', 0.60), d('2026-05-15', 0.60), d('2026-08-14', 0.60),
+  ];
+  const out = buildCalculated({ kind: 'stock', now: NOW, quote: { regularMarketPrice: 74.21, trailingAnnualDividendRate: 2.58 }, dividends: bank });
+  assert.equal(out.dpuCheck === 'ok' || out.dpuCheck === 'above', true);
+  assert.ok(out.yield > 0);
+  assert.equal(reconcile(3.18, 2.58, 'active'), 'above');
+  assert.equal(reconcile(2.7, 2.58, 'active'), 'ok');
+});
+
+test('far above Yahoo (double-counting) or well below (missing payouts) is still blocked', () => {
+  assert.equal(reconcile(0.0085, 0.004, 'reduced'), 'mismatch');   // +112%
+  assert.equal(reconcile(0.0749, 0.15, 'active'), 'mismatch');     // the old "half" bug, −50%
+  assert.equal(reconcile(0.11, 0.27, 'active'), 'mismatch');       // −59%
+});
+
+test('Yahoo reporting 0 means "no data": publish our figure, marked unchecked', () => {
+  assert.equal(reconcile(1.59, 0, 'active'), 'unchecked');
+  assert.equal(reconcile(0, 0, 'suspended'), 'ok');
+  const out = buildCalculated({ kind: 'stock', now: NOW, quote: { regularMarketPrice: 41.3, trailingAnnualDividendRate: 0 }, dividends: quarterlyUp });
+  assert.equal(out.dpuCheck, 'unchecked');
+  assert.ok(out.yield > 0);
+});
+
+test('growth needs equal payout counts in both years (a missing payout never fakes growth)', () => {
+  const m = dividendMetrics(tranches.filter((x) => x.date.toISOString() !== new Date('2025-03-07').toISOString()), 2.27, NOW);
+  assert.equal(m.growth, null);
+  approx(m.dpuTtm, 0.12, 1e-9);
+});
