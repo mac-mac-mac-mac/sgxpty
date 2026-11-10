@@ -26,7 +26,7 @@
     "gearing": 43.19,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 1.7778,
-    "fetchedAt": "2026-11-10T17:10:09.592Z"
+    "fetchedAt": "2026-11-10T17:10:55.721Z"
   },
   "O5RU": {
     "price": 1.38,
@@ -53,7 +53,7 @@
     "gearing": 38.22,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 7.1429,
-    "fetchedAt": "2026-11-10T17:10:12.919Z"
+    "fetchedAt": "2026-11-10T17:10:59.079Z"
   },
   "M1GU": {
     "price": 0.48,
@@ -80,7 +80,7 @@
     "gearing": 39.27,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 8.125,
-    "fetchedAt": "2026-11-10T17:10:16.373Z"
+    "fetchedAt": "2026-11-10T17:11:02.405Z"
   },
   "BMGU": {
     "price": 0.46,
@@ -107,7 +107,7 @@
     "gearing": 32.4,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 0.4938,
-    "fetchedAt": "2026-11-10T17:10:19.729Z"
+    "fetchedAt": "2026-11-10T17:11:05.856Z"
   },
   "A17U": {
     "price": 2.25,
@@ -134,7 +134,7 @@
     "gearing": 39.98,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 6.6372,
-    "fetchedAt": "2026-11-10T17:10:23.063Z"
+    "fetchedAt": "2026-11-10T17:11:09.146Z"
   },
   "HMN": {
     "price": 0.835,
@@ -161,7 +161,7 @@
     "gearing": 38.18,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 7.2189,
-    "fetchedAt": "2026-11-10T17:10:26.455Z"
+    "fetchedAt": "2026-11-10T17:11:12.481Z"
   },
   "AU8U": {
     "price": 0.62,
@@ -188,7 +188,7 @@
     "gearing": 37.6,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 7.68,
-    "fetchedAt": "2026-11-10T17:10:29.835Z"
+    "fetchedAt": "2026-11-10T17:11:15.791Z"
   },
   "CY6U": {
     "price": 0.885,
@@ -217,7 +217,7 @@
     "gearing": 35.1,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 8.9773,
-    "fetchedAt": "2026-11-10T17:10:33.280Z"
+    "fetchedAt": "2026-11-10T17:11:19.340Z"
   },
   "C38U": {
     "price": 2.37,
@@ -246,7 +246,7 @@
     "gearing": 35.27,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 5.1282,
-    "fetchedAt": "2026-11-10T17:10:36.564Z"
+    "fetchedAt": "2026-11-10T17:11:22.746Z"
   },
   "J85": {
     "price": 0.715,
@@ -273,7 +273,7 @@
     "gearing": 39.93,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 6.9444,
-    "fetchedAt": "2026-11-10T17:10:39.989Z"
+    "fetchedAt": "2026-11-10T17:11:26.195Z"
   },
   "8C8U": {
     "price": 1.08,
@@ -302,7 +302,7 @@
     "gearing": 20.7,
     "gearingAsAt": "2025-03-31",
     "yahooYield": 5.514,
-    "fetchedAt": "2026-11-10T17:10:43.262Z"
+    "fetchedAt": "2026-11-10T17:11:29.604Z"
   },
   "DHLU": {
     "price": 0.43,
@@ -329,7 +329,7 @@
     "gearing": 45.51,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 9.0698,
-    "fetchedAt": "2026-11-10T17:10:46.622Z"
+    "fetchedAt": "2026-11-10T17:11:32.952Z"
   },
   "DCRU": {
     "price": 0.45,
@@ -356,7 +356,7 @@
     "gearing": 35.23,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 7.8261,
-    "fetchedAt": "2026-11-10T17:10:50.001Z"
+    "fetchedAt": "2026-11-10T17:11:36.289Z"
   },
   "MXNU": {
     "price": 0.305,
@@ -383,7 +383,7 @@
     "gearing": 34.26,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 9.8361,
-    "fetchedAt": "2026-11-10T17:10:53.316Z"
+    "fetchedAt": "2026-11-10T17:11:39.721Z"
   },
   "9A4U": {
     "price": 2.05,
@@ -410,7 +410,7 @@
     "gearing": 46.9,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 10.622,
-    "fetchedAt": "2026-11-10T17:10:56.820Z"
+    "fetchedAt": "2026-11-10T17:11:43.051Z"
   },
   "Q5T": {
     "price": 0.515,
@@ -439,7 +439,7 @@
     "gearing": 29.43,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 6.9903,
-    "fetchedAt": "2026-11-10T17:11:00.160Z"
+    "fetchedAt": "2026-11-10T17:11:46.341Z"
   },
   "AW9U": {
     "price": 0.175,
@@ -466,7 +466,7 @@
     "gearing": 41.77,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 11.4286,
-    "fetchedAt": "2026-11-10T17:11:03.522Z"
+    "fetchedAt": "2026-11-10T17:11:49.707Z"
   },
   "J69U": {
     "price": 2.17,
@@ -493,7 +493,7 @@
     "gearing": 33.21,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 5.7944,
-    "fetchedAt": "2026-11-10T17:11:06.972Z"
+    "fetchedAt": "2026-11-10T17:11:53.076Z"
   },
   "BUOU": {
     "price": 0.895,
@@ -520,7 +520,7 @@
     "gearing": 39.31,
     "gearingAsAt": "2026-09-30",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:11:10.265Z"
+    "fetchedAt": "2026-11-10T17:11:56.374Z"
   },
   "UD1U": {
     "price": 0.162,
@@ -540,14 +540,14 @@
     "distributionStatus": "reduced",
     "lastExDate": "2026-08-13",
     "payYears": 12,
-    "yield": 6.6213,
+    "yield": 6.621,
     "dpuCheck": "above",
     "nav": null,
     "pb": null,
     "gearing": 45.49,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 4.8193,
-    "fetchedAt": "2026-11-10T17:11:13.774Z"
+    "fetchedAt": "2026-11-10T17:11:59.743Z"
   },
   "AJBU": {
     "price": 2.19,
@@ -574,7 +574,7 @@
     "gearing": 34.74,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 5.0691,
-    "fetchedAt": "2026-11-10T17:11:17.086Z"
+    "fetchedAt": "2026-11-10T17:12:03.221Z"
   },
   "K71U": {
     "price": 0.84,
@@ -601,7 +601,7 @@
     "gearing": 37.65,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 6.1078,
-    "fetchedAt": "2026-11-10T17:11:20.470Z"
+    "fetchedAt": "2026-11-10T17:12:06.629Z"
   },
   "CMOU": {
     "price": 0.145,
@@ -621,14 +621,14 @@
     "distributionStatus": "active",
     "lastExDate": "2026-08-04",
     "payYears": 1,
-    "yield": 4.4498,
+    "yield": 4.4501,
     "dpuCheck": "ok",
     "nav": 0.699,
     "pb": 0.207,
     "gearing": 43.97,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 4.7945,
-    "fetchedAt": "2026-11-10T17:11:23.883Z"
+    "fetchedAt": "2026-11-10T17:12:09.963Z"
   },
   "JYEU": {
     "price": 0.545,
@@ -655,7 +655,7 @@
     "gearing": 38.36,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 6.7273,
-    "fetchedAt": "2026-11-10T17:11:27.208Z"
+    "fetchedAt": "2026-11-10T17:12:13.262Z"
   },
   "D5IU": {
     "price": 0.006,
@@ -682,7 +682,7 @@
     "gearing": 39.33,
     "gearingAsAt": "2026-06-30",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:11:30.615Z"
+    "fetchedAt": "2026-11-10T17:12:16.680Z"
   },
   "BTOU": {
     "price": 0.032,
@@ -709,7 +709,7 @@
     "gearing": 55.1,
     "gearingAsAt": "2026-06-30",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:11:33.982Z"
+    "fetchedAt": "2026-11-10T17:12:20.022Z"
   },
   "ME8U": {
     "price": 1.74,
@@ -736,7 +736,7 @@
     "gearing": 33.6,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 7.069,
-    "fetchedAt": "2026-11-10T17:11:37.341Z"
+    "fetchedAt": "2026-11-10T17:12:23.346Z"
   },
   "M44U": {
     "price": 1.1,
@@ -763,7 +763,7 @@
     "gearing": 37.59,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 6.5766,
-    "fetchedAt": "2026-11-10T17:11:40.811Z"
+    "fetchedAt": "2026-11-10T17:12:26.833Z"
   },
   "N2IU": {
     "price": 1.18,
@@ -790,7 +790,7 @@
     "gearing": 37.51,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 6.6949,
-    "fetchedAt": "2026-11-10T17:11:44.099Z"
+    "fetchedAt": "2026-11-10T17:12:30.142Z"
   },
   "NTDU": {
     "price": 0.92,
@@ -817,7 +817,7 @@
     "gearing": 32.19,
     "gearingAsAt": "2025-09-30",
     "yahooYield": 6.1202,
-    "fetchedAt": "2026-11-10T17:11:47.514Z"
+    "fetchedAt": "2026-11-10T17:12:33.486Z"
   },
   "TS0U": {
     "price": 0.35,
@@ -844,7 +844,7 @@
     "gearing": 33.48,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 7.2464,
-    "fetchedAt": "2026-11-10T17:11:50.905Z"
+    "fetchedAt": "2026-11-10T17:12:36.795Z"
   },
   "C2PU": {
     "price": 4.03,
@@ -871,7 +871,7 @@
     "gearing": 33.72,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 4.0898,
-    "fetchedAt": "2026-11-10T17:11:54.290Z"
+    "fetchedAt": "2026-11-10T17:12:40.172Z"
   },
   "OXMU": {
     "price": 0.108,
@@ -891,14 +891,14 @@
     "distributionStatus": "active",
     "lastExDate": "2026-08-19",
     "payYears": 7,
-    "yield": 9.1638,
+    "yield": 9.1646,
     "dpuCheck": "ok",
     "nav": 0.525,
     "pb": 0.206,
     "gearing": 44.42,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 9.2593,
-    "fetchedAt": "2026-11-10T17:11:57.624Z"
+    "fetchedAt": "2026-11-10T17:12:43.475Z"
   },
   "CRPU": {
     "price": 0.625,
@@ -925,7 +925,7 @@
     "gearing": 25.56,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 10.24,
-    "fetchedAt": "2026-11-10T17:12:01.124Z"
+    "fetchedAt": "2026-11-10T17:12:46.806Z"
   },
   "P40U": {
     "price": 0.49,
@@ -952,7 +952,7 @@
     "gearing": 35.66,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 7.6289,
-    "fetchedAt": "2026-11-10T17:12:04.414Z"
+    "fetchedAt": "2026-11-10T17:12:50.200Z"
   },
   "SET": {
     "price": 1.44,
@@ -979,7 +979,7 @@
     "gearing": 43.66,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 9.7203,
-    "fetchedAt": "2026-11-10T17:12:07.809Z"
+    "fetchedAt": "2026-11-10T17:12:53.587Z"
   },
   "T82U": {
     "price": 1.38,
@@ -1006,7 +1006,7 @@
     "gearing": 38.89,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 5.6934,
-    "fetchedAt": "2026-11-10T17:12:11.199Z"
+    "fetchedAt": "2026-11-10T17:12:57.010Z"
   },
   "UIBU": {
     "price": 0.775,
@@ -1033,7 +1033,7 @@
     "gearing": 36.5,
     "gearingAsAt": "2025-09-30",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:12:14.552Z"
+    "fetchedAt": "2026-11-10T17:13:00.316Z"
   },
   "ODBU": {
     "price": 0.445,
@@ -1060,7 +1060,7 @@
     "gearing": 41.23,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 9.6774,
-    "fetchedAt": "2026-11-10T17:12:17.837Z"
+    "fetchedAt": "2026-11-10T17:13:03.643Z"
   },
   "D05": {
     "price": 70.37,
@@ -1084,7 +1084,7 @@
     "dpuCheck": "above",
     "pe": 18.09,
     "yahooYield": 3.7866,
-    "fetchedAt": "2026-11-10T17:12:20.239Z"
+    "fetchedAt": "2026-11-10T17:13:06.046Z"
   },
   "O39": {
     "price": 28.6,
@@ -1108,7 +1108,7 @@
     "dpuCheck": "above",
     "pe": 16.34,
     "yahooYield": 3.2095,
-    "fetchedAt": "2026-11-10T17:12:22.647Z"
+    "fetchedAt": "2026-11-10T17:13:08.446Z"
   },
   "U11": {
     "price": 37.38,
@@ -1132,7 +1132,7 @@
     "dpuCheck": "ok",
     "pe": 6.65,
     "yahooYield": 4.3113,
-    "fetchedAt": "2026-11-10T17:12:25.060Z"
+    "fetchedAt": "2026-11-10T17:13:10.857Z"
   },
   "Z74": {
     "price": 4.09,
@@ -1156,7 +1156,7 @@
     "dpuCheck": "unchecked",
     "pe": 12.03,
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:12:27.456Z"
+    "fetchedAt": "2026-11-10T17:13:13.264Z"
   },
   "G13": {
     "price": 0.615,
@@ -1180,7 +1180,7 @@
     "dpuCheck": "ok",
     "pe": 20.5,
     "yahooYield": 6.5574,
-    "fetchedAt": "2026-11-10T17:12:29.872Z"
+    "fetchedAt": "2026-11-10T17:13:15.672Z"
   },
   "BS6": {
     "price": 4.59,
@@ -1206,7 +1206,7 @@
     "dpuTtmYahoo": 1.088,
     "pe": 9.98,
     "yahooYield": 25.0115,
-    "fetchedAt": "2026-11-10T17:12:32.333Z"
+    "fetchedAt": "2026-11-10T17:13:18.071Z"
   },
   "S63": {
     "price": 9.53,
@@ -1230,7 +1230,7 @@
     "dpuCheck": "above",
     "pe": 52.94,
     "yahooYield": 2.0518,
-    "fetchedAt": "2026-11-10T17:12:34.735Z"
+    "fetchedAt": "2026-11-10T17:13:20.485Z"
   },
   "BN4": {
     "price": 9.76,
@@ -1254,7 +1254,7 @@
     "dpuCheck": "ok",
     "pe": 22.18,
     "yahooYield": 3.5979,
-    "fetchedAt": "2026-11-10T17:12:37.151Z"
+    "fetchedAt": "2026-11-10T17:13:22.887Z"
   },
   "J36": {
     "price": 61.61,
@@ -1278,7 +1278,7 @@
     "dpuCheck": "ok",
     "pe": 16.26,
     "yahooYield": 3.9448,
-    "fetchedAt": "2026-11-10T17:12:39.560Z"
+    "fetchedAt": "2026-11-10T17:13:25.289Z"
   },
   "S68": {
     "price": 20.63,
@@ -1302,7 +1302,7 @@
     "dpuCheck": "ok",
     "pe": 31.74,
     "yahooYield": 2.1718,
-    "fetchedAt": "2026-11-10T17:12:41.981Z"
+    "fetchedAt": "2026-11-10T17:13:27.724Z"
   },
   "9CI": {
     "price": 2.39,
@@ -1326,7 +1326,7 @@
     "dpuCheck": "ok",
     "pe": 59.75,
     "yahooYield": 5.0847,
-    "fetchedAt": "2026-11-10T17:12:44.369Z"
+    "fetchedAt": "2026-11-10T17:13:30.105Z"
   },
   "H78": {
     "price": 8.36,
@@ -1350,7 +1350,7 @@
     "dpuCheck": "ok",
     "pe": 7.89,
     "yahooYield": 3.2609,
-    "fetchedAt": "2026-11-10T17:12:46.796Z"
+    "fetchedAt": "2026-11-10T17:13:32.516Z"
   },
   "C6L": {
     "price": 7.14,
@@ -1374,7 +1374,7 @@
     "dpuCheck": "above",
     "pe": 24.62,
     "yahooYield": 3.8849,
-    "fetchedAt": "2026-11-10T17:12:49.203Z"
+    "fetchedAt": "2026-11-10T17:13:34.926Z"
   },
   "U96": {
     "price": 5.74,
@@ -1398,7 +1398,7 @@
     "dpuCheck": "ok",
     "pe": 17.39,
     "yahooYield": 4.7535,
-    "fetchedAt": "2026-11-10T17:12:51.647Z"
+    "fetchedAt": "2026-11-10T17:13:37.341Z"
   },
   "F34": {
     "price": 2.95,
@@ -1422,7 +1422,7 @@
     "dpuCheck": "above",
     "pe": 10.17,
     "yahooYield": 3.9057,
-    "fetchedAt": "2026-11-10T17:12:54.049Z"
+    "fetchedAt": "2026-11-10T17:13:39.729Z"
   },
   "ES3": {
     "price": 5.33,
@@ -1445,7 +1445,7 @@
     "yield": 3.3396,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:12:56.440Z"
+    "fetchedAt": "2026-11-10T17:13:42.115Z"
   },
   "G3B": {
     "price": 5.435,
@@ -1468,7 +1468,7 @@
     "yield": 3.494,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:12:59.145Z"
+    "fetchedAt": "2026-11-10T17:13:44.500Z"
   },
   "GAB": {
     "price": 5.06,
@@ -1491,7 +1491,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:01.525Z"
+    "fetchedAt": "2026-11-10T17:13:46.887Z"
   },
   "O9A": {
     "price": 2.511,
@@ -1514,7 +1514,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:03.909Z"
+    "fetchedAt": "2026-11-10T17:13:49.286Z"
   },
   "S27": {
     "price": 754.78,
@@ -1537,7 +1537,7 @@
     "yield": 1.0046,
     "dpuCheck": "above",
     "yahooYield": 0.7689,
-    "fetchedAt": "2026-11-10T17:13:06.312Z"
+    "fetchedAt": "2026-11-10T17:13:51.708Z"
   },
   "D07": {
     "price": 526.79,
@@ -1560,7 +1560,7 @@
     "yield": 1.3639,
     "dpuCheck": "above",
     "yahooYield": 1.0995,
-    "fetchedAt": "2026-11-10T17:13:08.703Z"
+    "fetchedAt": "2026-11-10T17:13:54.169Z"
   },
   "XUS": {
     "price": 18.78,
@@ -1583,7 +1583,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:11.111Z"
+    "fetchedAt": "2026-11-10T17:13:56.544Z"
   },
   "EUS": {
     "price": 158.59,
@@ -1606,7 +1606,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:13.577Z"
+    "fetchedAt": "2026-11-10T17:13:58.924Z"
   },
   "XND": {
     "price": 82.65,
@@ -1629,7 +1629,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:16.002Z"
+    "fetchedAt": "2026-11-10T17:14:01.301Z"
   },
   "XWR": {
     "price": 202.87,
@@ -1652,7 +1652,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:18.382Z"
+    "fetchedAt": "2026-11-10T17:14:03.671Z"
   },
   "H1N": {
     "price": 19.96,
@@ -1675,7 +1675,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:20.779Z"
+    "fetchedAt": "2026-11-10T17:14:06.051Z"
   },
   "A93": {
     "price": 1.56,
@@ -1698,7 +1698,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:23.158Z"
+    "fetchedAt": "2026-11-10T17:14:08.432Z"
   },
   "ICM": {
     "price": 1.802,
@@ -1721,7 +1721,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:25.545Z"
+    "fetchedAt": "2026-11-10T17:14:10.808Z"
   },
   "YLD": {
     "price": 1.459,
@@ -1744,7 +1744,7 @@
     "yield": 7.2721,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:27.931Z"
+    "fetchedAt": "2026-11-10T17:14:13.194Z"
   },
   "ESG": {
     "price": 1.303,
@@ -1767,7 +1767,7 @@
     "yield": 7.8204,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:30.346Z"
+    "fetchedAt": "2026-11-10T17:14:15.595Z"
   },
   "UPD": {
     "price": 0.955,
@@ -1790,7 +1790,7 @@
     "yield": 4.3979,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:32.738Z"
+    "fetchedAt": "2026-11-10T17:14:17.976Z"
   },
   "SQQ": {
     "price": 0.971,
@@ -1813,7 +1813,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:35.134Z"
+    "fetchedAt": "2026-11-10T17:14:20.357Z"
   },
   "LCS": {
     "price": 2.566,
@@ -1836,7 +1836,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:37.518Z"
+    "fetchedAt": "2026-11-10T17:14:22.745Z"
   },
   "SUN": {
     "price": 0.885,
@@ -1859,7 +1859,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:39.902Z"
+    "fetchedAt": "2026-11-10T17:14:25.120Z"
   },
   "SCY": {
     "price": 1.118,
@@ -1882,7 +1882,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:42.297Z"
+    "fetchedAt": "2026-11-10T17:14:27.494Z"
   },
   "CXT": {
     "price": 1.101,
@@ -1905,7 +1905,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:44.689Z"
+    "fetchedAt": "2026-11-10T17:14:29.998Z"
   },
   "CXS": {
     "price": 0.9,
@@ -1928,7 +1928,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:47.105Z"
+    "fetchedAt": "2026-11-10T17:14:32.386Z"
   },
   "JK8": {
     "price": 2.19,
@@ -1951,7 +1951,7 @@
     "yield": 2.5465,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:49.501Z"
+    "fetchedAt": "2026-11-10T17:14:34.767Z"
   },
   "YYY": {
     "price": 1.699,
@@ -1974,7 +1974,7 @@
     "yield": 3.2725,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:51.918Z"
+    "fetchedAt": "2026-11-10T17:14:37.153Z"
   },
   "HST": {
     "price": 0.65,
@@ -1997,7 +1997,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:54.306Z"
+    "fetchedAt": "2026-11-10T17:14:39.537Z"
   },
   "EVS": {
     "price": 0.45,
@@ -2020,7 +2020,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:56.689Z"
+    "fetchedAt": "2026-11-10T17:14:41.913Z"
   },
   "SRT": {
     "price": 0.693,
@@ -2043,7 +2043,7 @@
     "yield": 6.2049,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:13:59.075Z"
+    "fetchedAt": "2026-11-10T17:14:44.299Z"
   },
   "CFA": {
     "price": 0.752,
@@ -2066,7 +2066,7 @@
     "yield": 5.6383,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:01.468Z"
+    "fetchedAt": "2026-11-10T17:14:46.689Z"
   },
   "CLR": {
     "price": 0.773,
@@ -2089,7 +2089,7 @@
     "yield": 5.8215,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:03.856Z"
+    "fetchedAt": "2026-11-10T17:14:49.079Z"
   },
   "BYJ": {
     "price": 1.086,
@@ -2112,7 +2112,7 @@
     "yield": 3.4378,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:06.251Z"
+    "fetchedAt": "2026-11-10T17:14:51.478Z"
   },
   "GRN": {
     "price": 0.676,
@@ -2135,7 +2135,7 @@
     "yield": 4.1784,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:08.681Z"
+    "fetchedAt": "2026-11-10T17:14:53.860Z"
   },
   "A35": {
     "price": 1.131,
@@ -2158,7 +2158,7 @@
     "yield": 2.3519,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:11.072Z"
+    "fetchedAt": "2026-11-10T17:14:56.248Z"
   },
   "MBH": {
     "price": 0.99,
@@ -2181,7 +2181,7 @@
     "yield": 3.1919,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:13.459Z"
+    "fetchedAt": "2026-11-10T17:14:58.628Z"
   },
   "O9P": {
     "price": 6.55,
@@ -2204,7 +2204,7 @@
     "yield": 7.4809,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:15.855Z"
+    "fetchedAt": "2026-11-10T17:15:01.022Z"
   },
   "N6M": {
     "price": 9.6,
@@ -2227,7 +2227,7 @@
     "yield": 5,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:18.255Z"
+    "fetchedAt": "2026-11-10T17:15:03.428Z"
   },
   "CYC": {
     "price": 13.76,
@@ -2250,7 +2250,7 @@
     "yield": 2.907,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:20.642Z"
+    "fetchedAt": "2026-11-10T17:15:05.807Z"
   },
   "MMS": {
     "price": 103.233,
@@ -2273,7 +2273,7 @@
     "yield": 1.2167,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:23.030Z"
+    "fetchedAt": "2026-11-10T17:15:08.187Z"
   },
   "O87": {
     "price": 376.2,
@@ -2296,6 +2296,6 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-10T17:14:25.412Z"
+    "fetchedAt": "2026-11-10T17:15:10.570Z"
   }
 }
