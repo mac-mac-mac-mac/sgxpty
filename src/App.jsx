@@ -175,7 +175,7 @@ export default function App() {
 
       <main className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-6">
         {activeTab === 'dashboard' && (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <h1 className="text-xl font-bold text-text-accent">SGX Market Dashboard</h1>
@@ -186,12 +186,12 @@ export default function App() {
 
             {/* Live data banner */}
             {isRefreshing && totalCount > 0 && (
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2.5 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
                   Updating live prices — {processed} of {totalCount}
                 </span>
-                <div className="flex-1 min-w-32 max-w-72 h-1.5 bg-blue-500/20 rounded-full overflow-hidden">
+                <div className="flex-1 basis-24 min-w-24 sm:max-w-72 h-1.5 bg-blue-500/20 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-blue-400 rounded-full transition-all duration-500"
                     style={{ width: `${(processed / totalCount) * 100}%` }}
@@ -199,16 +199,16 @@ export default function App() {
                 </div>
                 <span className="font-mono">{Math.round((processed / totalCount) * 100)}%</span>
                 <span className="text-text-muted">{etaLabel}</span>
-                <span className="text-text-muted">Tables show last close and update as prices arrive.</span>
+                <span className="hidden sm:inline text-text-muted">Tables show last close and update as prices arrive.</span>
               </div>
             )}
             {!isRefreshing && liveStatus === 'live' && (
-              <div className="flex items-center justify-between px-4 py-2 bg-accent-green/5 border border-accent-green/20 rounded text-xs text-accent-green">
+              <div className="flex items-center justify-between gap-3 px-3 sm:px-4 py-2 bg-accent-green/5 border border-accent-green/20 rounded text-xs text-accent-green">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-green" />
-                  Live prices loaded{lastLiveAt ? ` at ${lastLiveAt.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' })}` : ''} — {liveCount} of {totalCount} prices updated{liveCount < totalCount ? `, ${totalCount - liveCount} still on last close` : ''}; yield and P/NAV recalculated on the live price
+                  Live prices loaded{lastLiveAt ? ` at ${lastLiveAt.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' })}` : ''} — {liveCount} of {totalCount} prices updated{liveCount < totalCount ? `, ${totalCount - liveCount} still on last close` : ''}<span className="hidden sm:inline">; yield and P/NAV recalculated on the live price</span>
                 </div>
-                <button onClick={loadLiveData} className="underline hover:text-green-300 transition-colors">
+                <button onClick={loadLiveData} className="underline hover:text-green-300 transition-colors shrink-0">
                   Refresh again →
                 </button>
               </div>
@@ -217,7 +217,7 @@ export default function App() {
               <div className="flex items-center justify-between px-4 py-2 bg-blue-500/5 border border-blue-500/20 rounded text-xs text-blue-400">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                  Showing last close — yield, DPU growth, distribution status, P/NAV and gearing are calculated nightly
+                  Showing last close<span className="hidden sm:inline"> — yield, DPU growth, distribution status, P/NAV and gearing are calculated nightly</span>
                 </div>
                 <button onClick={loadLiveData} className="underline hover:text-blue-300 transition-colors">
                   Refresh for live prices →
@@ -270,7 +270,7 @@ export default function App() {
         )}
 
         {activeTab === 'compare' && (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <h1 className="text-xl font-bold text-text-accent">Asset Comparison</h1>
@@ -309,7 +309,7 @@ export default function App() {
         )}
 
         {activeTab === 'legacy' && (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <div>
               <h1 className="text-xl font-bold text-text-accent">Legacy Dividend Payers</h1>
               <p className="text-xs text-text-muted mt-0.5">
@@ -321,7 +321,7 @@ export default function App() {
         )}
 
         {activeTab === 'rates' && (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <div>
               <h1 className="text-xl font-bold text-text-accent">SORA Rates Calculator</h1>
               <p className="text-xs text-text-muted mt-0.5">Live SORA + Adjustable Spread</p>
