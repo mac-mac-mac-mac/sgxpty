@@ -130,7 +130,7 @@ export default function ComparePanel({ compareList, onRemove, mode }) {
         <span className="text-xs text-text-muted">Select 2 assets from the Dashboard tab</span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-0 rounded-lg border border-border overflow-hidden">
+      <div className="grid grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] gap-0 rounded-lg border border-border overflow-hidden">
         {/* Header row */}
         <div className="hidden lg:block bg-bg-elevated border-b border-r border-border px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wide">
           Field
@@ -138,17 +138,18 @@ export default function ComparePanel({ compareList, onRemove, mode }) {
         {[a, b].map((item, idx) => (
           <div
             key={idx}
-            className="bg-bg-elevated border-b border-r border-border px-4 py-3 flex items-center justify-between"
+            className="bg-bg-elevated border-b border-r border-border px-3 sm:px-4 py-3 flex items-center justify-between gap-2 min-w-0"
           >
             {item ? (
               <>
-                <div>
+                <div className="min-w-0">
                   <span className="font-mono text-sm font-bold text-accent-gold">{item.ticker}</span>
-                  <p className="text-xs text-text-secondary truncate max-w-40">{item.name}</p>
+                  <p className="text-xs text-text-secondary truncate max-w-[120px] sm:max-w-40">{item.name}</p>
                 </div>
                 <button
                   onClick={() => onRemove(item)}
-                  className="text-text-muted hover:text-accent-red transition-colors"
+                  aria-label={`Remove ${item.ticker}`}
+                  className="shrink-0 p-1.5 -mr-1.5 text-text-muted hover:text-accent-red transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -165,7 +166,7 @@ export default function ComparePanel({ compareList, onRemove, mode }) {
             key={field.key}
             className={`contents`}
           >
-            <div className={`hidden lg:flex items-center px-4 py-2.5 border-b border-r border-border/50 text-xs text-text-secondary ${fi % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'}`}>
+            <div className={`col-span-2 lg:col-span-1 flex items-center px-3 sm:px-4 pt-2 pb-0.5 lg:py-2.5 lg:border-b lg:border-r lg:border-border/50 text-[10px] lg:text-xs uppercase lg:normal-case tracking-wide lg:tracking-normal text-text-muted lg:text-text-secondary ${fi % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'}`}>
               {field.label}
             </div>
             {[a, b].map((item, idx) => {
@@ -174,11 +175,10 @@ export default function ComparePanel({ compareList, onRemove, mode }) {
               return (
                 <div
                   key={idx}
-                  className={`flex items-center gap-1 px-4 py-2.5 border-b border-r border-border/50 ${fi % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'}`}
+                  className={`flex items-center gap-1 px-3 sm:px-4 pb-2 pt-0.5 lg:py-2.5 border-b border-r border-border/50 min-w-0 ${fi % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'}`}
                 >
-                  <span className="lg:hidden text-[10px] text-text-muted mr-2 min-w-[80px]">{field.label}</span>
-                  {item ? (
-                    <span className={`text-xs font-mono ${
+                                    {item ? (
+                    <span className={`text-xs font-mono break-words min-w-0 ${
                       field.format === 'change'
                         ? val > 0 ? 'text-accent-green' : val < 0 ? 'text-accent-red' : 'text-text-muted'
                         : 'text-text-primary'

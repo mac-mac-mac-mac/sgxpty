@@ -65,6 +65,19 @@ const ETF_COLS = [
 
 // ── Cell formatters ───────────────────────────────────────────────────────────
 
+// Frozen columns: compare button + ticker + name stay visible while the table scrolls sideways.
+const W_CMP = 44;
+const W_TICK = 88;
+const W_NAME = 176;
+function frozen(key, hasCmp) {
+  const l0 = hasCmp ? W_CMP : 0;
+  if (key === 'ticker') return { style: { left: l0, width: W_TICK, minWidth: W_TICK, maxWidth: W_TICK }, last: false };
+  if (key === 'name') return { style: { left: l0 + W_TICK, width: W_NAME, minWidth: W_NAME, maxWidth: W_NAME }, last: true };
+  return null;
+}
+const FROZEN_EDGE = 'border-r border-border shadow-[6px_0_8px_-6px_rgba(0,0,0,0.7)]';
+const zebraSolid = (i) => (i % 2 === 0 ? 'bg-bg-primary' : 'bg-[#0e0e0e]'); // opaque, so scrolled cells never show through
+
 function SortIcon({ col, sort }) {
   if (sort.key !== col) return <ChevronsUpDown className="w-3 h-3 opacity-30" />;
   return sort.dir === 'asc'
@@ -265,7 +278,7 @@ function MobileCard({ row, isInCompare, canAdd, onCompareToggle, mode, view }) {
         <button
           onClick={() => onCompareToggle(row)}
           disabled={!canAdd && !isInCompare}
-          className={`flex-shrink-0 w-6 h-6 rounded border flex items-center justify-center transition-all ${
+          className={`flex-shrink-0 w-9 h-9 rounded border flex items-center justify-center transition-all ${
             isInCompare
               ? 'bg-accent-gold/20 border-accent-gold/50 text-accent-gold'
               : canAdd
@@ -273,7 +286,7 @@ function MobileCard({ row, isInCompare, canAdd, onCompareToggle, mode, view }) {
               : 'border-border/30 opacity-30 cursor-not-allowed'
           }`}
         >
-          {isInCompare ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+          {isInCompare ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
         </button>
       </div>
 
@@ -325,7 +338,10 @@ function MobileCard({ row, isInCompare, canAdd, onCompareToggle, mode, view }) {
       )}
 
       <div className="flex items-center justify-between gap-2">
-        <SectorBadge sector={row.sector || row.category} />
+        <div className="flex items-center gap-1.5 min-w-0">
+          <SectorBadge sector={row.sector || row.category} />
+          {mode === 'reits' && ['reduced', 'suspended'].includes(row.distributionStatus) && <DistStatusBadge status={row.distributionStatus} />}
+        </div>
         <div className="flex items-center gap-2 text-xs text-text-muted">
           {mode === 'stocks' && row.dividendFrequency && <span>{row.dividendFrequency}</span>}
           {mode === 'reits' && row.composite != null && <CompositeBadge value={row.composite} />}
@@ -357,6 +373,10 @@ export default function DashboardTable({
     : view === 'valuation' ? REIT_COLS_VALUATION
     : REIT_COLS_YIELD;
 
+  // A sort column that does not exist in this mode (e.g. market cap on ETFs) falls back to the mode's default
+  const sortKey = cols.some((c) => c.key === sort.key) ? sort.key : mode === 'etfs' ? 'aum' : 'marketCap';
+  const effSort = { key: sortKey, dir: sort.dir };
+
   const filtered = useMemo(() => {
     let rows = [...data];
     if (search) {
@@ -373,19 +393,24 @@ export default function DashboardTable({
       rows = rows.filter((r) => (r.sector || r.category) === sectorFilter);
     }
     rows.sort((a, b) => {
-      const av = a[sort.key];
-      const bv = b[sort.key];
+      const av = a[sortKey];
+      const bv = b[sortKey];
       if (av == null) return 1;
       if (bv == null) return -1;
       const cmp = av < bv ? -1 : av > bv ? 1 : 0;
       return sort.dir === 'asc' ? cmp : -cmp;
     });
     return rows;
-  }, [data, search, sectorFilter, sort]);
+  }, [data, search, sectorFilter, sortKey, sort.dir]);
 
   function toggleSort(key) {
-    setSort((s) => ({ key, dir: s.key === key && s.dir === 'desc' ? 'asc' : 'desc' }));
+    setSort(() => {
+      if (effSort.key === key) return { key, dir: effSort.dir === 'desc' ? 'asc' : 'desc' };
+      return { key, dir: key === 'ticker' || key === 'name' ? 'asc' : 'desc' };
+    });
   }
+
+  const sortOptions = cols.filter((c) => !['assetClass', 'sector', 'category', 'dividendFrequency'].includes(c.key));
 
   const placeholder = mode === 'reits' ? 'Search REITs…' : mode === 'stocks' ? 'Search stocks…' : 'Search ETFs…';
 
@@ -400,12 +425,12 @@ export default function DashboardTable({
           placeholder={placeholder}
           className="flex-1 min-w-48 bg-bg-card border border-border rounded px-3 py-1.5 text-sm text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-gold/50 transition-colors"
         />
-        <div className="flex flex-wrap gap-1">
+        <div className="flex w-full sm:w-auto gap-1 overflow-x-auto sm:overflow-visible sm:flex-wrap pb-1 sm:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {sectors.map((s) => (
             <button
               key={s}
               onClick={() => onSectorFilter(s)}
-              className={`px-2.5 py-1 rounded text-xs font-medium transition-all ${
+              className={`shrink-0 whitespace-nowrap px-2.5 py-1 rounded text-xs font-medium transition-all ${
                 sectorFilter === s
                   ? 'bg-accent-gold/15 text-accent-gold border border-accent-gold/30'
                   : 'text-text-secondary border border-border hover:border-border-active hover:text-text-primary'
@@ -418,8 +443,29 @@ export default function DashboardTable({
       </div>
 
       <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[11px] text-text-muted -mt-2">
-        <span className="inline-flex items-center gap-1.5"><span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-green" />Live price (updated just now)</span>
-        <span className="inline-flex items-center gap-1.5"><span className="inline-block w-1.5 h-1.5 rounded-full border border-text-muted" />Last close (updated nightly)</span>
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-green" /><span className="sm:hidden">Live</span><span className="hidden sm:inline">Live price (updated just now)</span></span>
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block w-1.5 h-1.5 rounded-full border border-text-muted" /><span className="sm:hidden">Last close</span><span className="hidden sm:inline">Last close (updated nightly)</span></span>
+        <span className="ml-auto sm:hidden">{filtered.length} shown</span>
+      </div>
+
+      {/* Mobile sort control (the column headers are only on the desktop table) */}
+      <div className="flex items-center gap-2 md:hidden -mt-1">
+        <label htmlFor="mobile-sort" className="text-[11px] text-text-muted shrink-0">Sort by</label>
+        <select
+          id="mobile-sort"
+          value={effSort.key}
+          onChange={(e) => setSort({ key: e.target.value, dir: e.target.value === 'ticker' || e.target.value === 'name' ? 'asc' : 'desc' })}
+          className="flex-1 min-w-0 bg-bg-card border border-border rounded px-2.5 py-2 text-xs text-text-primary focus:outline-none focus:border-accent-gold/50"
+        >
+          {sortOptions.map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
+        </select>
+        <button
+          onClick={() => setSort({ key: effSort.key, dir: effSort.dir === 'desc' ? 'asc' : 'desc' })}
+          aria-label={effSort.dir === 'desc' ? 'Sorted high to low — tap to reverse' : 'Sorted low to high — tap to reverse'}
+          className="w-10 h-9 shrink-0 rounded border border-border flex items-center justify-center text-accent-gold bg-bg-card"
+        >
+          {effSort.dir === 'desc' ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+        </button>
       </div>
 
       {/* Mobile card list */}
@@ -473,25 +519,29 @@ export default function DashboardTable({
             )}
             <tr className="border-b border-border bg-bg-elevated sticky top-0">
               {compareList !== undefined && (
-                <th className="w-8 px-3 py-2.5 text-left">
+                <th className="sticky left-0 z-20 bg-bg-elevated px-3 py-2.5 text-left" style={{ width: W_CMP, minWidth: W_CMP }}>
                   <span className="sr-only">Compare</span>
                 </th>
               )}
-              {cols.map((col) => (
-                <th
-                  key={col.key}
-                  className={`px-3 py-2.5 text-xs font-semibold text-text-secondary uppercase tracking-wide cursor-pointer select-none whitespace-nowrap hover:text-text-primary transition-colors ${
-                    col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : 'text-left'
-                  }`}
-                  onClick={() => toggleSort(col.key)}
-                >
-                  <span className="inline-flex items-center gap-1">
-                    {col.align === 'right' && <SortIcon col={col.key} sort={sort} />}
-                    {col.label}
-                    {(col.align === 'left' || col.align === 'center') && <SortIcon col={col.key} sort={sort} />}
-                  </span>
-                </th>
-              ))}
+              {cols.map((col) => {
+                const fz = frozen(col.key, compareList !== undefined);
+                return (
+                  <th
+                    key={col.key}
+                    style={fz?.style}
+                    className={`px-3 py-2.5 text-xs font-semibold text-text-secondary uppercase tracking-wide cursor-pointer select-none whitespace-nowrap hover:text-text-primary transition-colors ${
+                      col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : 'text-left'
+                    } ${fz ? `sticky z-20 bg-bg-elevated ${fz.last ? FROZEN_EDGE : ''}` : ''}`}
+                    onClick={() => toggleSort(col.key)}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {col.align === 'right' && <SortIcon col={col.key} sort={effSort} />}
+                      {col.label}
+                      {(col.align === 'left' || col.align === 'center') && <SortIcon col={col.key} sort={effSort} />}
+                    </span>
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
@@ -501,12 +551,12 @@ export default function DashboardTable({
               return (
                 <tr
                   key={row.ticker}
-                  className={`border-b border-border/50 transition-colors ${
+                  className={`group border-b border-border/50 transition-colors ${
                     i % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/50'
                   } hover:bg-bg-hover`}
                 >
                   {compareList !== undefined && (
-                    <td className="px-3 py-2.5">
+                    <td className={`sticky left-0 z-10 px-3 py-2.5 ${zebraSolid(i)} group-hover:bg-bg-hover`} style={{ width: W_CMP, minWidth: W_CMP }}>
                       <button
                         onClick={() => onCompareToggle(row)}
                         disabled={!canAdd && !isInCompare}
@@ -523,17 +573,20 @@ export default function DashboardTable({
                       </button>
                     </td>
                   )}
-                  {cols.map((col) => (
+                  {cols.map((col) => {
+                    const fz = frozen(col.key, compareList !== undefined);
+                    return (
                     <td
                       key={col.key}
+                      style={fz?.style}
                       className={`px-3 py-2.5 ${
                         col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : 'text-left'
-                      }`}
+                      } ${fz ? `sticky z-10 ${zebraSolid(i)} group-hover:bg-bg-hover ${fz.last ? FROZEN_EDGE : ''}` : ''}`}
                     >
                       {col.key === 'ticker' ? (
                         <span className="font-mono text-xs font-semibold text-accent-gold">{row.ticker}</span>
                       ) : col.key === 'name' ? (
-                        <span className="text-xs text-text-primary max-w-48 block truncate" title={row.name}>{row.name}</span>
+                        <span className="text-xs text-text-primary block truncate" title={row.name}>{row.name}</span>
                       ) : col.key === 'sector' || col.key === 'category' ? (
                         <SectorBadge sector={row.sector || row.category} />
                       ) : col.key === 'assetClass' ? (
@@ -546,7 +599,8 @@ export default function DashboardTable({
                         formatCell(row[col.key], col.format, null)
                       )}
                     </td>
-                  ))}
+                    );
+                  })}
                 </tr>
               );
             })}

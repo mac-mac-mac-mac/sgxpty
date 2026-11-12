@@ -24,11 +24,12 @@ function useSortedData(data, defaultKey, defaultDir = 'desc') {
   return { sorted, sort, toggle };
 }
 
-function Th({ label, col, sort, toggle, align = 'right' }) {
+const TH_ALIGN = { left: 'text-left', right: 'text-right', center: 'text-center' };
+function Th({ label, col, sort, toggle, align = 'right', frozenBg = null }) {
   return (
     <th
       onClick={() => toggle(col)}
-      className={`py-3 px-4 font-medium cursor-pointer select-none whitespace-nowrap hover:text-text-primary transition-colors text-${align}`}
+      className={`py-3 px-4 font-medium cursor-pointer select-none whitespace-nowrap hover:text-text-primary transition-colors ${TH_ALIGN[align]} ${frozenBg ? `sticky left-0 z-10 ${frozenBg} border-r border-border/60` : ''}`}
     >
       {label}<SortIcon col={col} sort={sort} />
     </th>
@@ -240,7 +241,7 @@ function LegacyTable({ reits }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border text-text-muted">
-            <Th label="REIT"   col="ticker"  sort={sort} toggle={toggle} align="left" />
+            <Th label="REIT"   col="ticker"  sort={sort} toggle={toggle} align="left" frozenBg="bg-bg-card" />
             <Th label="Yield"  col="yield"   sort={sort} toggle={toggle} />
             <Th label="Sector" col="sector"  sort={sort} toggle={toggle} align="left" />
           </tr>
@@ -248,7 +249,7 @@ function LegacyTable({ reits }) {
         <tbody>
           {sorted.slice(0, 15).map(reit => (
             <tr key={reit.ticker} className="border-b border-border/50 hover:bg-bg-elevated">
-              <td className="py-3 px-4 font-medium">{reit.ticker} <span className="text-text-muted text-xs">({reit.shortName})</span></td>
+              <td className="sticky left-0 z-10 bg-bg-card border-r border-border/60 py-3 px-4 font-medium">{reit.ticker} <span className="hidden sm:inline text-text-muted text-xs">({reit.shortName})</span></td>
               <td className="py-3 px-4 text-right font-bold text-accent-gold">
                 {reit.yield != null ? Number(reit.yield).toFixed(2) : '—'}%
               </td>
@@ -269,7 +270,7 @@ function ThreeCheckTable({ reits }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border text-text-muted">
-            <Th label="REIT"         col="ticker"  sort={sort} toggle={toggle} align="left" />
+            <Th label="REIT"         col="ticker"  sort={sort} toggle={toggle} align="left" frozenBg="bg-bg-card" />
             <Th label="Yield"        col="yield"   sort={sort} toggle={toggle} />
             <Th label="P/B"          col="pb"      sort={sort} toggle={toggle} />
             <Th label="Gearing"      col="gearing" sort={sort} toggle={toggle} />
@@ -282,8 +283,8 @@ function ThreeCheckTable({ reits }) {
             const checks = evaluateThreeChecks(reit);
             return (
               <tr key={reit.ticker} className="hover:bg-bg-elevated/70 transition-colors">
-                <td className="py-3 px-4 font-medium">
-                  {reit.ticker} <span className="text-text-muted text-xs">({reit.shortName})</span>
+                <td className="sticky left-0 z-10 bg-bg-card border-r border-border/60 py-3 px-4 font-medium">
+                  {reit.ticker} <span className="hidden sm:inline text-text-muted text-xs">({reit.shortName})</span>
                 </td>
                 <td className="py-3 px-4 text-right font-bold text-accent-gold">{Number(reit.yield).toFixed(2)}%</td>
                 <td className="py-3 px-4 text-right">{reit.pb ? reit.pb.toFixed(2) : '—'}</td>
@@ -310,8 +311,8 @@ function ScorecardTable({ reits }) {
       <table className="w-full text-xs min-w-[640px]">
         <thead>
           <tr className="bg-bg-elevated border-b border-border text-text-muted">
-            <th className="px-3 py-2.5 text-left font-semibold uppercase tracking-wide">#</th>
-            <Th label="Ticker"    col="ticker"    sort={sort} toggle={toggle} align="left" />
+            <th className="hidden sm:table-cell px-3 py-2.5 text-left font-semibold uppercase tracking-wide">#</th>
+            <Th label="Ticker"    col="ticker"    sort={sort} toggle={toggle} align="left" frozenBg="bg-bg-elevated" />
             <th className="px-3 py-2.5 text-left font-semibold uppercase tracking-wide">Name</th>
             <Th label="Asset"     col="asset"     sort={sort} toggle={toggle} align="center" />
             <Th label="Debt"      col="debt"      sort={sort} toggle={toggle} align="center" />
@@ -326,8 +327,8 @@ function ScorecardTable({ reits }) {
         <tbody>
           {sorted.map((reit, i) => (
             <tr key={reit.ticker} className={`border-b border-border/50 hover:bg-bg-hover transition-colors ${i % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/40'}`}>
-              <td className="px-3 py-2 text-text-muted">{i + 1}</td>
-              <td className="px-3 py-2"><span className="font-mono font-bold text-accent-gold">{reit.ticker}</span></td>
+              <td className="hidden sm:table-cell px-3 py-2 text-text-muted">{i + 1}</td>
+              <td className={`sticky left-0 z-10 px-3 py-2 border-r border-border/60 ${i % 2 === 0 ? 'bg-bg-primary' : 'bg-[#141414]'}`}><span className="font-mono font-bold text-accent-gold">{reit.ticker}</span></td>
               <td className="px-3 py-2 text-text-secondary max-w-[160px] truncate" title={reit.name}>{reit.shortName || reit.name}</td>
               {['asset','debt','dpu','manager','valuation'].map(key => (
                 <td key={key} className="px-3 py-2 text-center">
@@ -362,9 +363,9 @@ export default function IntelligencePanel({ reits, stocks = [], showLegacy = fal
       {showLegacy && (
         <div className="flex flex-col gap-8">
           {/* Header */}
-          <div className="bg-bg-card border border-accent-gold/30 rounded-2xl p-8 text-center">
-            <h2 className="text-3xl font-bold text-text-primary mb-2">Legacy Dividend Payers</h2>
-            <p className="text-lg text-text-secondary">
+          <div className="bg-bg-card border border-accent-gold/30 rounded-2xl p-5 sm:p-8 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-2">Legacy Dividend Payers</h2>
+            <p className="text-base sm:text-lg text-text-secondary">
               20-Year Unbroken Champions + Reliable Long-term Payers
             </p>
           </div>
@@ -379,10 +380,10 @@ export default function IntelligencePanel({ reits, stocks = [], showLegacy = fal
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {champions.map((item) => (
-                  <div key={item.ticker} className="bg-bg-elevated border border-accent-gold/30 rounded-2xl p-6">
-                    <div className="font-mono text-3xl font-bold">{item.ticker}</div>
-                    <div className="text-xl mb-4">{item.shortName || item.name}</div>
-                    <div className="text-5xl font-bold text-accent-gold mb-1">
+                  <div key={item.ticker} className="bg-bg-elevated border border-accent-gold/30 rounded-2xl p-4 sm:p-6">
+                    <div className="font-mono text-2xl sm:text-3xl font-bold">{item.ticker}</div>
+                    <div className="text-lg sm:text-xl mb-3 sm:mb-4">{item.shortName || item.name}</div>
+                    <div className="text-4xl sm:text-5xl font-bold text-accent-gold mb-1">
                       {item.yield != null ? Number(item.yield).toFixed(2) + '%' : '—'}
                     </div>
                     <div className="text-xs text-text-muted">YIELD • {item.payYears} YEARS OF PAYOUTS</div>
@@ -439,14 +440,14 @@ export default function IntelligencePanel({ reits, stocks = [], showLegacy = fal
             .map(reit => {
               const checks = evaluateThreeChecks(reit);
               return (
-                <div key={reit.ticker} className="border border-accent-green/30 bg-bg-elevated rounded-2xl p-6 hover:border-accent-green/50 transition-all">
+                <div key={reit.ticker} className="border border-accent-green/30 bg-bg-elevated rounded-2xl p-4 sm:p-6 hover:border-accent-green/50 transition-all">
                   <div className="flex justify-between items-start">
                     <div>
-                      <div className="font-mono text-3xl font-bold tracking-tight">{reit.ticker}</div>
+                      <div className="font-mono text-2xl sm:text-3xl font-bold tracking-tight">{reit.ticker}</div>
                       <div className="text-base text-text-secondary">{reit.shortName}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-5xl font-bold text-accent-gold leading-none">{Number(reit.yield).toFixed(2)}%</div>
+                      <div className="text-3xl sm:text-5xl font-bold text-accent-gold leading-none">{Number(reit.yield).toFixed(2)}%</div>
                       <div className="text-xs text-text-muted">YIELD</div>
                     </div>
                   </div>

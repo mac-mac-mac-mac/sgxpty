@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   ReferenceLine, ReferenceArea, Cell, LabelList,
@@ -18,12 +18,25 @@ const MUTED = '#8a8a8a';
 const GRID = 'rgba(255,255,255,0.06)';
 const AXIS = { fill: '#8a8a8a', fontSize: 11 };
 
+function useIsMobile(query = '(max-width: 639px)') {
+  const [mobile, setMobile] = useState(() => typeof window !== 'undefined' && !!window.matchMedia && window.matchMedia(query).matches);
+  useEffect(() => {
+    if (!window.matchMedia) return undefined;
+    const mq = window.matchMedia(query);
+    const on = () => setMobile(mq.matches);
+    on();
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, [query]);
+  return mobile;
+}
+
 const growthColor = (g) => (g == null ? MUTED : g >= 0 ? GREEN : RED);
 const fmt = (v, dp = 2, suffix = '') => (v != null && Number.isFinite(v) ? v.toFixed(dp) + suffix : '—');
 
 function ChartCard({ title, subtitle, children, footer }) {
   return (
-    <div className="bg-bg-card border border-border rounded-lg p-5 flex flex-col gap-4">
+    <div className="bg-bg-card border border-border rounded-lg p-3 sm:p-5 flex flex-col gap-4">
       <div>
         <h3 className="text-sm font-semibold text-text-primary">{title}</h3>
         {subtitle && <p className="text-xs text-text-muted mt-0.5">{subtitle}</p>}
@@ -65,6 +78,8 @@ function PointTooltip({ active, payload, xLabel }) {
 
 // ── 1. Yield × P/NAV ──────────────────────────────────────────────────────────
 function YieldValueMap({ points }) {
+  const mobile = useIsMobile();
+  const height = mobile ? 300 : 380;
   const medX = median(points.map((p) => p.x));
   const medY = median(points.map((p) => p.y));
   const maxX = Math.max(1.3, ...points.map((p) => p.x)) * 1.05;
@@ -73,12 +88,13 @@ function YieldValueMap({ points }) {
   return (
     <>
       <Legend items={[[GREEN, 'DPU rising'], [RED, 'DPU falling'], [MUTED, 'DPU trend unknown']]} />
-      <ResponsiveContainer width="100%" height={380} initialDimension={{ width: 720, height: 380 }}>
-        <ScatterChart margin={{ top: 26, right: 24, bottom: 24, left: 4 }}>
+      {mobile && <p className="text-[11px] text-text-muted -mt-2">Tap a dot to see which REIT it is.</p>}
+      <ResponsiveContainer width="100%" height={height} initialDimension={{ width: 720, height }}>
+        <ScatterChart margin={{ top: 26, right: mobile ? 10 : 24, bottom: 24, left: 0 }}>
           <CartesianGrid stroke={GRID} />
           <XAxis type="number" dataKey="x" domain={[0, maxX]} tick={AXIS} tickFormatter={(v) => v.toFixed(1) + 'x'} stroke="#333"
             label={{ value: 'Price / NAV  (left = cheaper)', position: 'insideBottom', offset: -14, fill: MUTED, fontSize: 11 }} />
-          <YAxis type="number" dataKey="y" domain={[0, maxY]} tick={AXIS} tickFormatter={(v) => v.toFixed(0) + '%'} stroke="#333" width={44}
+          <YAxis type="number" dataKey="y" domain={[0, maxY]} tick={AXIS} tickFormatter={(v) => v.toFixed(0) + '%'} stroke="#333" width={mobile ? 34 : 44}
             label={{ value: 'Yield', angle: -90, position: 'insideLeft', fill: MUTED, fontSize: 11 }} />
           <ZAxis range={[70, 70]} />
           <ReferenceArea x1={0} x2={medX} y1={medY} y2={maxY} fill={GREEN} fillOpacity={0.05}
@@ -90,7 +106,7 @@ function YieldValueMap({ points }) {
           <Tooltip content={<PointTooltip xLabel="P/NAV" />} cursor={{ strokeDasharray: '3 3', stroke: '#444' }} />
           <Scatter data={points} isAnimationActive={false}>
             {points.map((p) => <Cell key={p.ticker} fill={growthColor(p.growth)} fillOpacity={0.85} />)}
-            <LabelList dataKey="ticker" position="top" style={{ fontSize: 9, fill: '#9a9a9a' }} />
+            {!mobile && <LabelList dataKey="ticker" position="top" style={{ fontSize: 9, fill: '#9a9a9a' }} />}
           </Scatter>
         </ScatterChart>
       </ResponsiveContainer>
@@ -100,19 +116,22 @@ function YieldValueMap({ points }) {
 
 // ── 2. Yield-trap map ─────────────────────────────────────────────────────────
 function YieldTrapMap({ points, limit }) {
+  const mobile = useIsMobile();
+  const height = mobile ? 300 : 380;
   const { medY, names } = trapZone(points);
   const maxY = Math.max(...points.map((p) => p.y)) * 1.1;
   if (points.length < 3) return <p className="text-xs text-text-muted py-10 text-center">Not enough REITs with a verified yield and DPU growth yet.</p>;
   return (
     <>
       <Legend items={[[GREEN, 'Active'], [AMBER, 'Reduced'], [MUTED, 'Status unknown']]} />
-      <ResponsiveContainer width="100%" height={380} initialDimension={{ width: 720, height: 380 }}>
-        <ScatterChart margin={{ top: 26, right: 24, bottom: 24, left: 4 }}>
+      {mobile && <p className="text-[11px] text-text-muted -mt-2">Tap a dot to see which REIT it is.</p>}
+      <ResponsiveContainer width="100%" height={height} initialDimension={{ width: 720, height }}>
+        <ScatterChart margin={{ top: 26, right: mobile ? 10 : 24, bottom: 24, left: 0 }}>
           <CartesianGrid stroke={GRID} />
           <XAxis type="number" dataKey="x" domain={[-(limit + 12), limit + 12]} ticks={[-limit, -limit / 2, 0, limit / 2, limit]} tick={AXIS}
             tickFormatter={(v) => (v > 0 ? '+' : '') + v + '%'} stroke="#333" allowDataOverflow
             label={{ value: 'DPU growth, year on year', position: 'insideBottom', offset: -14, fill: MUTED, fontSize: 11 }} />
-          <YAxis type="number" dataKey="y" domain={[0, maxY]} tick={AXIS} tickFormatter={(v) => v.toFixed(0) + '%'} stroke="#333" width={44}
+          <YAxis type="number" dataKey="y" domain={[0, maxY]} tick={AXIS} tickFormatter={(v) => v.toFixed(0) + '%'} stroke="#333" width={mobile ? 34 : 44}
             label={{ value: 'Yield', angle: -90, position: 'insideLeft', fill: MUTED, fontSize: 11 }} />
           <ZAxis range={[70, 70]} />
           <ReferenceArea x1={-(limit + 12)} x2={0} y1={medY} y2={maxY} fill={RED} fillOpacity={0.07}
@@ -122,7 +141,7 @@ function YieldTrapMap({ points, limit }) {
           <Tooltip content={<PointTooltip xLabel="DPU growth" />} cursor={{ strokeDasharray: '3 3', stroke: '#444' }} />
           <Scatter data={points} isAnimationActive={false}>
             {points.map((p) => <Cell key={p.ticker} fill={p.status === 'reduced' ? AMBER : p.status === 'active' ? GREEN : MUTED} fillOpacity={0.85} />)}
-            <LabelList dataKey="ticker" position="top" style={{ fontSize: 9, fill: '#9a9a9a' }} />
+            {!mobile && <LabelList dataKey="ticker" position="top" style={{ fontSize: 9, fill: '#9a9a9a' }} />}
           </Scatter>
         </ScatterChart>
       </ResponsiveContainer>
@@ -153,11 +172,12 @@ function useSort(defaultKey, defaultDir) {
   return [sort, onSort];
 }
 
-function SortTh({ label, col, sort, onSort, rows, align = 'right' }) {
+const EDGE = 'border-r border-border/60';
+function SortTh({ label, col, sort, onSort, rows, align = 'right', className = '', frozen = false }) {
   const active = sort.key === col;
   const Icon = !active ? ChevronsUpDown : sort.dir === 'asc' ? ChevronUp : ChevronDown;
   return (
-    <th className={`${TH} ${ALIGN[align]}`} onClick={() => onSort(col, rows)} aria-sort={active ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
+    <th className={`${TH} ${ALIGN[align]} ${frozen ? `sticky left-0 z-10 bg-bg-elevated ${EDGE}` : ''} ${className}`} onClick={() => onSort(col, rows)} aria-sort={active ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
       <span className="inline-flex items-center gap-1">
         {label}
         <Icon className={`w-3 h-3 ${active ? 'text-accent-gold' : 'opacity-30'}`} />
@@ -171,13 +191,13 @@ function SectorScorecard({ rows }) {
   const data = useMemo(() => rows.map((r) => ({ ...r, growingShare: r.growthKnown ? r.growing / r.growthKnown : null })), [rows]);
   const [sort, onSort] = useSort('medYield', 'desc');
   const sorted = useMemo(() => sortRows(data, sort.key, sort.dir), [data, sort]);
-  const h = (label, col, align = 'right') => <SortTh label={label} col={col} sort={sort} onSort={onSort} rows={data} align={align} />;
+  const h = (label, col, align = 'right', extra = {}) => <SortTh label={label} col={col} sort={sort} onSort={onSort} rows={data} align={align} {...extra} />;
   return (
     <div className="overflow-x-auto rounded border border-border">
       <table className="w-full text-sm min-w-[620px]">
         <thead>
           <tr className="bg-bg-elevated border-b border-border">
-            {h('Sector', 'sector', 'left')}
+            {h('Sector', 'sector', 'left', { frozen: true })}
             {h('REITs', 'count')}
             {h('Median yield', 'medYield')}
             {h('Median P/NAV', 'medPb', 'center')}
@@ -189,7 +209,7 @@ function SectorScorecard({ rows }) {
         <tbody>
           {sorted.map((s, i) => (
             <tr key={s.sector} className={`border-b border-border/50 ${i % 2 ? 'bg-bg-secondary/40' : ''}`}>
-              <td className="px-3 py-2.5 font-medium">{s.sector}</td>
+              <td className={`sticky left-0 z-10 px-3 py-2.5 font-medium ${i % 2 ? 'bg-[#141414]' : 'bg-bg-card'} ${EDGE}`}>{s.sector}</td>
               <td className="px-3 py-2.5 text-right font-mono text-xs text-text-secondary">{s.count}</td>
               <td className="px-3 py-2.5 text-right font-mono text-xs font-semibold text-accent-gold">{fmt(s.medYield, 2, '%')}</td>
               <td className="px-3 py-2.5 text-center"><PNavBadge pb={s.medPb} /></td>
@@ -209,9 +229,9 @@ function SectorScorecard({ rows }) {
 }
 
 // ── 4. Near 52-week lows ──────────────────────────────────────────────────────
-function Pills({ label, options, value, onChange, suffix }) {
+function Pills({ label, options, value, onChange, suffix, after }) {
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex flex-wrap items-center gap-1.5">
       <span className="text-[11px] text-text-muted mr-1">{label}</span>
       {options.map((o) => (
         <button
@@ -226,6 +246,7 @@ function Pills({ label, options, value, onChange, suffix }) {
           {o}{suffix}
         </button>
       ))}
+      {after && <span className="text-[11px] text-text-muted ml-0.5">{after}</span>}
     </div>
   );
 }
@@ -245,11 +266,11 @@ function NearLowsList({ items }) {
   const found = useMemo(() => nearLows(items, { withinPct, minYield }).map((r) => ({ ...r, label: r.shortName || r.name })), [items, withinPct, minYield]);
   const [sort, onSort] = useSort('pctAboveLow', 'asc');
   const rows = useMemo(() => sortRows(found, sort.key, sort.dir), [found, sort]);
-  const h = (label, col, align = 'right') => <SortTh label={label} col={col} sort={sort} onSort={onSort} rows={found} align={align} />;
+  const h = (label, col, align = 'right', extra = {}) => <SortTh label={label} col={col} sort={sort} onSort={onSort} rows={found} align={align} {...extra} />;
   return (
     <>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-        <Pills label="Within" options={[2, 5, 10, 15]} value={withinPct} onChange={setWithinPct} suffix="% of low" />
+        <Pills label="Within" options={[2, 5, 10, 15]} value={withinPct} onChange={setWithinPct} suffix="%" after="of the 52-week low" />
         <Pills label="Yield at least" options={[4, 5, 6, 7]} value={minYield} onChange={setMinYield} suffix="%" />
         <span className="text-xs text-text-muted ml-auto">{found.length} {found.length === 1 ? 'name' : 'names'}</span>
       </div>
@@ -257,8 +278,8 @@ function NearLowsList({ items }) {
         <table className="w-full text-sm min-w-[760px]">
           <thead>
             <tr className="bg-bg-elevated border-b border-border">
-              {h('Ticker', 'ticker', 'left')}
-              {h('Name', 'label', 'left')}
+              {h('Ticker', 'ticker', 'left', { frozen: true })}
+              {h('Name', 'label', 'left', { className: 'hidden sm:table-cell' })}
               {h('Price', 'price')}
               {h('52w low', 'low52')}
               {h('Above low', 'pctAboveLow')}
@@ -271,8 +292,11 @@ function NearLowsList({ items }) {
           <tbody>
             {rows.map((r, i) => (
               <tr key={r.ticker} className={`border-b border-border/50 ${i % 2 ? 'bg-bg-secondary/40' : ''}`}>
-                <td className="px-3 py-2.5 font-mono text-xs font-bold text-accent-gold">{r.ticker}</td>
-                <td className="px-3 py-2.5 text-xs max-w-[180px] truncate" title={r.name}>
+                <td className={`sticky left-0 z-10 px-3 py-2.5 ${i % 2 ? 'bg-[#141414]' : 'bg-bg-card'} ${EDGE}`}>
+                  <div className="font-mono text-xs font-bold text-accent-gold">{r.ticker}</div>
+                  <div className="sm:hidden max-w-[84px] truncate text-[10px] text-text-muted">{r.label}</div>
+                </td>
+                <td className="hidden sm:table-cell px-3 py-2.5 text-xs max-w-[180px] truncate" title={r.name}>
                   {r.shortName || r.name}
                   <span className="ml-1.5 text-[10px] text-text-muted">{r.sector && !r.subsector ? 'Stock' : 'REIT'}</span>
                 </td>
