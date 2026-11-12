@@ -1,5 +1,3 @@
-Here’s a nicely formatted version of the README content:
-
 # SGXPTY
 
 ## What this is
@@ -115,8 +113,3 @@ flowchart LR
     M --> S[React state update]
     S --> T[DashboardTable.jsx renders UI]
 ```
-
-If you want, I can also turn this into:
-- a more polished GitHub README with badges and install steps
-- a shorter version for the repo landing page
-- a version tailored to a more technical audience or a more investor-facing audience
