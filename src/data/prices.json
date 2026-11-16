@@ -26,7 +26,7 @@
     "gearing": 43.19,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 2.0513,
-    "fetchedAt": "2026-11-16T19:44:18.698Z"
+    "fetchedAt": "2026-11-16T19:44:53.384Z"
   },
   "O5RU": {
     "price": 1.37,
@@ -53,7 +53,7 @@
     "gearing": 38.22,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 7.2993,
-    "fetchedAt": "2026-11-16T19:44:22.266Z"
+    "fetchedAt": "2026-11-16T19:44:56.831Z"
   },
   "M1GU": {
     "price": 0.485,
@@ -80,7 +80,7 @@
     "gearing": 39.27,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 8.0412,
-    "fetchedAt": "2026-11-16T19:44:25.635Z"
+    "fetchedAt": "2026-11-16T19:45:00.261Z"
   },
   "BMGU": {
     "price": 0.48,
@@ -107,7 +107,7 @@
     "gearing": 32.4,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 0.4167,
-    "fetchedAt": "2026-11-16T19:44:29.075Z"
+    "fetchedAt": "2026-11-16T19:45:03.604Z"
   },
   "A17U": {
     "price": 2.25,
@@ -134,7 +134,7 @@
     "gearing": 39.98,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 6.7873,
-    "fetchedAt": "2026-11-16T19:44:32.538Z"
+    "fetchedAt": "2026-11-16T19:45:07.083Z"
   },
   "HMN": {
     "price": 0.835,
@@ -146,7 +146,7 @@
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 0.79,
     "fiftyTwoWeekHigh": 0.99,
-    "volume": 1680900,
+    "volume": 1681500,
     "shortName": "CapLand Ascott T",
     "dpuTtm": 0.06108,
     "dpuFreq": 2,
@@ -161,7 +161,7 @@
     "gearing": 38.18,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 7.3494,
-    "fetchedAt": "2026-11-16T19:44:36.029Z"
+    "fetchedAt": "2026-11-16T19:45:10.428Z"
   },
   "AU8U": {
     "price": 0.605,
@@ -173,7 +173,7 @@
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 0.59,
     "fiftyTwoWeekHigh": 0.81,
-    "volume": 897700,
+    "volume": 910400,
     "shortName": "CapLand China T",
     "dpuTtm": 0.0478,
     "dpuFreq": 2,
@@ -188,7 +188,7 @@
     "gearing": 37.6,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 7.8689,
-    "fetchedAt": "2026-11-16T19:44:39.494Z"
+    "fetchedAt": "2026-11-16T19:45:13.752Z"
   },
   "CY6U": {
     "price": 0.905,
@@ -217,7 +217,7 @@
     "gearing": 35.1,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 8.7778,
-    "fetchedAt": "2026-11-16T19:44:43.000Z"
+    "fetchedAt": "2026-11-16T19:45:17.036Z"
   },
   "C38U": {
     "price": 2.34,
@@ -246,7 +246,7 @@
     "gearing": 35.27,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 5.1502,
-    "fetchedAt": "2026-11-16T19:44:46.389Z"
+    "fetchedAt": "2026-11-16T19:45:20.391Z"
   },
   "J85": {
     "price": 0.67,
@@ -273,7 +273,7 @@
     "gearing": 39.93,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 7.4074,
-    "fetchedAt": "2026-11-16T19:44:49.759Z"
+    "fetchedAt": "2026-11-16T19:45:23.763Z"
   },
   "8C8U": {
     "price": 1.06,
@@ -302,7 +302,7 @@
     "gearing": 20.7,
     "gearingAsAt": "2025-03-31",
     "yahooYield": 5.619,
-    "fetchedAt": "2026-11-16T19:44:53.221Z"
+    "fetchedAt": "2026-11-16T19:45:27.202Z"
   },
   "DHLU": {
     "price": 0.435,
@@ -329,7 +329,7 @@
     "gearing": 45.51,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 9.0698,
-    "fetchedAt": "2026-11-16T19:44:56.667Z"
+    "fetchedAt": "2026-11-16T19:45:30.560Z"
   },
   "DCRU": {
     "price": 0.45,
@@ -341,7 +341,7 @@
     "financialCurrency": "USD",
     "fiftyTwoWeekLow": 0.415,
     "fiftyTwoWeekHigh": 0.575,
-    "volume": 946800,
+    "volume": 917100,
     "shortName": "DigiCore Reit USD",
     "dpuTtm": 0.036,
     "dpuFreq": 2,
@@ -356,7 +356,7 @@
     "gearing": 35.23,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 8.0899,
-    "fetchedAt": "2026-11-16T19:45:00.171Z"
+    "fetchedAt": "2026-11-16T19:45:33.894Z"
   },
   "MXNU": {
     "price": 0.295,
@@ -383,7 +383,7 @@
     "gearing": 34.26,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 10,
-    "fetchedAt": "2026-11-16T19:45:03.610Z"
+    "fetchedAt": "2026-11-16T19:45:37.326Z"
   },
   "9A4U": {
     "price": 2.05,
@@ -395,7 +395,7 @@
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 1.85,
     "fiftyTwoWeekHigh": 2.82,
-    "volume": 322100,
+    "volume": 338200,
     "shortName": "ESR REIT",
     "dpuTtm": 0.22185,
     "dpuFreq": 2,
@@ -410,7 +410,7 @@
     "gearing": 46.9,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 10.8824,
-    "fetchedAt": "2026-11-16T19:45:07.068Z"
+    "fetchedAt": "2026-11-16T19:45:40.616Z"
   },
   "Q5T": {
     "price": 0.505,
@@ -422,7 +422,7 @@
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 0.49,
     "fiftyTwoWeekHigh": 0.625,
-    "volume": 102000,
+    "volume": 95700,
     "shortName": "Far East HTrust",
     "dpuTtm": null,
     "dpuFreq": 2,
@@ -439,7 +439,7 @@
     "gearing": 29.43,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 7.0588,
-    "fetchedAt": "2026-11-16T19:45:10.662Z"
+    "fetchedAt": "2026-11-16T19:45:43.943Z"
   },
   "AW9U": {
     "price": 0.172,
@@ -466,7 +466,7 @@
     "gearing": 41.77,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 11.4943,
-    "fetchedAt": "2026-11-16T19:45:14.163Z"
+    "fetchedAt": "2026-11-16T19:45:47.437Z"
   },
   "J69U": {
     "price": 2.16,
@@ -493,7 +493,7 @@
     "gearing": 33.21,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 5.7674,
-    "fetchedAt": "2026-11-16T19:45:17.682Z"
+    "fetchedAt": "2026-11-16T19:45:50.820Z"
   },
   "BUOU": {
     "price": 0.885,
@@ -520,7 +520,7 @@
     "gearing": 39.31,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 6.6292,
-    "fetchedAt": "2026-11-16T19:45:21.218Z"
+    "fetchedAt": "2026-11-16T19:45:54.108Z"
   },
   "UD1U": {
     "price": 0.164,
@@ -540,14 +540,14 @@
     "distributionStatus": "reduced",
     "lastExDate": "2026-08-13",
     "payYears": 12,
-    "yield": 6.4874,
+    "yield": 6.487,
     "dpuCheck": "above",
     "nav": null,
     "pb": null,
     "gearing": 45.49,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 4.9383,
-    "fetchedAt": "2026-11-16T19:45:24.604Z"
+    "fetchedAt": "2026-11-16T19:45:57.578Z"
   },
   "AJBU": {
     "price": 2.19,
@@ -574,7 +574,7 @@
     "gearing": 34.74,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 5.0926,
-    "fetchedAt": "2026-11-16T19:45:27.977Z"
+    "fetchedAt": "2026-11-16T19:46:01.028Z"
   },
   "K71U": {
     "price": 0.835,
@@ -601,7 +601,7 @@
     "gearing": 37.65,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 6.1446,
-    "fetchedAt": "2026-11-16T19:45:31.457Z"
+    "fetchedAt": "2026-11-16T19:46:04.377Z"
   },
   "CMOU": {
     "price": 0.14,
@@ -628,7 +628,7 @@
     "gearing": 43.97,
     "gearingAsAt": "2025-12-31",
     "yahooYield": 4.8951,
-    "fetchedAt": "2026-11-16T19:45:34.857Z"
+    "fetchedAt": "2026-11-16T19:46:07.788Z"
   },
   "JYEU": {
     "price": 0.54,
@@ -655,7 +655,7 @@
     "gearing": 38.36,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 6.8519,
-    "fetchedAt": "2026-11-16T19:45:38.332Z"
+    "fetchedAt": "2026-11-16T19:46:11.117Z"
   },
   "D5IU": {
     "price": 0.006,
@@ -682,7 +682,7 @@
     "gearing": 39.33,
     "gearingAsAt": "2026-06-30",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:45:41.740Z"
+    "fetchedAt": "2026-11-16T19:46:14.425Z"
   },
   "BTOU": {
     "price": 0.032,
@@ -709,7 +709,7 @@
     "gearing": 55.1,
     "gearingAsAt": "2026-06-30",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:45:45.233Z"
+    "fetchedAt": "2026-11-16T19:46:17.810Z"
   },
   "ME8U": {
     "price": 1.72,
@@ -736,19 +736,19 @@
     "gearing": 33.6,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 7.193,
-    "fetchedAt": "2026-11-16T19:45:48.731Z"
+    "fetchedAt": "2026-11-16T19:46:21.174Z"
   },
   "M44U": {
     "price": 1.09,
     "previousClose": 1.1,
     "change": -0.00999999,
     "changePercent": -0.90909004,
-    "marketCap": 5601485824,
+    "marketCap": 5580687360,
     "currency": "SGD",
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 1.06,
     "fiftyTwoWeekHigh": 1.37,
-    "volume": 7311500,
+    "volume": 7202900,
     "shortName": "Mapletree Log Tr",
     "dpuTtm": 0.07267,
     "dpuFreq": 4,
@@ -763,7 +763,7 @@
     "gearing": 37.59,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 6.6364,
-    "fetchedAt": "2026-11-16T19:45:52.096Z"
+    "fetchedAt": "2026-11-16T19:46:24.479Z"
   },
   "N2IU": {
     "price": 1.16,
@@ -790,7 +790,7 @@
     "gearing": 37.51,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 6.8103,
-    "fetchedAt": "2026-11-16T19:45:55.480Z"
+    "fetchedAt": "2026-11-16T19:46:27.792Z"
   },
   "NTDU": {
     "price": 0.94,
@@ -802,7 +802,7 @@
     "financialCurrency": "USD",
     "fiftyTwoWeekLow": 0.845,
     "fiftyTwoWeekHigh": 1.06,
-    "volume": 868100,
+    "volume": 964500,
     "shortName": "NTT DC REIT USD",
     "dpuTtm": 0.0556,
     "dpuFreq": 1,
@@ -817,7 +817,7 @@
     "gearing": 29.62,
     "gearingAsAt": "2026-09-30",
     "yahooYield": 5.9259,
-    "fetchedAt": "2026-11-16T19:45:58.832Z"
+    "fetchedAt": "2026-11-16T19:46:31.100Z"
   },
   "TS0U": {
     "price": 0.35,
@@ -844,19 +844,19 @@
     "gearing": 35.11,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 7.1429,
-    "fetchedAt": "2026-11-16T19:46:02.216Z"
+    "fetchedAt": "2026-11-16T19:46:34.531Z"
   },
   "C2PU": {
     "price": 4.01,
     "previousClose": 4,
     "change": 0.010000229,
     "changePercent": 0.25000572,
-    "marketCap": 2617274880,
+    "marketCap": 2617139200,
     "currency": "SGD",
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 3.91,
     "fiftyTwoWeekHigh": 4.31,
-    "volume": 525600,
+    "volume": 532700,
     "shortName": "ParkwayLife Reit",
     "dpuTtm": 0.1641,
     "dpuFreq": 2,
@@ -871,7 +871,7 @@
     "gearing": 33.72,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 4.1,
-    "fetchedAt": "2026-11-16T19:46:05.727Z"
+    "fetchedAt": "2026-11-16T19:46:38.228Z"
   },
   "OXMU": {
     "price": 0.109,
@@ -891,14 +891,14 @@
     "distributionStatus": "active",
     "lastExDate": "2026-08-19",
     "payYears": 7,
-    "yield": 9.0363,
+    "yield": 9.036,
     "dpuCheck": "ok",
     "nav": 0.525,
     "pb": 0.208,
     "gearing": 44.42,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 9.009,
-    "fetchedAt": "2026-11-16T19:46:09.298Z"
+    "fetchedAt": "2026-11-16T19:46:41.580Z"
   },
   "CRPU": {
     "price": 0.615,
@@ -925,7 +925,7 @@
     "gearing": 25.56,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 10.4065,
-    "fetchedAt": "2026-11-16T19:46:12.893Z"
+    "fetchedAt": "2026-11-16T19:46:44.965Z"
   },
   "P40U": {
     "price": 0.49,
@@ -937,7 +937,7 @@
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 0.48,
     "fiftyTwoWeekHigh": 0.6,
-    "volume": 1202300,
+    "volume": 1215800,
     "shortName": "StarhillGbl Reit",
     "dpuTtm": 0.0368,
     "dpuFreq": 2,
@@ -952,7 +952,7 @@
     "gearing": 35.66,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 7.551,
-    "fetchedAt": "2026-11-16T19:46:16.275Z"
+    "fetchedAt": "2026-11-16T19:46:48.328Z"
   },
   "SET": {
     "price": 1.51,
@@ -968,7 +968,7 @@
     "shortName": "Stoneweg EUTrust EUR",
     "dpuTtm": 0.13479,
     "dpuFreq": 2,
-    "dpuGrowth": -1.86,
+    "dpuGrowth": -1.87,
     "distributionStatus": "active",
     "lastExDate": "2026-08-20",
     "payYears": 9,
@@ -979,7 +979,7 @@
     "gearing": 43.66,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 9.2667,
-    "fetchedAt": "2026-11-16T19:46:19.784Z"
+    "fetchedAt": "2026-11-16T19:46:51.904Z"
   },
   "T82U": {
     "price": 1.36,
@@ -1006,7 +1006,7 @@
     "gearing": 38.89,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 5.7778,
-    "fetchedAt": "2026-11-16T19:46:23.271Z"
+    "fetchedAt": "2026-11-16T19:46:55.248Z"
   },
   "UIBU": {
     "price": 0.76,
@@ -1018,7 +1018,7 @@
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 0.75,
     "fiftyTwoWeekHigh": 0.855,
-    "volume": 2584900,
+    "volume": 2588700,
     "shortName": "UIBREIT",
     "dpuTtm": 0.0371,
     "dpuFreq": 1,
@@ -1033,7 +1033,7 @@
     "gearing": 36.5,
     "gearingAsAt": "2025-09-30",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:46:26.648Z"
+    "fetchedAt": "2026-11-16T19:46:58.520Z"
   },
   "ODBU": {
     "price": 0.45,
@@ -1060,7 +1060,7 @@
     "gearing": 41.23,
     "gearingAsAt": "2026-06-30",
     "yahooYield": 10.3448,
-    "fetchedAt": "2026-11-16T19:46:30.074Z"
+    "fetchedAt": "2026-11-16T19:47:01.975Z"
   },
   "D05": {
     "price": 69.3,
@@ -1084,7 +1084,7 @@
     "dpuCheck": "above",
     "pe": 17.81,
     "yahooYield": 3.7768,
-    "fetchedAt": "2026-11-16T19:46:32.505Z"
+    "fetchedAt": "2026-11-16T19:47:04.396Z"
   },
   "O39": {
     "price": 28.31,
@@ -1108,7 +1108,7 @@
     "dpuCheck": "above",
     "pe": 16.18,
     "yahooYield": 3.1195,
-    "fetchedAt": "2026-11-16T19:46:34.973Z"
+    "fetchedAt": "2026-11-16T19:47:06.815Z"
   },
   "U11": {
     "price": 37.38,
@@ -1132,7 +1132,7 @@
     "dpuCheck": "ok",
     "pe": 6.65,
     "yahooYield": 4.2119,
-    "fetchedAt": "2026-11-16T19:46:37.394Z"
+    "fetchedAt": "2026-11-16T19:47:09.228Z"
   },
   "Z74": {
     "price": 4,
@@ -1156,7 +1156,7 @@
     "dpuCheck": "ok",
     "pe": 17.39,
     "yahooYield": 4.6959,
-    "fetchedAt": "2026-11-16T19:46:39.815Z"
+    "fetchedAt": "2026-11-16T19:47:11.635Z"
   },
   "G13": {
     "price": 0.56,
@@ -1180,14 +1180,14 @@
     "dpuCheck": "ok",
     "pe": 18.67,
     "yahooYield": 6.9565,
-    "fetchedAt": "2026-11-16T19:46:42.255Z"
+    "fetchedAt": "2026-11-16T19:47:14.049Z"
   },
   "BS6": {
     "price": 4.43,
     "previousClose": 4.32,
     "change": 0.10999966,
     "changePercent": 2.5462883,
-    "marketCap": null,
+    "marketCap": 17434658816,
     "currency": "SGD",
     "financialCurrency": "CNY",
     "fiftyTwoWeekLow": 3.16,
@@ -1204,9 +1204,9 @@
     "dpuCheck": "mismatch",
     "dpuTtmCalc": 0.2,
     "dpuTtmYahoo": 1.088,
-    "pe": 9.63,
+    "pe": 9.84,
     "yahooYield": 25.1852,
-    "fetchedAt": "2026-11-16T19:46:44.705Z"
+    "fetchedAt": "2026-11-16T19:47:16.460Z"
   },
   "S63": {
     "price": 9.03,
@@ -1230,7 +1230,7 @@
     "dpuCheck": "above",
     "pe": 50.17,
     "yahooYield": 1.9648,
-    "fetchedAt": "2026-11-16T19:46:47.173Z"
+    "fetchedAt": "2026-11-16T19:47:18.905Z"
   },
   "BN4": {
     "price": 9.55,
@@ -1254,7 +1254,7 @@
     "dpuCheck": "ok",
     "pe": 21.7,
     "yahooYield": 3.4623,
-    "fetchedAt": "2026-11-16T19:46:49.615Z"
+    "fetchedAt": "2026-11-16T19:47:21.307Z"
   },
   "J36": {
     "price": 59.77,
@@ -1278,7 +1278,7 @@
     "dpuCheck": "ok",
     "pe": 15.77,
     "yahooYield": 3.9967,
-    "fetchedAt": "2026-11-16T19:46:52.112Z"
+    "fetchedAt": "2026-11-16T19:47:23.709Z"
   },
   "S68": {
     "price": 20.49,
@@ -1302,7 +1302,7 @@
     "dpuCheck": "above",
     "pe": 31.52,
     "yahooYield": 2.1508,
-    "fetchedAt": "2026-11-16T19:46:54.566Z"
+    "fetchedAt": "2026-11-16T19:47:26.111Z"
   },
   "9CI": {
     "price": 2.35,
@@ -1326,7 +1326,7 @@
     "dpuCheck": "ok",
     "pe": 58.75,
     "yahooYield": 5.042,
-    "fetchedAt": "2026-11-16T19:46:56.975Z"
+    "fetchedAt": "2026-11-16T19:47:28.495Z"
   },
   "H78": {
     "price": 8.3,
@@ -1338,7 +1338,7 @@
     "financialCurrency": "USD",
     "fiftyTwoWeekLow": 6.22,
     "fiftyTwoWeekHigh": 9.12,
-    "volume": 954900,
+    "volume": 967700,
     "shortName": "HongkongLand USD",
     "dpuTtm": 0.27,
     "dpuFreq": 2,
@@ -1350,7 +1350,7 @@
     "dpuCheck": "ok",
     "pe": 7.83,
     "yahooYield": 3.2847,
-    "fetchedAt": "2026-11-16T19:46:59.395Z"
+    "fetchedAt": "2026-11-16T19:47:30.902Z"
   },
   "C6L": {
     "price": 7.22,
@@ -1362,7 +1362,7 @@
     "financialCurrency": "SGD",
     "fiftyTwoWeekLow": 6.21,
     "fiftyTwoWeekHigh": 7.92,
-    "volume": 8692200,
+    "volume": 8547800,
     "shortName": "SIA",
     "dpuTtm": null,
     "dpuFreq": 2,
@@ -1374,9 +1374,9 @@
     "dpuCheck": "mismatch",
     "dpuTtmCalc": 0.37,
     "dpuTtmYahoo": 0.24,
-    "pe": 21.24,
+    "pe": 20.63,
     "yahooYield": 3.352,
-    "fetchedAt": "2026-11-16T19:47:01.898Z"
+    "fetchedAt": "2026-11-16T19:47:33.316Z"
   },
   "U96": {
     "price": 5.68,
@@ -1400,7 +1400,7 @@
     "dpuCheck": "ok",
     "pe": 17.21,
     "yahooYield": 4.7038,
-    "fetchedAt": "2026-11-16T19:47:04.341Z"
+    "fetchedAt": "2026-11-16T19:47:35.760Z"
   },
   "F34": {
     "price": 2.9,
@@ -1412,7 +1412,7 @@
     "financialCurrency": "USD",
     "fiftyTwoWeekLow": 2.88,
     "fiftyTwoWeekHigh": 4.02,
-    "volume": 12144200,
+    "volume": 11963800,
     "shortName": "Wilmar Intl",
     "dpuTtm": 0.15,
     "dpuFreq": 2,
@@ -1424,7 +1424,7 @@
     "dpuCheck": "above",
     "pe": 10,
     "yahooYield": 3.9456,
-    "fetchedAt": "2026-11-16T19:47:06.772Z"
+    "fetchedAt": "2026-11-16T19:47:38.155Z"
   },
   "ES3": {
     "price": 5.27,
@@ -1447,7 +1447,7 @@
     "yield": 3.3776,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:09.250Z"
+    "fetchedAt": "2026-11-16T19:47:40.547Z"
   },
   "G3B": {
     "price": 5.378,
@@ -1470,7 +1470,7 @@
     "yield": 3.5311,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:11.667Z"
+    "fetchedAt": "2026-11-16T19:47:42.947Z"
   },
   "GAB": {
     "price": 5.002,
@@ -1493,7 +1493,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:14.068Z"
+    "fetchedAt": "2026-11-16T19:47:45.376Z"
   },
   "O9A": {
     "price": 2.445,
@@ -1516,7 +1516,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:16.505Z"
+    "fetchedAt": "2026-11-16T19:47:47.757Z"
   },
   "S27": {
     "price": 752.82,
@@ -1539,7 +1539,7 @@
     "yield": 1.0072,
     "dpuCheck": "above",
     "yahooYield": 0.7489,
-    "fetchedAt": "2026-11-16T19:47:18.952Z"
+    "fetchedAt": "2026-11-16T19:47:50.170Z"
   },
   "D07": {
     "price": 524.09,
@@ -1562,7 +1562,7 @@
     "yield": 1.371,
     "dpuCheck": "above",
     "yahooYield": 1.0744,
-    "fetchedAt": "2026-11-16T19:47:21.378Z"
+    "fetchedAt": "2026-11-16T19:47:52.571Z"
   },
   "XUS": {
     "price": 18.91,
@@ -1585,7 +1585,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:23.855Z"
+    "fetchedAt": "2026-11-16T19:47:54.948Z"
   },
   "EUS": {
     "price": 159.65,
@@ -1608,7 +1608,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:26.277Z"
+    "fetchedAt": "2026-11-16T19:47:57.342Z"
   },
   "XND": {
     "price": 83.04,
@@ -1631,7 +1631,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:28.717Z"
+    "fetchedAt": "2026-11-16T19:47:59.719Z"
   },
   "XWR": {
     "price": 203.46,
@@ -1654,7 +1654,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:31.117Z"
+    "fetchedAt": "2026-11-16T19:48:02.107Z"
   },
   "H1N": {
     "price": 19.39,
@@ -1677,7 +1677,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:33.575Z"
+    "fetchedAt": "2026-11-16T19:48:04.495Z"
   },
   "A93": {
     "price": 1.536,
@@ -1700,7 +1700,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:36.024Z"
+    "fetchedAt": "2026-11-16T19:48:06.876Z"
   },
   "ICM": {
     "price": 1.762,
@@ -1723,7 +1723,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:38.461Z"
+    "fetchedAt": "2026-11-16T19:48:09.253Z"
   },
   "YLD": {
     "price": 1.483,
@@ -1746,7 +1746,7 @@
     "yield": 7.1544,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:40.991Z"
+    "fetchedAt": "2026-11-16T19:48:11.784Z"
   },
   "ESG": {
     "price": 1.283,
@@ -1758,7 +1758,7 @@
     "financialCurrency": null,
     "fiftyTwoWeekLow": 1.278,
     "fiftyTwoWeekHigh": 1.6,
-    "volume": 78342,
+    "volume": 72662,
     "shortName": "Lion-OSPL Low Carbon S$",
     "dpuTtm": 0.1019,
     "dpuFreq": 2,
@@ -1769,7 +1769,7 @@
     "yield": 7.9423,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:43.404Z"
+    "fetchedAt": "2026-11-16T19:48:14.196Z"
   },
   "UPD": {
     "price": 0.952,
@@ -1792,7 +1792,7 @@
     "yield": 4.4118,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:45.804Z"
+    "fetchedAt": "2026-11-16T19:48:16.594Z"
   },
   "SQQ": {
     "price": 0.963,
@@ -1815,7 +1815,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:48.253Z"
+    "fetchedAt": "2026-11-16T19:48:18.979Z"
   },
   "LCS": {
     "price": 2.523,
@@ -1838,7 +1838,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:50.692Z"
+    "fetchedAt": "2026-11-16T19:48:21.403Z"
   },
   "SUN": {
     "price": 0.872,
@@ -1861,7 +1861,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:53.103Z"
+    "fetchedAt": "2026-11-16T19:48:23.782Z"
   },
   "SCY": {
     "price": 1.076,
@@ -1884,7 +1884,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:55.516Z"
+    "fetchedAt": "2026-11-16T19:48:26.161Z"
   },
   "CXT": {
     "price": 1.032,
@@ -1907,7 +1907,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:47:57.924Z"
+    "fetchedAt": "2026-11-16T19:48:28.558Z"
   },
   "CXS": {
     "price": 0.848,
@@ -1930,7 +1930,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:00.421Z"
+    "fetchedAt": "2026-11-16T19:48:30.950Z"
   },
   "JK8": {
     "price": 2.201,
@@ -1953,7 +1953,7 @@
     "yield": 2.5338,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:02.860Z"
+    "fetchedAt": "2026-11-16T19:48:33.337Z"
   },
   "YYY": {
     "price": 1.673,
@@ -1976,7 +1976,7 @@
     "yield": 3.3234,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:05.283Z"
+    "fetchedAt": "2026-11-16T19:48:35.739Z"
   },
   "HST": {
     "price": 0.612,
@@ -1999,7 +1999,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:07.699Z"
+    "fetchedAt": "2026-11-16T19:48:38.124Z"
   },
   "EVS": {
     "price": 0.426,
@@ -2022,7 +2022,7 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:10.128Z"
+    "fetchedAt": "2026-11-16T19:48:40.516Z"
   },
   "SRT": {
     "price": 0.689,
@@ -2045,7 +2045,7 @@
     "yield": 6.2409,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:12.550Z"
+    "fetchedAt": "2026-11-16T19:48:42.894Z"
   },
   "CFA": {
     "price": 0.75,
@@ -2068,7 +2068,7 @@
     "yield": 5.6533,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:14.981Z"
+    "fetchedAt": "2026-11-16T19:48:45.315Z"
   },
   "CLR": {
     "price": 0.769,
@@ -2080,7 +2080,7 @@
     "financialCurrency": null,
     "fiftyTwoWeekLow": 0.737,
     "fiftyTwoWeekHigh": 0.89,
-    "volume": 1319147,
+    "volume": 1318845,
     "shortName": "LION-PHILLIP S-REIT",
     "dpuTtm": 0.045,
     "dpuFreq": 2,
@@ -2091,7 +2091,7 @@
     "yield": 5.8518,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:17.402Z"
+    "fetchedAt": "2026-11-16T19:48:47.717Z"
   },
   "BYJ": {
     "price": 1.083,
@@ -2114,7 +2114,7 @@
     "yield": 3.4474,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:19.807Z"
+    "fetchedAt": "2026-11-16T19:48:50.116Z"
   },
   "GRN": {
     "price": 0.677,
@@ -2137,7 +2137,7 @@
     "yield": 4.1722,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:22.244Z"
+    "fetchedAt": "2026-11-16T19:48:52.567Z"
   },
   "A35": {
     "price": 1.111,
@@ -2160,7 +2160,7 @@
     "yield": 2.3942,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:24.710Z"
+    "fetchedAt": "2026-11-16T19:48:54.955Z"
   },
   "MBH": {
     "price": 0.985,
@@ -2183,7 +2183,7 @@
     "yield": 3.2081,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:27.192Z"
+    "fetchedAt": "2026-11-16T19:48:57.347Z"
   },
   "O9P": {
     "price": 6.53,
@@ -2206,7 +2206,7 @@
     "yield": 7.5038,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:29.641Z"
+    "fetchedAt": "2026-11-16T19:48:59.772Z"
   },
   "N6M": {
     "price": 9.53,
@@ -2229,7 +2229,7 @@
     "yield": 5.0367,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:32.079Z"
+    "fetchedAt": "2026-11-16T19:49:02.170Z"
   },
   "CYC": {
     "price": 13.8,
@@ -2252,7 +2252,7 @@
     "yield": 2.8986,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:34.530Z"
+    "fetchedAt": "2026-11-16T19:49:04.552Z"
   },
   "MMS": {
     "price": 103.209,
@@ -2275,7 +2275,7 @@
     "yield": 1.2169,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:36.941Z"
+    "fetchedAt": "2026-11-16T19:49:06.961Z"
   },
   "O87": {
     "price": 353.6,
@@ -2298,6 +2298,6 @@
     "yield": null,
     "dpuCheck": "unchecked",
     "yahooYield": null,
-    "fetchedAt": "2026-11-16T19:48:39.404Z"
+    "fetchedAt": "2026-11-16T19:49:09.358Z"
   }
 }
