@@ -10,17 +10,21 @@
 const FREQ_LABEL = { 1: 'Annual', 2: 'Semi-annual', 4: 'Quarterly', 12: 'Monthly' };
 const LIVE_FIELDS = ['price', 'previousClose', 'change', 'changePercent', 'marketCap', 'currency', 'fiftyTwoWeekLow', 'fiftyTwoWeekHigh', 'volume'];
 
-// Fetch a single ticker from the backend
-export async function fetchSingleQuote(ticker) {
+// Fetch one ticker (kept for compatibility; the dashboard loads in batches via fetchQuotes)
+export async function fetchSingleQuote(ticker, signal) {
   const symbol = ticker.endsWith('.SI') ? ticker : ticker + '.SI'
-  const res = await fetch(`/api/quote?ticker=${symbol}`)
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}))
-    throw new Error(err.error || `HTTP ${res.status}`)
-  }
+  const res = await fetch(`/api/quote?ticker=${encodeURIComponent(symbol)}`, { signal })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json()
+}
+
+// Fetch many tickers in ONE request. Returns { quotes: {TICKER: quote}, errors: {TICKER: reason} }.
+// Passing the AbortSignal means a cancelled refresh also cancels the request already in flight.
+export async function fetchQuotes(tickers, signal) {
+  const res = await fetch(`/api/quotes?tickers=${encodeURIComponent(tickers.join(','))}`, { signal })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
   const data = await res.json()
-  if (data.error) throw new Error(data.error)
-  return data
+  return { quotes: data.quotes || {}, errors: data.errors || {} }
 }
 
 // Overlay live market data on the nightly dataset. Calculated fields are never overwritten.
