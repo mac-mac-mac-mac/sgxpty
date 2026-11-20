@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Header from './components/Header';
 import DashboardTable from './components/DashboardTable';
 import ViewToggle from './components/ViewToggle';
@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 import { REITS, SECTORS } from './data/reits';
 import { ETFS, ETF_CATEGORIES } from './data/etfs';
 import { STOCKS, STOCK_SECTORS } from './data/stocks';
-import { fetchSingleQuote, applyLiveData, mergeLive, etaSeconds, formatDuration } from './lib/yahooFinance';
+import { fetchQuotes, applyLiveData, mergeLive, etaSeconds, formatDuration } from './lib/yahooFinance';
 import DAILY_PRICES from './data/prices.json';
 
 const MODES = [
@@ -67,6 +67,7 @@ export default function App() {
     if (abortRef.current) abortRef.current.abort();
     const controller = new AbortController();
     abortRef.current = controller;
+    const { signal } = controller;
 
     liveMapRef.current = {};
     setLiveCount(0);
@@ -78,38 +79,65 @@ export default function App() {
     const allTickers = [...REITS, ...ETFS, ...STOCKS].map((x) => x.ticker);
     setTotalCount(allTickers.length);
 
-    let loaded = 0;
-    for (let i = 0; i < allTickers.length; i++) {
-      if (controller.signal.aborted) break;
-      const ticker = allTickers[i];
-      try {
-        liveMapRef.current[ticker] = { ...(await fetchSingleQuote(ticker)), liveAt: Date.now() };
-        loaded++;
-        setLiveCount(loaded);
+    // A handful of requests instead of ~90. The groups are always identical, so the CDN can serve
+    // a repeat visitor from cache instead of calling Yahoo again.
+    const BATCH = 25;
+    const groups = [];
+    for (let i = 0; i < allTickers.length; i += BATCH) groups.push(allTickers.slice(i, i + BATCH));
 
-        // Live price on top of the nightly dataset; yield and P/NAV are re-calculated from it
+    let loaded = 0;
+    let done = 0;
+    for (let g = 0; g < groups.length; g++) {
+      if (signal.aborted) break;
+      const group = groups[g];
+      let result = null;
+      for (let attempt = 0; attempt < 2 && !result; attempt++) {
+        try {
+          result = await fetchQuotes(group, signal);
+        } catch (err) {
+          if (err.name === 'AbortError' || signal.aborted) return;          // superseded by a newer refresh
+          console.warn(`[SGXPTY] batch ${g + 1} failed (attempt ${attempt + 1}):`, err.message);
+          if (attempt === 0) await new Promise((r) => setTimeout(r, 1000));
+        }
+      }
+      if (signal.aborted) return;
+
+      if (result) {
+        const at = Date.now();
+        for (const [ticker, quote] of Object.entries(result.quotes)) liveMapRef.current[ticker] = { ...quote, liveAt: at };
+        loaded += Object.keys(result.quotes).length;
+        setLiveCount(loaded);
+        // One merge and one state update per batch, not per ticker
         const merged = mergeLive(DAILY_PRICES, liveMapRef.current);
         setReitsData(applyLiveData(REITS, merged));
         setEtfsData(applyLiveData(ETFS, merged));
         setStocksData(applyLiveData(STOCKS, merged));
-
-        if (loaded === 1) setLiveStatus('live');
-      } catch (err) {
-        console.warn(`[SGXPTY] ${ticker}:`, err.message);
+        if (loaded > 0) setLiveStatus('live');
       }
-      setProcessed(i + 1);
-      // 1.5s gap between requests — stays under Yahoo's rate limit
-      if (i < allTickers.length - 1 && !controller.signal.aborted) {
-        await new Promise((r) => setTimeout(r, 1500));
-      }
+      done += group.length;
+      setProcessed(done);
+      if (g < groups.length - 1) await new Promise((r) => setTimeout(r, 250));
     }
 
-    if (!controller.signal.aborted) {
+    if (!signal.aborted) {
       setIsRefreshing(false);
       if (loaded === 0) setLiveStatus(hasDailyPrices ? 'daily' : 'fallback');
       else setLastLiveAt(new Date());
     }
   }, [hasDailyPrices]);
+
+  // How old is the nightly data? (the newest per-ticker fetch time in prices.json)
+  const freshness = useMemo(() => {
+    const entries = Object.values(DAILY_PRICES);
+    const times = entries.map((p) => Date.parse(p.fetchedAt)).filter(Number.isFinite);
+    if (!times.length) return { asOf: null, ageDays: null, staleCount: 0 };
+    const asOf = new Date(Math.max(...times));
+    return { asOf, ageDays: (Date.now() - asOf.getTime()) / 86_400_000, staleCount: entries.filter((p) => p.stale).length };
+  }, []);
+  const asOfLabel = freshness.asOf
+    ? freshness.asOf.toLocaleString('en-SG', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Singapore' })
+    : null;
+  const dataIsOld = freshness.ageDays != null && freshness.ageDays > 4; // weekends are the longest normal gap (~3 days)
 
   useEffect(() => {
     loadLiveData();
@@ -230,6 +258,20 @@ export default function App() {
                 No market data available yet — run the nightly sync
               </div>
             )}
+
+            {(dataIsOld || freshness.staleCount > 0) && (
+              <div className="flex items-start gap-2 px-3 sm:px-4 py-2 bg-amber-500/5 border border-amber-500/20 rounded text-xs text-amber-400">
+                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                <span>
+                  {dataIsOld
+                    ? `The nightly data is ${Math.floor(freshness.ageDays)} days old — the sync may have failed, so yield, DPU growth and the other calculated figures could be out of date.`
+                    : `${freshness.staleCount} ${freshness.staleCount === 1 ? 'ticker' : 'tickers'} missed the last nightly update and still show older figures.`}
+                </span>
+              </div>
+            )}
+            <p className="text-[11px] leading-relaxed text-text-muted -mt-2">
+              Data: Yahoo Finance. Yield, DPU growth, distribution status, P/NAV, gearing (est.) and P/E are calculated nightly{asOfLabel ? ` — as of ${asOfLabel} SGT` : ''}. Five-Filter ratings are our own judgment.
+            </p>
 
             {compareList.length > 0 && (
               <div className="flex items-center gap-2 px-4 py-2.5 bg-accent-gold/5 border border-accent-gold/20 rounded text-xs">
