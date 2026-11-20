@@ -294,3 +294,78 @@ test('growth needs equal payout counts in both years (a missing payout never fak
   assert.equal(m.growth, null);
   approx(m.dpuTtm, 0.12, 1e-9);
 });
+
+// ── Regression fixtures: REAL Yahoo events copied from the 2026-11-06 workflow log ──
+const NOW2 = Date.parse('2026-11-06');
+const ev = (str) => str.trim().split(/\s+/).map((x) => { const [date, amount] = x.split(':'); return { date: new Date(date), amount: +amount }; });
+const RAW = {
+  CY6U: ev('2023-08-21:0.0336 2024-02-19:0.0309 2024-08-19:0.0364 2025-02-18:0.032 2025-09-08:0.0397 2026-02-12:0.039 2026-03-03:0.0144 2026-08-17:0.0256'),
+  XZL:  ev('2022-03-02:0.0037689093 2023-03-02:0.016847907 2023-08-17:0.01599265 2024-02-29:0.020222805 2024-08-16:0.0075565805 2025-03-06:0.008860571 2025-08-14:0.0043161474 2026-03-05:0.0041746474'),
+  C38U: ev('2024-02-14:0.054359 2024-08-20:0.054159 2024-09-10:0.0216 2025-02-12:0.0329 2025-08-12:0.0697 2026-02-13:0.0461 2026-04-27:0.0398 2026-08-19:0.0204'),
+  Q5T:  ev('2023-02-21:0.0173 2023-08-04:0.0192 2024-02-21:0.0217 2024-08-06:0.0196 2025-02-19:0.0208 2025-08-06:0.0225 2026-02-23:0.0145 2026-08-06:0.0163'),
+  '8C8U': ev('2026-03-02:0.01739 2026-08-13:0.03499'),
+  BS6:  ev('2019-05-21:0.05 2020-05-13:0.045 2021-05-11:0.045 2022-05-12:0.05 2023-05-10:0.05 2024-04-29:0.065 2025-05-05:0.12 2026-05-06:0.2'),
+};
+const run = (t, price, yahooDps, kind = 'reit') =>
+  buildCalculated({ kind, now: NOW2, quote: { regularMarketPrice: price, trailingAnnualDividendRate: yahooDps }, dividends: RAW[t] });
+
+test('CY6U: a payout date drifting 3 weeks earlier no longer double-counts a half-year (was 0.1187, Yahoo 0.079)', () => {
+  const o = run('CY6U', 0.885, 0.079);
+  approx(o.dpuTtm, 0.079, 1e-9);                 // 0.039 + 0.0144 + 0.0256
+  assert.equal(o.dpuCheck, 'ok');
+  assert.equal(o.distributionStatus, 'active');
+  approx(o.yield, (0.079 / 0.885) * 100, 1e-3);
+});
+
+test('XZL: a skipped payout is not hidden by looking back from the last payout (was 0.0085, Yahoo 0.004)', () => {
+  const o = run('XZL', 0.23, 0.004);
+  approx(o.dpuTtm, 0.0041746, 1e-6);             // only the March 2026 payout is inside the last 12 months
+  assert.equal(o.dpuCheck, 'ok');
+});
+
+test('C38U / Q5T / 8C8U: 11–14% under Yahoo (whose figure looks stale) → yield published, growth withheld', () => {
+  const c = run('C38U', 2.35, 0.12);
+  approx(c.dpuTtm, 0.1063, 1e-9);                // 0.0461 + 0.0398 + 0.0204
+  assert.equal(c.dpuCheck, 'close');
+  assert.equal(c.dpuGrowth, null);               // messy tranche history → no growth claim
+  assert.equal(c.distributionStatus, null);
+  approx(c.yield, (0.1063 / 2.35) * 100, 1e-3);
+  const q = run('Q5T', 0.515, 0.036);
+  approx(q.dpuTtm, 0.0308, 1e-9);
+  assert.equal(q.dpuCheck, 'close');
+  assert.ok(q.yield > 5.9 && q.yield < 6.1);
+  const e = run('8C8U', 1.07, 0.059);
+  approx(e.dpuTtm, 0.05238, 1e-9);                // new listing: both payouts, annualised
+  assert.equal(e.dpuCheck, 'close');
+});
+
+test('BS6: events show one annual dividend; Yahoo says 1.088 → still blocked (cannot tell which is wrong)', () => {
+  const o = run('BS6', 4.25, 1.088, 'stock');
+  assert.equal(o.dpuCheck, 'mismatch');
+  assert.equal(o.yield, null);
+  assert.equal(o.dpuTtmCalc, 0.2);
+});
+
+test('a half-year payout counted twice (drift) never survives: window B wins when smaller', () => {
+  const m = dividendMetrics(RAW.CY6U, 0.885, NOW2);
+  approx(m.dpuTtm, 0.079, 1e-9);
+  const driftedBack = dividendMetrics(RAW.CY6U, 0.885, Date.parse('2026-08-20')); // 3 days after the latest payout
+  assert.ok(driftedBack.dpuTtm <= 0.1187 + 1e-9 && driftedBack.dpuTtm >= 0.079 - 1e-9);
+});
+
+test('weak agreement ("above") withholds growth/status but keeps the yield', () => {
+  const bank = [d('2025-02-14', 0.60), d('2025-05-16', 0.60), d('2025-08-14', 0.60), d('2025-11-07', 0.60), d('2026-02-13', 0.60), d('2026-05-15', 0.60), d('2026-08-14', 0.60)];
+  const o = buildCalculated({ kind: 'stock', now: NOW, quote: { regularMarketPrice: 74.21, trailingAnnualDividendRate: 1.9 }, dividends: bank });
+  assert.equal(o.dpuCheck, 'above');
+  assert.equal(o.dpuGrowth, null);
+  assert.equal(o.distributionStatus, null);
+  assert.ok(o.yield > 0);
+});
+
+test('reconcile tiers', () => {
+  assert.equal(reconcile(0.105, 0.1, 'active'), 'ok');
+  assert.equal(reconcile(0.0886, 0.1, 'active'), 'close');   // −11.4%
+  assert.equal(reconcile(0.0749, 0.15, 'active'), 'mismatch');// −50%, the original bug
+  assert.equal(reconcile(0.123, 0.1, 'active'), 'above');
+  assert.equal(reconcile(0.15, 0.1, 'active'), 'mismatch');  // +50%
+});
