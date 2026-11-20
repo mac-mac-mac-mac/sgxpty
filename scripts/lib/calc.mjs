@@ -14,8 +14,9 @@ export const FREQ_LABEL = { 1: 'Annual', 2: 'Semi-annual', 4: 'Quarterly', 12: '
 
 const CLUSTER_DAYS = 10;          // payouts this close together are ONE distribution (split components)
 const WINDOW_JITTER = 20 * DAY;   // tolerance for ex-dates drifting a few days year to year
-export const DPU_UNDER = 0.10; // calculated annual DPU may be at most 10% BELOW Yahoo's trailing figure (= missing payouts)
-export const DPU_OVER = 0.40;  // ...and up to 40% ABOVE it (special / capital-return payouts Yahoo's figure leaves out)
+export const DPU_STRONG = 0.10; // within ±10% of Yahoo's trailing figure = full agreement
+export const DPU_UNDER = 0.25;  // up to 25% BELOW it still plausible (Yahoo's figure can lag or be inconsistent) — halving bugs are far beyond this
+export const DPU_OVER = 0.40;   // up to 40% ABOVE it still plausible (special / capital-return payouts Yahoo's figure leaves out)
 
 /** Keep valid payouts (one per exact timestamp), sorted oldest → newest. */
 export function cleanDividends(list = []) {
@@ -103,9 +104,21 @@ export function dividendMetrics(rawDividends, price, now = Date.now()) {
   }
 
   const sum = (arr) => arr.reduce((a, e) => a + e.amount, 0);
-  const w1 = events.filter((e) => e.t > last.t - 365 * DAY + WINDOW_JITTER && e.t <= last.t);
-  const w2 = events.filter((e) => e.t > last.t - 730 * DAY + WINDOW_JITTER && e.t <= last.t - 365 * DAY + WINDOW_JITTER);
+  const nowMs = toMs(now);
+  // Window A: the year ending at the latest payout (stable). Can reach back too far when a payout date
+  //           drifts earlier year to year (it then catches two payouts of the same half-year).
+  const a1 = events.filter((e) => e.t > last.t - 365 * DAY + WINDOW_JITTER && e.t <= last.t);
+  const a2 = events.filter((e) => e.t > last.t - 730 * DAY + WINDOW_JITTER && e.t <= last.t - 365 * DAY + WINDOW_JITTER);
+  // Window B: the trailing 12 months ending today (what Yahoo and most data sites show). Correctly drops
+  //           a payout that is no longer in the last year, e.g. after a skipped distribution.
+  const b1 = events.filter((e) => e.t > nowMs - 365 * DAY && e.t <= nowMs);
+  const b2 = events.filter((e) => e.t > nowMs - 730 * DAY && e.t <= nowMs - 365 * DAY);
   const fullYear = last.t - events[0].t >= 365 * DAY - WINDOW_JITTER; // at least a year of history
+
+  // Never overstate: use the smaller year (window B only counts if it holds at least one payout)
+  const useB = fullYear && b1.length > 0 && sum(b1) < sum(a1);
+  const w1 = useB ? b1 : a1;
+  const w2 = useB ? b2 : a2;
 
   const dpuTtm = fullYear ? sum(w1) : (sum(w1) / w1.length) * freq; // new listing → annualise
 
@@ -128,13 +141,20 @@ export function trailingDps(quote, price) {
   return y != null && num(price) > 0 ? y * price : null;
 }
 
-/** 'ok' | 'above' | 'mismatch' | 'unchecked'   ('above' = published; calc is 10–40% over Yahoo, typically special payouts) */
+/**
+ * How well our annual DPU agrees with Yahoo's trailing figure:
+ *  'ok'        within ±10%                      → publish everything
+ *  'close'     10–25% below  / 'above' 10–40% over → publish yield only (growth & "reduced" need a cleaner match)
+ *  'mismatch'  further out                       → publish nothing
+ *  'unchecked' Yahoo has no figure (or 0)        → publish ours, unverified
+ */
 export function reconcile(calc, ref, status) {
   if (calc == null || ref == null) return 'unchecked';
   if (ref === 0) return calc === 0 ? 'ok' : 'unchecked'; // Yahoo has no trailing figure → cannot judge
   const rel = (calc - ref) / ref;
   if (rel < -DPU_UNDER || rel > DPU_OVER) return 'mismatch';
-  return rel > DPU_UNDER ? 'above' : 'ok';
+  if (Math.abs(rel) <= DPU_STRONG) return 'ok';
+  return rel < 0 ? 'close' : 'above';
 }
 
 // ── Valuation ────────────────────────────────────────────────────────────────
@@ -211,18 +231,20 @@ export function buildCalculated({ quote, dividends, balanceRows, kind, now = Dat
       Object.assign(out, {
         dpuTtm: null, dpuFreq: m.freq, dpuGrowth: null, distributionStatus: null,
         lastExDate: m.lastExDate, payYears: m.payYears, yield: null,
-        dpuCheck: 'mismatch', dpuTtmCalc: r(m.dpuTtm, 5), dpuTtmYahoo: r(ref, 5),
+        dpuCheck: 'mismatch', dpuTtmCalc: r(m.dpuTtm, 7), dpuTtmYahoo: r(ref, 7),
       });
     } else {
+      const weak = check === 'close' || check === 'above';
       Object.assign(out, {
-        dpuTtm: r(m.dpuTtm, 5),
+        dpuTtm: r(m.dpuTtm, 7),
         dpuFreq: m.freq,
-        dpuGrowth: r(m.growth, 2),
-        distributionStatus: m.status,
+        dpuGrowth: weak ? null : r(m.growth, 2),
+        distributionStatus: weak ? (m.status === 'suspended' ? 'suspended' : null) : m.status,
         lastExDate: m.lastExDate,
         payYears: m.payYears,
         yield: r(m.yield, 4),
         dpuCheck: check,
+        dpuTtmYahoo: r(ref, 7),
       });
     }
   }
