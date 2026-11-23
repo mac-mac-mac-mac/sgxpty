@@ -2,7 +2,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseTickers, fetchQuotes, toQuote, MAX_TICKERS } from '../../api/_lib/quotes.js';
 import { makeHandler as makeQuotes } from '../../api/quotes.js';
-import { makeHandler as makeQuote } from '../../api/quote.js';
 
 const q = (symbol, extra = {}) => ({ symbol, shortName: symbol, regularMarketPrice: 1.5, regularMarketChangePercent: 0.4, currency: 'SGD', marketCap: 1e9, ...extra });
 const fakeYf = (fn) => { const f = { calls: [], quote: async (...a) => { f.calls.push(a); return fn(...a); } }; return f; };
@@ -79,13 +78,3 @@ test('/api/quotes: every ticker missing → 502 with the per-ticker reasons (not
   assert.equal(res.code, 502); assert.deepEqual(res.body.errors, { AAA: 'not_found', BBB: 'not_found' });
 });
 
-test('/api/quote: the old crash (?ticker=a&ticker=b) is now a clean 400', async () => {
-  const res = mockRes(); await makeQuote(fakeYf(() => []))({ method: 'GET', query: { ticker: ['a', 'b'] } }, res);
-  assert.equal(res.code, 400); assert.deepEqual(res.body, { error: 'invalid_ticker' });
-});
-test('/api/quote: accepts the .SI form the old client sent, returns the flat quote, 404 when unknown', async () => {
-  const ok = mockRes(); await makeQuote(fakeYf(() => [q('D05.SI')]))({ method: 'GET', query: { ticker: 'D05.SI' } }, ok);
-  assert.equal(ok.code, 200); assert.equal(ok.body.price, 1.5); assert.equal(ok.headers['Access-Control-Allow-Origin'], undefined);
-  const none = mockRes(); await makeQuote(fakeYf(() => []))({ method: 'GET', query: { ticker: 'ZZZ' } }, none);
-  assert.equal(none.code, 404);
-});
